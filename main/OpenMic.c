@@ -634,9 +634,6 @@ sd_task (void *arg)
          }
       }
    }
-   revk_gpio_set (sddat3, 1);
-   rtc_gpio_set_direction_in_sleep (sddat3.num, RTC_GPIO_MODE_OUTPUT_ONLY);
-   rtc_gpio_set_level (sddat3.num, 1 - sddat3.invert);
    vTaskDelete (NULL);
 }
 
@@ -1368,8 +1365,11 @@ spk_task (void *arg)
          i2s_del_channel (spk_handle);
       }
    }
-   rtc_gpio_set_direction_in_sleep (spkpwr.num, RTC_GPIO_MODE_OUTPUT_ONLY);
-   rtc_gpio_set_level (spkpwr.num, sddat3.invert);
+   if (rtc_gpio_is_valid_gpio (spkpwr.num))
+   {
+      rtc_gpio_set_direction_in_sleep (spkpwr.num, RTC_GPIO_MODE_OUTPUT_ONLY);
+      rtc_gpio_set_level (spkpwr.num, sddat3.invert);
+   }
    vTaskDelete (NULL);
 }
 
@@ -1574,7 +1574,7 @@ app_main ()
    // Shutdown
    sleep (1);                   // Allow tasks to end
    // Night night
-   if (rtc_gpio_is_valid_gpio (button.num))
+   if (button.set && rtc_gpio_is_valid_gpio (button.num))
       esp_deep_sleep_start ();
    else
       esp_light_sleep_start ();
