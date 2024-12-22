@@ -1365,7 +1365,7 @@ spk_task (void *arg)
          i2s_del_channel (spk_handle);
       }
    }
-   if (rtc_gpio_is_valid_gpio (spkpwr.num))
+   if (spkpwr.set && rtc_gpio_is_valid_gpio (spkpwr.num))
    {
       rtc_gpio_set_direction_in_sleep (spkpwr.num, RTC_GPIO_MODE_OUTPUT_ONLY);
       rtc_gpio_set_level (spkpwr.num, sddat3.invert);
@@ -1560,7 +1560,7 @@ app_main ()
    }
    revk_pre_shutdown ();
    // Alarm
-   if (rtc_gpio_is_valid_gpio (button.num))
+   if (button.set && rtc_gpio_is_valid_gpio (button.num))
    {                            // Deep sleep
       rtc_gpio_set_direction_in_sleep (button.num, RTC_GPIO_MODE_INPUT_ONLY);
       rtc_gpio_pullup_en (button.num);
