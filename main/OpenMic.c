@@ -1468,7 +1468,7 @@ app_main ()
    {
       usleep (100000);
       uint32_t up = uptime ();
-      if (autooff && !spk_mode && !mic_mode && (!usb || !autousb))
+      if (button.set && autooff && !spk_mode && !mic_mode && (!usb || !autousb))
       {                         // Idle
          if (!idle)
             idle = up + autooff;
@@ -1560,7 +1560,7 @@ app_main ()
    }
    revk_pre_shutdown ();
    // Alarm
-   if (button.set && rtc_gpio_is_valid_gpio (button.num))
+   if (rtc_gpio_is_valid_gpio (button.num))
    {                            // Deep sleep
       rtc_gpio_set_direction_in_sleep (button.num, RTC_GPIO_MODE_INPUT_ONLY);
       rtc_gpio_pullup_en (button.num);
@@ -1574,7 +1574,7 @@ app_main ()
    // Shutdown
    sleep (1);                   // Allow tasks to end
    // Night night
-   if (button.set && rtc_gpio_is_valid_gpio (button.num))
+   if (rtc_gpio_is_valid_gpio (button.num))
       esp_deep_sleep_start ();
    else
       esp_light_sleep_start ();
