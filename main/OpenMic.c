@@ -1524,16 +1524,19 @@ app_main ()
       }
       if (led_status)
       {
-         uint32_t c = revk_blinker ();
+         char c1 = (!usb ? 'C' : charge == 0xFF ? 'Y' : charge ? 'R' : 'C');
+         uint32_t c2 = revk_blinker ();
          if (mic_mode == MIC_RECORD)
-         {                      // recording
-            revk_led (led_status, 0, 16, revk_rgb ('B'));
-            revk_led (led_status, 1, 16, revk_rgb ('B'));
-         } else
+            c1 = 'B';
+         else if (mic_mode == MIC_SIP)
          {
-            revk_led (led_status, 0, 255, revk_rgb (!usb ? 'C' : charge == 0xFF ? 'Y' : charge ? 'R' : 'G'));
-            revk_led (led_status, 1, 255, c);
+            if (sip_mode == SIP_IC_ALERT)
+               c1 = 'R';
+            else
+               c1 = 'G';
          }
+         revk_led (led_status, 0, 255, revk_rgb (c1));
+         revk_led (led_status, 1, 255, c2);
          REVK_ERR_CHECK (led_strip_refresh (led_status));
       }
    }
