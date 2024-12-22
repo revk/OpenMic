@@ -1530,10 +1530,10 @@ app_main ()
             c1 = 'B';
          else if (mic_mode == MIC_SIP)
          {
-            if (sip_mode == SIP_IC_ALERT)
-               c1 = 'R';
-            else
+            if (sip_mode == SIP_IC || sip_mode == SIP_OG)
                c1 = 'G';
+            else
+               c1 = 'R';
          }
          revk_led (led_status, 0, 255, revk_rgb (c1));
          revk_led (led_status, 1, 255, c2);
