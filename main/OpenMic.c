@@ -752,17 +752,16 @@ do_upload (void)
       }
       if (!s.st_size)
       {
-         ESP_LOGI (TAG, "Empty file %s", filename);
+         ESP_LOGE (TAG, "Empty file %s", filename);
          unlink (filename);
          free (filename);
          continue;
       }
-      ESP_LOGI (TAG, "Send %s", filename);
       int response = 0;
       FILE *i = fopen (filename, "r");
       if (!i)
       {
-         ESP_LOGI (TAG, "Cannot open %s", filename);
+         ESP_LOGE (TAG, "Cannot open %s", filename);
          free (filename);
          break;
       }
