@@ -88,6 +88,9 @@ struct
    {'@', ".--.-."},
 };
 
+void sip_callback (sip_state_t state, uint8_t len, const uint8_t * data);
+void sip_debug (uint8_t rx, struct sockaddr_storage *addr, const char *message);
+
 // TODO international characters
 
 char *morsemessage = NULL;      // Malloc'd
@@ -197,6 +200,11 @@ app_callback (int client, const char *prefix, const char *target, const char *su
          b.micon = 1;
       else
          b.micon = 0;
+      return NULL;
+   }
+   if (!strcasecmp (suffix, "shutdown"))
+   {
+      sip_dereg ();
       return NULL;
    }
    return NULL;
