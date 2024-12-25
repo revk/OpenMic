@@ -202,10 +202,8 @@ app_callback (int client, const char *prefix, const char *target, const char *su
          b.micon = 0;
       return NULL;
    }
-   if (!strcasecmp (suffix, "shutdown"))
+   if (!strcasecmp (suffix, "restart"))
    {
-
-      ESP_LOGE (TAG, "Shutdown callback");
       sip_dereg ();
       return NULL;
    }
