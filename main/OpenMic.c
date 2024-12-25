@@ -204,6 +204,8 @@ app_callback (int client, const char *prefix, const char *target, const char *su
    }
    if (!strcasecmp (suffix, "shutdown"))
    {
+
+      ESP_LOGE (TAG, "Shutdown callback");
       sip_dereg ();
       return NULL;
    }
