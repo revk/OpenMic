@@ -1548,6 +1548,7 @@ app_main ()
          REVK_ERR_CHECK (led_strip_refresh (led_status));
       }
    }
+   ESP_LOGE(TAG,"Off");
    if (*sdupload && b.sdpresent)
    {                            // Upload
       revk_led (led_status, 0, 255, revk_rgb ('B'));
@@ -1566,17 +1567,19 @@ app_main ()
       revk_led (led_status, 1, 255, 0);
       REVK_ERR_CHECK (led_strip_refresh (led_status));
    }
+   ESP_LOGE(TAG,"Shutdown");
    revk_pre_shutdown ();
+   ESP_LOGE(TAG,"Alarm");
    // Alarm
    if (rtc_gpio_is_valid_gpio (button.num))
    {                            // Deep sleep
+      ESP_LOGE (TAG, "Deep sleep on button %d %s", button.num, button.invert ? "low" : "high");
       rtc_gpio_set_direction_in_sleep (button.num, RTC_GPIO_MODE_INPUT_ONLY);
-      rtc_gpio_pullup_en (button.num);
-      rtc_gpio_pulldown_dis (button.num);
       REVK_ERR_CHECK (esp_sleep_enable_ext0_wakeup (button.num, 1 - button.invert));
    } else
    {                            // Light sleep
-      gpio_wakeup_enable (button.num, GPIO_INTR_LOW_LEVEL);
+      ESP_LOGE (TAG, "Light sleep on button %d %s", button.num, button.invert ? "low" : "high");
+      gpio_wakeup_enable (button.num, button.invert ? GPIO_INTR_LOW_LEVEL : GPIO_INTR_HIGH_LEVEL);
       esp_sleep_enable_gpio_wakeup ();
    }
    // Shutdown
