@@ -1532,10 +1532,12 @@ app_main ()
       }
       if (led_status)
       {
-         char c1 = (!usb ? 'C' : charge == 0xFF ? 'Y' : charge ? 'R' : sip_mode == SIP_REGISTERED ? 'C' : 'P');
+         char c1 =
+            (!usb ? sip_mode == SIP_REGISTERED ? 'C' : 'M' : charge == 0xFF ? 'Y' : charge ? 'R' : sip_mode ==
+             SIP_REGISTERED ? 'C' : 'M');
          uint32_t c2 = revk_blinker ();
          if (mic_mode == MIC_RECORD)
-            c1 = 'B';
+            c1 = (dark ? 'K' : 'B');
          else if (mic_mode == MIC_SIP)
          {
             if (sip_mode == SIP_IC || sip_mode == SIP_OG)
