@@ -1548,7 +1548,6 @@ app_main ()
          REVK_ERR_CHECK (led_strip_refresh (led_status));
       }
    }
-   ESP_LOGE(TAG,"Off");
    if (*sdupload && b.sdpresent)
    {                            // Upload
       revk_led (led_status, 0, 255, revk_rgb ('B'));
@@ -1567,9 +1566,7 @@ app_main ()
       revk_led (led_status, 1, 255, 0);
       REVK_ERR_CHECK (led_strip_refresh (led_status));
    }
-   ESP_LOGE(TAG,"Shutdown");
    revk_pre_shutdown ();
-   ESP_LOGE(TAG,"Alarm");
    // Alarm
    if (rtc_gpio_is_valid_gpio (button.num))
    {                            // Deep sleep
