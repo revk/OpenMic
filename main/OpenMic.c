@@ -1537,8 +1537,14 @@ app_main ()
              SIP_REGISTERED ? 'C' : 'M');
          uint32_t c2 = revk_blinker ();
          if (mic_mode == MIC_RECORD)
-            c1 = (dark ? 'K' : 'B');
-         else if (mic_mode == MIC_SIP)
+         {
+            c1 = 'B';
+            if (dark)
+            {
+               c1 = 'K';
+               c2 = 0;
+            }
+         } else if (mic_mode == MIC_SIP)
          {
             if (sip_mode == SIP_IC || sip_mode == SIP_OG)
                c1 = 'G';
