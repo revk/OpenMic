@@ -122,6 +122,7 @@ struct
    uint8_t doformat:1;          // SD format
    uint8_t dodismount:1;        // Dismount SD
    uint8_t micon:1;             // Sounds required
+   uint8_t miconha:1;           // Sounds required (started by HA so keep WiFi on)
    uint8_t sharedi2s:1;         // I2S shared for Mic and Spk
    uint8_t ha:1;                // Send HA config
    uint8_t usb:1;               // USB connected
@@ -197,9 +198,14 @@ app_callback (int client, const char *prefix, const char *target, const char *su
    if (!strcasecmp (suffix, "record"))
    {
       if (b.sdpresent && !jo_strcmp (j, "ON"))
+      {
+         b.miconha = 1;
          b.micon = 1;
-      else
+      } else
+      {
+         b.miconha = 0;
          b.micon = 0;
+      }
       return NULL;
    }
    if (!strcasecmp (suffix, "restart"))
@@ -214,7 +220,7 @@ void
 send_ha_config (void)
 {
    b.ha = 0;
- ha_config_switch ("record", name: "Record", cmd: "/record", field: "record", delete:(!haenable && !wifirecord));
+ ha_config_switch ("record", name: "Record", cmd: "/record", field: "record", delete:!haenable);
 }
 
 void
@@ -919,7 +925,7 @@ mic_task (void *arg)
          micbytes = 2;
          micsamples = micfreq * MICMS / 1000;
          led (micbeep ? 'O' : dark ? 'K' : 'G');
-         if (wifirecord)
+         if (wifirecord && !b.miconha)
             revk_disable_wifi ();
       }
       b.overrun = 0;
@@ -1526,7 +1532,10 @@ app_main ()
             else if (!b.micon && !b.sdpresent)
                ESP_LOGE (TAG, "No card");
             else
+            {
+               b.miconha = 0;
                b.micon = 1 - b.micon;
+            }
          }
          press = 0;
       }
