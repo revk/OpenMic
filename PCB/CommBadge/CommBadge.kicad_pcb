@@ -15398,6 +15398,17 @@
 			(uuid "8dbb536a-bce3-4f38-93b7-8e8c76a9d94b")
 		)
 	)
+	(gr_rect
+		(start 114 94)
+		(end 122 102)
+		(stroke
+			(width 0)
+			(type solid)
+		)
+		(fill solid)
+		(layer "B.SilkS")
+		(uuid "2fa6c0fa-b726-4a86-8300-1f883b9b4c85")
+	)
 	(gr_poly
 		(pts
 			(xy 100.479459 70.431541) (xy 100.591612 70.476414) (xy 100.712534 70.550745) (xy 100.842035 70.654161)
