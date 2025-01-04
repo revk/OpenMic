@@ -1,6 +1,6 @@
 all: stl
 
-stl:    Audio/Audio.stl
+stl:    Recorder/Recorder.stl
 
 PCBCase/case: PCBCase/case.c
 	make -C PCBCase
@@ -10,5 +10,5 @@ PCBCase/case: PCBCase/case.c
 	/Applications/OpenSCAD.app/Contents/MacOS/OpenSCAD $< -o $@
 	echo "Made $@"
 
-Audio/Audio.scad: Audio/Audio.kicad_pcb PCBCase/case Makefile
+Recorder/Recorder.scad: Recorder/Recorder.kicad_pcb PCBCase/case Makefile
 	PCBCase/case -o $@ $< --edge=2 --bottom=2 --top=7 --pcb=2
