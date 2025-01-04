@@ -12231,7 +12231,16 @@
 				(hide yes)
 			)
 		)
-		(property "Description" ""
+		(property "Description" "https://www.lcsc.com/datasheet/lcsc_datasheet_2409302331_Yuandi-TS-1092S-B3D2-G_C520860.pdf"
+			(at 270.51 65.405 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "LCSC Part #" "C520860"
 			(at 270.51 65.405 0)
 			(effects
 				(font
