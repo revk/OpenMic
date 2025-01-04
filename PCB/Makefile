@@ -11,4 +11,4 @@ PCBCase/case: PCBCase/case.c
 	echo "Made $@"
 
 Recorder/Recorder.scad: Recorder/Recorder.kicad_pcb PCBCase/case Makefile
-	PCBCase/case -o $@ $< --edge=2 --bottom=2 --top=5 --pcb=2
+	PCBCase/case -o $@ $< --edge=2 --bottom=3 --top=4 --pcb=2
