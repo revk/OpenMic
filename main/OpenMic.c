@@ -220,7 +220,7 @@ void
 send_ha_config (void)
 {
    b.ha = 0;
- ha_config_switch ("record", name: "Record", cmd: "/record", field: "record", delete:!haenable);
+ ha_config_switch ("record", name: "Record", cmd: "/record", field: "record", icon:"mdi:microphone", delete:!haenable);
 }
 
 void
