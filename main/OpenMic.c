@@ -220,8 +220,7 @@ void
 send_ha_config (void)
 {
    b.ha = 0;
-   // Done as light as neater button on HA
- ha_config_light ("record", name: "Record", cmd: "/record", field: "record", icon:"mdi:microphone", delete:!haenable);
+ ha_config_switch ("record", name: "Record", cmd: "/record", stat:"/",field: "record", icon:"mdi:microphone", delete:!haenable);
 }
 
 void
@@ -1429,7 +1428,7 @@ sip_callback (sip_state_t state, uint8_t len, const uint8_t * data)
 void
 app_main ()
 {
-   ESP_LOGE (TAG, "Started");
+   //ESP_LOGE (TAG, "Started");
    sd_mutex = xSemaphoreCreateBinary ();
    xSemaphoreGive (sd_mutex);
    revk_boot (&app_callback);
