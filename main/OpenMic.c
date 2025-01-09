@@ -118,6 +118,7 @@ sip_state_t sip_mode;
 struct
 {
    uint8_t die:1;               // Shutting down
+   uint8_t status:1;            // Send status
    uint8_t sdpresent:1;         // SD present
    uint8_t doformat:1;          // SD format
    uint8_t dodismount:1;        // Dismount SD
@@ -201,10 +202,12 @@ app_callback (int client, const char *prefix, const char *target, const char *su
       {
          b.miconha = 1;
          b.micon = 1;
+         b.status = 1;
       } else
       {
          b.miconha = 0;
          b.micon = 0;
+         b.status = 1;
       }
       return NULL;
    }
@@ -220,7 +223,7 @@ void
 send_ha_config (void)
 {
    b.ha = 0;
- ha_config_switch ("record", name: "Record", cmd: "/record", stat:"/",field: "record", icon:"mdi:microphone", delete:!haenable);
+ ha_config_switch ("record", name: "Record", cmd: "/record", stat: "", field: "record", icon: "mdi:microphone", delete:!haenable);
 }
 
 void
@@ -1482,6 +1485,11 @@ app_main ()
    {
       usleep (100000);
       uint32_t up = uptime ();
+      if (b.status)
+      {
+         b.status = 0;
+         revk_command ("status", NULL);
+      }
       if (button.set && autooff && !spk_mode && !mic_mode && (!usb || !autousb))
       {                         // Idle
          if (!idle)
@@ -1508,7 +1516,10 @@ app_main ()
          }
       }
       if (revk_shutting_down (NULL) && b.micon)
+      {
          b.micon = 0;
+         b.status = 1;
+      }
       if (charging.set)
          charge = (charge << 1) | revk_gpio_get (charging);
       if (revk_gpio_get (button))
@@ -1535,6 +1546,7 @@ app_main ()
             {
                b.miconha = 0;
                b.micon = 1 - b.micon;
+               b.status = 1;
             }
          }
          press = 0;
