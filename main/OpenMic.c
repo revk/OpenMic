@@ -220,7 +220,8 @@ void
 send_ha_config (void)
 {
    b.ha = 0;
- ha_config_switch ("record", name: "Record", cmd: "/record", field: "record", icon:"mdi:microphone", delete:!haenable);
+   // Done as light as neater button on HA
+ ha_config_light ("record", name: "Record", cmd: "/record", field: "record", icon:"mdi:microphone", delete:!haenable);
 }
 
 void
