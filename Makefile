@@ -7,7 +7,7 @@ PROJECT_NAME := OpenMic
 SUFFIX := $(shell components/ESP32-RevK/buildsuffix)
 export SUFFIX
 
-all:	settings.h
+all:	main/settings.h
 	@echo Make: build/$(PROJECT_NAME)$(SUFFIX).bin
 	@idf.py build
 	@cp build/$(PROJECT_NAME).bin $(PROJECT_NAME)$(SUFFIX).bin
@@ -21,26 +21,24 @@ beta:
 	-git submodule update --recursive
 	-git commit -a
 	@make set
-	cp ${PROJECT_NAME}*.bin betarelease
+	cp ${PROJECT_NAME}*.bin release/beta
 	git commit -a -m betarelease
 	git push
 
-issue:  
+issue:
+	make -C PCB
 	-git pull
-	-git submodule update --recursive
 	-git commit -a
-	@make set
-	cp ${PROJECT_NAME}*.bin release
-	cp ${PROJECT_NAME}*.bin betarelease
-	git commit -a -m release
-	git push
+	cp -f release/beta/$(PROJECT_NAME)*.bin release
+	-git commit -a -m Release
+	-git push
 
 image:
 	esptool.py -b 460800 read_flash 0 0x400000 s3.bin
 
 set:	s3
 
-settings.h:     components/ESP32-RevK/revk_settings settings.def components/ESP32-RevK/settings.def
+main/settings.h:     components/ESP32-RevK/revk_settings main/settings.def components/ESP32-RevK/settings.def
 	components/ESP32-RevK/revk_settings $^
 
 components/ESP32-RevK/revk_settings: components/ESP32-RevK/revk_settings.c
