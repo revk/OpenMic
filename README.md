@@ -1,15 +1,3 @@
-## Amazon
-
-This part if for Amazon - as this is the *manufacturers web site* and so used as proof of title and list price. It is also links to where you can buy.
-
-|ASIN|List price|Title|
-|-----|----|----|
-|[B0DQH9SK8K](https://www.amazon.co.uk/dp/B0DQH9SK8K)|£35.00|Small ESP32-S3 high quality voice recorder board with stereo TDK ICS 43434 microphones, micro SD card slot, and charger circuit|
-
-## Trademark
-
-This is an open source project, but bear in mind you cannot sell boards bearing the Andrews & Arnold Ltd name, the A&A logo, the registered trademark AJK logo, or the GS1 allocated EANs assigned to Andrews & Arnold Ltd.
-
 # Open†Mic
 
 († Open source)
@@ -19,6 +7,10 @@ This project provides software and PCB designs for working with I2S microphone a
 The software provides working for a number of different use cases.
 
 The hardware is an audio recorder, but the [LED](https://github.com/revk/ESP32-LED) project also has audio hardware with microphones and speakers.
+
+## Trademark
+
+This is an open source project, but bear in mind you cannot sell boards bearing the Andrews & Arnold Ltd name, the A&A logo, the registered trademark AJK logo, or the GS1 allocated EANs assigned to Andrews & Arnold Ltd.
 
 ## Why use this?
 
@@ -81,7 +73,7 @@ The format will depend on the source - the MAX98357A can handle 16, 24, or 32 bi
 
 ## Audio recorder
 
-<img src=https://github.com/user-attachments/assets/b2708de2-0341-4d64-8e58-601e501d9787 width=25% align=right>
+<img src=PCB/Recorder/Recorder.png width=25% align=right>
 
 The main use of this software is as an *audio recorder*. This will record from the microphone(s) to a WAV file on the micro SD card. It allows a `button` GPIO to start/stop recording and power on/off. It allows for a separate WS2812 record status LED. The PCB design includes LiPo charging.
 
