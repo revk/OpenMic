@@ -598,8 +598,8 @@ sd_task (void *arg)
                      sdfile = NULL;
                      if (writetime)
                      {
-                        ESP_LOGE (TAG, "SD access: %lu bytes %llums (%llukB/sec) %s", writebytes, writetime / 1000ULL,
-                                  writebytes * 1000ULL / writetime, filename);
+                        ESP_LOGE (TAG, "SD access %dbit: %lu bytes %llums (%llukB/sec) %s", slot.width, writebytes,
+                                  writetime / 1000ULL, writebytes * 1000ULL / writetime, filename);
                         jo_t j = jo_object_alloc ();
                         jo_string (j, "action", "Written");
                         jo_string (j, "filename", filename);
@@ -818,8 +818,8 @@ do_upload (void)
                response = esp_http_client_get_status_code (client);
                esp_http_client_close (client);
                if (t)
-                  ESP_LOGE (TAG, "Sent %lu bytes, SD access %llums (%llukB/sec) %s", total, t / 1000ULL, total * 1000ULL / t,
-                            filename);
+                  ESP_LOGE (TAG, "Sent %lu bytes, SD access: %llums (%llukB/sec) %s", total, t / 1000ULL,
+                            total * 1000ULL / t, filename);
             }
             esp_http_client_cleanup (client);
          }
