@@ -3817,7 +3817,7 @@
 						(type default)
 					)
 					(fill
-						(type outline)
+						(type none)
 					)
 				)
 				(arc
@@ -3829,7 +3829,7 @@
 						(type default)
 					)
 					(fill
-						(type none)
+						(type outline)
 					)
 				)
 				(arc
@@ -4724,7 +4724,7 @@
 				)
 			)
 			(property "Datasheet" "http://www.farnell.com/datasheets/1835997.pdf"
-				(at 0 0 0)
+				(at 5.08 -3.81 0)
 				(effects
 					(font
 						(size 1.27 1.27)
@@ -7949,7 +7949,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" ""
+		(property "Description" "-0.33A Id, -60V Vds, P-Channel MOSFET, SOT-23"
 			(at 180.975 128.905 0)
 			(effects
 				(font
@@ -8037,7 +8037,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" ""
+		(property "Description" "Resistor"
 			(at 114.3 66.675 0)
 			(effects
 				(font
@@ -8105,7 +8105,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" ""
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
 			(at 204.47 136.525 0)
 			(effects
 				(font
@@ -8170,7 +8170,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" ""
+		(property "Description" "Micro SD Card Socket"
 			(at 161.29 81.915 0)
 			(effects
 				(font
@@ -8279,7 +8279,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" ""
+		(property "Description" "Resistor"
 			(at 121.92 66.675 0)
 			(effects
 				(font
@@ -8420,7 +8420,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" ""
+		(property "Description" "Unpolarized capacitor"
 			(at 74.295 132.715 0)
 			(effects
 				(font
@@ -8483,7 +8483,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "RevK:ICS43434_MEMS_Mic_Open"
+		(property "Footprint" "RevK:ICS43434_MEMS_Mic"
 			(at 216.916 42.545 0)
 			(effects
 				(font
@@ -8658,7 +8658,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" ""
+		(property "Description" "Special symbol for telling ERC where power comes from"
 			(at 190.5 126.365 0)
 			(effects
 				(font
@@ -8705,7 +8705,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "RevK:SOT-23-5"
+		(property "Footprint" "Package_TO_SOT_SMD:SOT-23-5"
 			(at 204.47 120.65 0)
 			(effects
 				(font
@@ -8724,7 +8724,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" ""
+		(property "Description" "200mA Low Dropout Voltage Regulator, Fixed Output 3.3V, SOT-23-5"
 			(at 204.47 128.905 0)
 			(effects
 				(font
@@ -8742,7 +8742,7 @@
 				(hide yes)
 			)
 		)
-		(property "JLCPCB Rotation Offset" "-90"
+		(property "Rotation Offset" "90"
 			(at 204.47 128.905 0)
 			(effects
 				(font
@@ -8883,7 +8883,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" ""
+		(property "Description" "Resistor"
 			(at 133.35 66.675 0)
 			(effects
 				(font
@@ -8950,7 +8950,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" ""
+		(property "Description" "Resistor"
 			(at 125.73 66.675 0)
 			(effects
 				(font
@@ -9345,7 +9345,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" ""
+		(property "Description" "Schottky diode"
 			(at 189.865 133.985 0)
 			(effects
 				(font
@@ -9512,7 +9512,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" ""
+		(property "Description" "Unpolarized capacitor"
 			(at 46.99 132.08 0)
 			(effects
 				(font
@@ -10001,7 +10001,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" ""
+		(property "Description" "Battery charger"
 			(at 139.7 132.715 0)
 			(effects
 				(font
@@ -10098,7 +10098,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" ""
+		(property "Description" "Unpolarized capacitor"
 			(at 271.145 45.72 0)
 			(effects
 				(font
@@ -10166,7 +10166,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" ""
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
 			(at 180.975 141.605 0)
 			(effects
 				(font
@@ -10230,7 +10230,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" ""
+		(property "Description" "Resistor"
 			(at 129.54 66.675 0)
 			(effects
 				(font
@@ -10495,7 +10495,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" ""
+		(property "Description" "Resistor"
 			(at 137.16 66.675 0)
 			(effects
 				(font
@@ -10554,7 +10554,7 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" " ~"
+		(property "Datasheet" "~"
 			(at 132.08 34.925 0)
 			(effects
 				(font
@@ -10732,7 +10732,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" ""
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
 			(at 181.61 97.155 0)
 			(effects
 				(font
@@ -10927,7 +10927,7 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" ""
+		(property "Datasheet" "~"
 			(at 148.59 165.1 0)
 			(effects
 				(font
@@ -10936,7 +10936,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" ""
+		(property "Description" "Generic connector, single row, 01x02, script generated (kicad-library-utils/schlib/autogen/connector/)"
 			(at 148.59 165.1 0)
 			(effects
 				(font
@@ -11270,7 +11270,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" ""
+		(property "Description" "Unpolarized capacitor"
 			(at 276.86 26.67 0)
 			(effects
 				(font
@@ -11412,7 +11412,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "RevK:ICS43434_MEMS_Mic_Open"
+		(property "Footprint" "RevK:ICS43434_MEMS_Mic"
 			(at 216.916 73.66 0)
 			(effects
 				(font
@@ -11607,7 +11607,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" ""
+		(property "Description" "Resistor"
 			(at 118.11 66.675 0)
 			(effects
 				(font
@@ -11677,7 +11677,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" ""
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
 			(at 275.59 65.405 0)
 			(effects
 				(font
@@ -11744,7 +11744,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" ""
+		(property "Description" "Unpolarized capacitor"
 			(at 271.145 26.67 0)
 			(effects
 				(font
@@ -11812,7 +11812,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" ""
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
 			(at 139.7 139.7 0)
 			(effects
 				(font
@@ -11943,7 +11943,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" ""
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
 			(at 134.62 157.48 0)
 			(effects
 				(font
@@ -12076,7 +12076,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" ""
+		(property "Description" "Unpolarized capacitor"
 			(at 239.395 92.075 0)
 			(effects
 				(font
@@ -12318,7 +12318,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "https://www.lcsc.com/datasheet/lcsc_datasheet_2409302331_Yuandi-TS-1092S-B3D2-G_C520860.pdf"
+		(property "Description" "Push button switch, generic, two pins"
 			(at 270.51 65.405 0)
 			(effects
 				(font
@@ -12396,7 +12396,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" ""
+		(property "Description" "Unpolarized capacitor"
 			(at 215.265 133.985 0)
 			(effects
 				(font
@@ -12552,7 +12552,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" ""
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
 			(at 130.175 142.24 0)
 			(effects
 				(font
@@ -12749,7 +12749,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" ""
+		(property "Description" "Unpolarized capacitor"
 			(at 276.86 45.72 0)
 			(effects
 				(font
@@ -12969,7 +12969,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" ""
+		(property "Description" "Unpolarized capacitor"
 			(at 239.395 60.96 0)
 			(effects
 				(font
@@ -13169,7 +13169,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" ""
+		(property "Description" "Unpolarized capacitor"
 			(at 40.64 132.08 0)
 			(effects
 				(font
@@ -13431,7 +13431,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" ""
+		(property "Description" "Resistor"
 			(at 130.175 138.43 0)
 			(effects
 				(font
@@ -13499,7 +13499,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" ""
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
 			(at 215.265 137.795 0)
 			(effects
 				(font
@@ -13563,7 +13563,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" ""
+		(property "Description" "Resistor"
 			(at 180.975 137.795 0)
 			(effects
 				(font
@@ -13695,7 +13695,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" ""
+		(property "Description" "Unpolarized capacitor"
 			(at 91.44 133.35 0)
 			(effects
 				(font
@@ -13993,7 +13993,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" ""
+		(property "Description" "Power symbol creates a global label with name \"+3.3V\""
 			(at 217.805 126.365 0)
 			(effects
 				(font
