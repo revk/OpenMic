@@ -2,8 +2,7 @@
 
 The Audio record board provides a shirt mount Audio board.
 
-![Top](top.png)
-![Bottom](bottom.png)
+<img src=Recorder.png width=49%><img src=Recorder-bottom.png width=49%>
 
 Features
 
