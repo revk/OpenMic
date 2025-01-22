@@ -955,7 +955,7 @@
 					(hide yes)
 				)
 			)
-			(property "LCSC Part #" "C5137770"
+			(property "MPN" "C5137770"
 				(at 0 -3.175 0)
 				(effects
 					(font
@@ -3208,6 +3208,15 @@
 					(hide yes)
 				)
 			)
+			(property "Position Offset" "0,0.15"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
 			(property "ki_keywords" "connector SD microsd"
 				(at 0 0 0)
 				(effects
@@ -3572,7 +3581,7 @@
 					(hide yes)
 				)
 			)
-			(property "LCSC Part #" "C668215"
+			(property "MPN" "C668215"
 				(at -6.35 5.715 0)
 				(effects
 					(font
@@ -3581,7 +3590,7 @@
 					(hide yes)
 				)
 			)
-			(property "JLCPCB Rotation Offset" "180"
+			(property "Rotation Offset" "180"
 				(at -8.89 7.62 0)
 				(effects
 					(font
@@ -3747,6 +3756,15 @@
 				)
 			)
 			(property "MPN" "C709357"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Position Offset" "0,0.7"
 				(at 0 0 0)
 				(effects
 					(font
@@ -3939,17 +3957,6 @@
 						(type none)
 					)
 				)
-				(circle
-					(center 0 -5.842)
-					(radius 1.27)
-					(stroke
-						(width 0)
-						(type default)
-					)
-					(fill
-						(type outline)
-					)
-				)
 				(polyline
 					(pts
 						(xy 0 -5.842) (xy 0 4.318)
@@ -3960,6 +3967,17 @@
 					)
 					(fill
 						(type none)
+					)
+				)
+				(circle
+					(center 0 -5.842)
+					(radius 1.27)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type outline)
 					)
 				)
 				(rectangle
@@ -8179,25 +8197,16 @@
 				(hide yes)
 			)
 		)
-		(property "LCSC Part #" "C393941"
-			(at 161.29 81.915 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Position Offset" "0,3.075"
-			(at 161.29 81.915 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
 		(property "MPN" "C393941"
+			(at 161.29 81.915 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Position Offset" "0,0.15"
 			(at 161.29 81.915 0)
 			(effects
 				(font
@@ -8492,7 +8501,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "RevK:ICS43434_MEMS_Mic"
+		(property "Footprint" "RevK:ICS43434_MEMS_Mic_Open"
 			(at 216.916 42.545 0)
 			(effects
 				(font
@@ -9372,7 +9381,7 @@
 				(hide yes)
 			)
 		)
-		(property "LCSC Part " "C5204746"
+		(property "MPN" "C5204746"
 			(at 189.865 133.985 0)
 			(effects
 				(font
@@ -10057,6 +10066,24 @@
 			)
 		)
 		(property "JLCPCB Rotation Offset" "180"
+			(at 130.81 125.095 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MPN" "C668215"
+			(at 133.35 127 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Rotation Offset" "180"
 			(at 130.81 125.095 0)
 			(effects
 				(font
@@ -11167,7 +11194,7 @@
 				)
 			)
 		)
-		(property "Value" "USB-C-Socket-H"
+		(property "Value" "USB-C-Socket-V"
 			(at 247.65 110.6749 0)
 			(effects
 				(font
@@ -11212,6 +11239,15 @@
 			)
 		)
 		(property "MPN" "C709357"
+			(at 247.65 130.175 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Position Offset" "0,0.7"
 			(at 247.65 130.175 0)
 			(effects
 				(font
@@ -11459,7 +11495,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "RevK:ICS43434_MEMS_Mic"
+		(property "Footprint" "RevK:ICS43434_MEMS_Mic_Open"
 			(at 216.916 73.66 0)
 			(effects
 				(font
@@ -14000,6 +14036,15 @@
 			)
 		)
 		(property "LCSC Part #" "C5137770"
+			(at 142.24 161.29 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MPN" "C5137770"
 			(at 142.24 161.29 0)
 			(effects
 				(font
