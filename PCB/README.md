@@ -4,4 +4,10 @@ This is an open source project, but bear in mind you cannot sell boards bearing 
 
 # PCBs
 
-TODO
+Audio Recorder
+
+<img src=Recorder/Recorder.png width=49%><img src=Recorder/Recorder-bottom.png width=49%>
+
+Comm Badge roundel
+
+<img src=CommBadge/CommBadge.png width=49%><img src=CommBadge/CommBadge-bottom.png width=49%>
