@@ -1096,7 +1096,7 @@
 					(hide yes)
 				)
 			)
-			(property "LCSC Part #" "C3013941"
+			(property "MPN" "C3013941"
 				(at 0 -32.385 0)
 				(effects
 					(font
@@ -2493,7 +2493,7 @@
 					(hide yes)
 				)
 			)
-			(property "LCSC Part #" "C5656610"
+			(property "MPN" "C5656610"
 				(at 6.35 -8.128 0)
 				(effects
 					(font
@@ -3199,7 +3199,7 @@
 					(hide yes)
 				)
 			)
-			(property "LCSC Part #" "C393941"
+			(property "MPN" "C393941"
 				(at 0 0 0)
 				(effects
 					(font
@@ -3746,7 +3746,7 @@
 					(hide yes)
 				)
 			)
-			(property "LCSC Part #" "C709357"
+			(property "MPN" "C709357"
 				(at 0 0 0)
 				(effects
 					(font
@@ -3817,7 +3817,7 @@
 						(type default)
 					)
 					(fill
-						(type outline)
+						(type none)
 					)
 				)
 				(arc
@@ -3829,7 +3829,7 @@
 						(type default)
 					)
 					(fill
-						(type none)
+						(type outline)
 					)
 				)
 				(arc
@@ -4421,7 +4421,7 @@
 					(hide yes)
 				)
 			)
-			(property "LCSC Part #" "C5349953"
+			(property "MPN" "C5349953"
 				(at 1.27 -11.43 0)
 				(effects
 					(font
@@ -8188,7 +8188,16 @@
 				(hide yes)
 			)
 		)
-		(property "JLCPCB Position Offset" "0,3.075"
+		(property "Position Offset" "0,3.075"
+			(at 161.29 81.915 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MPN" "C393941"
 			(at 161.29 81.915 0)
 			(effects
 				(font
@@ -8519,6 +8528,15 @@
 				(hide yes)
 			)
 		)
+		(property "MPN" "C5656610"
+			(at 223.52 69.723 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "6"
 			(uuid "818d22a4-4d3c-4ac4-9520-07da2c96e9c0")
 		)
@@ -8733,7 +8751,7 @@
 				(hide yes)
 			)
 		)
-		(property "LCSC Part #" "C82942"
+		(property "MPN" "C82942"
 			(at 204.47 128.905 0)
 			(effects
 				(font
@@ -9446,6 +9464,16 @@
 				(hide yes)
 			)
 		)
+		(property "MPN" "C5349953"
+			(at 264.16 15.24 0)
+			(effects
+				(font
+					(size 1 1)
+				)
+				(justify left top)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "e3e9f3d0-fe91-4bdd-b0bd-37259606f411")
 		)
@@ -9592,6 +9620,15 @@
 			)
 		)
 		(property "LCSC Part #" "C3013941"
+			(at 50.8 109.855 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MPN" "C3013941"
 			(at 50.8 109.855 0)
 			(effects
 				(font
@@ -10667,6 +10704,16 @@
 				(hide yes)
 			)
 		)
+		(property "MPN" "C5349953"
+			(at 256.54 34.29 0)
+			(effects
+				(font
+					(size 1 1)
+				)
+				(justify left top)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "4faacff9-22d1-49af-91a1-cc7ed52a657f")
 		)
@@ -10945,7 +10992,7 @@
 				(hide yes)
 			)
 		)
-		(property "LCSC Part #" "C177225"
+		(property "MPN" "C177225"
 			(at 148.59 165.1 0)
 			(effects
 				(font
@@ -11164,6 +11211,15 @@
 				(hide yes)
 			)
 		)
+		(property "MPN" "C709357"
+			(at 247.65 130.175 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "A1"
 			(uuid "f78f3d3c-b372-4ada-9e3c-7221c7be1c0b")
 		)
@@ -11349,16 +11405,7 @@
 				(hide yes)
 			)
 		)
-		(property "LCSC Part #" "C122649"
-			(at 52.705 132.08 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "JLCPCB Rotation Offset" "180"
+		(property "MPN" "C122649"
 			(at 52.705 132.08 0)
 			(effects
 				(font
@@ -11440,6 +11487,15 @@
 			)
 		)
 		(property "LCSC Part #" "C5656610"
+			(at 223.52 100.838 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MPN" "C5656610"
 			(at 223.52 100.838 0)
 			(effects
 				(font
@@ -11534,6 +11590,16 @@
 			)
 		)
 		(property "LCSC Part #" "C5349953"
+			(at 264.16 34.29 0)
+			(effects
+				(font
+					(size 1 1)
+				)
+				(justify left top)
+				(hide yes)
+			)
+		)
+		(property "MPN" "C5349953"
 			(at 264.16 34.29 0)
 			(effects
 				(font
@@ -12225,6 +12291,16 @@
 			)
 		)
 		(property "LCSC Part #" "C5349953"
+			(at 256.54 15.24 0)
+			(effects
+				(font
+					(size 1 1)
+				)
+				(justify left top)
+				(hide yes)
+			)
+		)
+		(property "MPN" "C5349953"
 			(at 256.54 15.24 0)
 			(effects
 				(font
