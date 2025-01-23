@@ -1087,7 +1087,7 @@
 					(hide yes)
 				)
 			)
-			(property "Description" ""
+			(property "Description" "ESP32S3"
 				(at 0 0 0)
 				(effects
 					(font
@@ -3208,15 +3208,6 @@
 					(hide yes)
 				)
 			)
-			(property "Position Offset" "0,0.15"
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
 			(property "ki_keywords" "connector SD microsd"
 				(at 0 0 0)
 				(effects
@@ -3590,15 +3581,6 @@
 					(hide yes)
 				)
 			)
-			(property "Rotation Offset" "180"
-				(at -8.89 7.62 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
 			(symbol "TP4054_1_1"
 				(rectangle
 					(start -6.985 4.445)
@@ -3720,7 +3702,7 @@
 					(justify left)
 				)
 			)
-			(property "Value" "USB-C-Socket-V"
+			(property "Value" "USB-C-Socket-H"
 				(at 0.635 12.7 0)
 				(effects
 					(font
@@ -3756,15 +3738,6 @@
 				)
 			)
 			(property "MPN" "C709357"
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(property "Position Offset" "0,0.7"
 				(at 0 0 0)
 				(effects
 					(font
@@ -3883,7 +3856,7 @@
 						(type default)
 					)
 					(fill
-						(type outline)
+						(type none)
 					)
 				)
 				(arc
@@ -3895,7 +3868,7 @@
 						(type default)
 					)
 					(fill
-						(type none)
+						(type outline)
 					)
 				)
 				(polyline
@@ -3957,6 +3930,17 @@
 						(type none)
 					)
 				)
+				(circle
+					(center 0 -5.842)
+					(radius 1.27)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type outline)
+					)
+				)
 				(polyline
 					(pts
 						(xy 0 -5.842) (xy 0 4.318)
@@ -3967,17 +3951,6 @@
 					)
 					(fill
 						(type none)
-					)
-				)
-				(circle
-					(center 0 -5.842)
-					(radius 1.27)
-					(stroke
-						(width 0)
-						(type default)
-					)
-					(fill
-						(type outline)
 					)
 				)
 				(rectangle
@@ -7976,16 +7949,7 @@
 				(hide yes)
 			)
 		)
-		(property "LCSC Part #" "C8547"
-			(at 180.975 128.905 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "JLCPCB Rotation Offset" "180"
+		(property "MPN" "C8547"
 			(at 180.975 128.905 90)
 			(effects
 				(font
@@ -8198,15 +8162,6 @@
 			)
 		)
 		(property "MPN" "C393941"
-			(at 161.29 81.915 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Position Offset" "0,0.15"
 			(at 161.29 81.915 0)
 			(effects
 				(font
@@ -8447,7 +8402,7 @@
 				(hide yes)
 			)
 		)
-		(property "LCSC Part #" "C15525"
+		(property "MPN" "C15525"
 			(at 74.295 132.715 0)
 			(effects
 				(font
@@ -8521,15 +8476,6 @@
 		)
 		(property "Description" "I2S Microphone"
 			(at 216.916 40.005 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "LCSC Part #" "C5656610"
-			(at 223.52 69.723 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8752,24 +8698,6 @@
 			)
 		)
 		(property "Description" "200mA Low Dropout Voltage Regulator, Fixed Output 3.3V, SOT-23-5"
-			(at 204.47 128.905 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "MPN" "C82942"
-			(at 204.47 128.905 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Rotation Offset" "90"
 			(at 204.47 128.905 0)
 			(effects
 				(font
@@ -9463,7 +9391,7 @@
 				(hide yes)
 			)
 		)
-		(property "LCSC Part #" "C5349953"
+		(property "MPN" "C5349953"
 			(at 264.16 15.24 0)
 			(effects
 				(font
@@ -9619,17 +9547,8 @@
 				(hide yes)
 			)
 		)
-		(property "Description" ""
+		(property "Description" "ESP32S3"
 			(at 50.8 77.47 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "LCSC Part #" "C3013941"
-			(at 50.8 109.855 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10038,7 +9957,7 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "https://www.lcsc.com/datasheet/lcsc_datasheet_2409241408_UMW-Youtai-Semiconductor-Co---Ltd--TP4054_C668215.pdf"
+		(property "Datasheet" ""
 			(at 139.7 132.715 0)
 			(effects
 				(font
@@ -10056,35 +9975,8 @@
 				(hide yes)
 			)
 		)
-		(property "LCSC Part #" "C668215"
-			(at 133.35 127 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "JLCPCB Rotation Offset" "180"
-			(at 130.81 125.095 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
 		(property "MPN" "C668215"
 			(at 133.35 127 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Rotation Offset" "180"
-			(at 130.81 125.095 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10721,7 +10613,7 @@
 				(hide yes)
 			)
 		)
-		(property "LCSC Part #" "C5349953"
+		(property "MPN" "C5349953"
 			(at 256.54 34.29 0)
 			(effects
 				(font
@@ -11194,7 +11086,7 @@
 				)
 			)
 		)
-		(property "Value" "USB-C-Socket-V"
+		(property "Value" "USB-C-Socket-H"
 			(at 247.65 110.6749 0)
 			(effects
 				(font
@@ -11229,25 +11121,7 @@
 				(hide yes)
 			)
 		)
-		(property "LCSC Part #" "C709357"
-			(at 247.65 130.175 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
 		(property "MPN" "C709357"
-			(at 247.65 130.175 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Position Offset" "0,0.7"
 			(at 247.65 130.175 0)
 			(effects
 				(font
@@ -11522,15 +11396,6 @@
 				(hide yes)
 			)
 		)
-		(property "LCSC Part #" "C5656610"
-			(at 223.52 100.838 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
 		(property "MPN" "C5656610"
 			(at 223.52 100.838 0)
 			(effects
@@ -11625,7 +11490,7 @@
 				(hide yes)
 			)
 		)
-		(property "LCSC Part #" "C5349953"
+		(property "MPN" "C5349953"
 			(at 264.16 34.29 0)
 			(effects
 				(font
@@ -12326,7 +12191,7 @@
 				(hide yes)
 			)
 		)
-		(property "LCSC Part #" "C5349953"
+		(property "MPN" "C5349953"
 			(at 256.54 15.24 0)
 			(effects
 				(font
@@ -12439,7 +12304,7 @@
 				(hide yes)
 			)
 		)
-		(property "LCSC Part #" "C520860"
+		(property "MPN" "C520860"
 			(at 270.51 65.405 0)
 			(effects
 				(font
@@ -12517,7 +12382,7 @@
 				(hide yes)
 			)
 		)
-		(property "LCSC Part #" "C141660"
+		(property "MPN" "C141660"
 			(at 215.265 133.985 0)
 			(effects
 				(font
@@ -13816,7 +13681,7 @@
 				(hide yes)
 			)
 		)
-		(property "LCSC Part #" "C15525"
+		(property "MPN" "C15525"
 			(at 91.44 133.35 0)
 			(effects
 				(font
@@ -14035,7 +13900,7 @@
 				(hide yes)
 			)
 		)
-		(property "LCSC Part #" "C5137770"
+		(property "MPN" "C5137770"
 			(at 142.24 161.29 0)
 			(effects
 				(font

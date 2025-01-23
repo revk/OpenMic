@@ -1082,7 +1082,7 @@
 					(hide yes)
 				)
 			)
-			(property "LCSC Part #" "C5137770"
+			(property "MPN" "C5137770"
 				(at 0 -3.175 0)
 				(effects
 					(font
@@ -1214,7 +1214,7 @@
 					(hide yes)
 				)
 			)
-			(property "Description" ""
+			(property "Description" "ESP32S3"
 				(at 0 0 0)
 				(effects
 					(font
@@ -1223,7 +1223,7 @@
 					(hide yes)
 				)
 			)
-			(property "LCSC Part #" "C3013941"
+			(property "MPN" "C3013941"
 				(at 0 -32.385 0)
 				(effects
 					(font
@@ -2620,7 +2620,7 @@
 					(hide yes)
 				)
 			)
-			(property "LCSC Part #" "C5656610"
+			(property "MPN" "C5656610"
 				(at 6.35 -8.128 0)
 				(effects
 					(font
@@ -2840,12 +2840,13 @@
 					(hide yes)
 				)
 			)
-			(property "LCSC Part #" ""
+			(property "MPN" "C2682619"
 				(at 0 0 0)
 				(effects
 					(font
 						(size 1.27 1.27)
 					)
+					(hide yes)
 				)
 			)
 			(property "ki_keywords" "pcm tdm i2s left-justified amplifier audio dac"
@@ -3465,17 +3466,8 @@
 					(hide yes)
 				)
 			)
-			(property "LCSC Part #" "C668215"
+			(property "MPN" "C668215"
 				(at -6.35 5.715 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(property "JLCPCB Rotation Offset" "180"
-				(at -8.89 7.62 0)
 				(effects
 					(font
 						(size 1.27 1.27)
@@ -3604,7 +3596,7 @@
 					(justify left)
 				)
 			)
-			(property "Value" "USB-C-Socket-V"
+			(property "Value" "USB-C-Socket-H"
 				(at 0.635 12.7 0)
 				(effects
 					(font
@@ -3639,7 +3631,7 @@
 					(hide yes)
 				)
 			)
-			(property "LCSC Part #" "C709357"
+			(property "MPN" "C709357"
 				(at 0 0 0)
 				(effects
 					(font
@@ -3710,7 +3702,7 @@
 						(type default)
 					)
 					(fill
-						(type outline)
+						(type none)
 					)
 				)
 				(arc
@@ -3722,7 +3714,7 @@
 						(type default)
 					)
 					(fill
-						(type none)
+						(type outline)
 					)
 				)
 				(arc
@@ -4240,7 +4232,7 @@
 					(hide yes)
 				)
 			)
-			(property "LCSC Part #" "C5349953"
+			(property "MPN" "C5349953"
 				(at 1.27 -11.43 0)
 				(effects
 					(font
@@ -4543,7 +4535,7 @@
 				)
 			)
 			(property "Datasheet" "http://www.farnell.com/datasheets/1835997.pdf"
-				(at 0 0 0)
+				(at 5.08 -3.81 0)
 				(effects
 					(font
 						(size 1.27 1.27)
@@ -7039,7 +7031,7 @@
 				)
 			)
 		)
-		(property "Footprint" "RevK:R_0402"
+		(property "Footprint" ""
 			(at 231.14 37.338 90)
 			(effects
 				(font
@@ -7236,7 +7228,7 @@
 				)
 			)
 		)
-		(property "Footprint" "RevK:R_0402"
+		(property "Footprint" ""
 			(at 231.14 36.322 90)
 			(effects
 				(font
@@ -7306,7 +7298,7 @@
 				(justify right)
 			)
 		)
-		(property "Footprint" "RevK:C_0402"
+		(property "Footprint" ""
 			(at 103.8098 29.21 0)
 			(effects
 				(font
@@ -7442,7 +7434,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "RevK:SMD1010"
+		(property "Footprint" ""
 			(at 66.04 17.78 0)
 			(effects
 				(font
@@ -7471,7 +7463,7 @@
 				(hide yes)
 			)
 		)
-		(property "LCSC Part #" "C5349953"
+		(property "MPN" "C5349953"
 			(at 66.04 13.97 0)
 			(effects
 				(font
@@ -7597,7 +7589,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "RevK:SMD1010"
+		(property "Footprint" ""
 			(at 100.33 17.78 0)
 			(effects
 				(font
@@ -7626,7 +7618,7 @@
 				(hide yes)
 			)
 		)
-		(property "LCSC Part #" "C5349953"
+		(property "MPN" "C5349953"
 			(at 100.33 13.97 0)
 			(effects
 				(font
@@ -7821,7 +7813,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "RevK:C_0402"
+		(property "Footprint" ""
 			(at 79.7052 144.78 0)
 			(effects
 				(font
@@ -7840,15 +7832,6 @@
 			)
 		)
 		(property "Description" ""
-			(at 78.74 140.97 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "LCSC Part #" "C15525"
 			(at 78.74 140.97 0)
 			(effects
 				(font
@@ -8059,24 +8042,6 @@
 				(hide yes)
 			)
 		)
-		(property "LCSC Part #" "C5224170"
-			(at 168.275 112.395 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "JLCPCB Rotation Offset" "180"
-			(at 168.275 112.395 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
 		(pin "1"
 			(uuid "9277be22-7739-40fc-83a8-e344d63a1b79")
 		)
@@ -8122,7 +8087,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "RevK:C_0402"
+		(property "Footprint" ""
 			(at 259.3848 104.775 0)
 			(effects
 				(font
@@ -8387,7 +8352,7 @@
 				)
 			)
 		)
-		(property "Footprint" "RevK:R_0402"
+		(property "Footprint" ""
 			(at 31.75 88.138 90)
 			(effects
 				(font
@@ -8455,7 +8420,7 @@
 				)
 			)
 		)
-		(property "Footprint" "RevK:1.25T-2PWT (Molex 532610271)"
+		(property "Footprint" ""
 			(at 135.89 148.59 0)
 			(effects
 				(font
@@ -8474,15 +8439,6 @@
 			)
 		)
 		(property "Description" ""
-			(at 135.89 148.59 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "LCSC Part #" "C177225"
 			(at 135.89 148.59 0)
 			(effects
 				(font
@@ -8563,7 +8519,7 @@
 				(hide yes)
 			)
 		)
-		(property "LCSC Part #" "C5656610"
+		(property "MPN" "C5656610"
 			(at 242.57 117.348 0)
 			(effects
 				(font
@@ -8626,7 +8582,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "RevK:C_0603"
+		(property "Footprint" ""
 			(at 39.7002 144.78 0)
 			(effects
 				(font
@@ -8723,7 +8679,7 @@
 				(hide yes)
 			)
 		)
-		(property "LCSC Part #" "C3013941"
+		(property "MPN" "C3013941"
 			(at 50.8 109.855 0)
 			(effects
 				(font
@@ -8969,7 +8925,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "RevK:C_0402"
+		(property "Footprint" ""
 			(at 168.6052 68.58 0)
 			(effects
 				(font
@@ -9343,24 +9299,6 @@
 				(hide yes)
 			)
 		)
-		(property "LCSC Part #" "C82942"
-			(at 191.77 112.395 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "JLCPCB Rotation Offset" "-90"
-			(at 191.77 112.395 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
 		(pin "1"
 			(uuid "bf0e26e1-2a72-4527-a531-2b067733cd70")
 		)
@@ -9412,7 +9350,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "RevK:C_0805"
+		(property "Footprint" ""
 			(at 203.5302 121.285 0)
 			(effects
 				(font
@@ -9431,15 +9369,6 @@
 			)
 		)
 		(property "Description" ""
-			(at 202.565 117.475 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "LCSC Part #" "C141660"
 			(at 202.565 117.475 0)
 			(effects
 				(font
@@ -9489,7 +9418,7 @@
 				)
 			)
 		)
-		(property "Footprint" "RevK:AA-Pad"
+		(property "Footprint" ""
 			(at 20.32 104.14 0)
 			(effects
 				(font
@@ -9559,7 +9488,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "RevK:KLJ-Speaker"
+		(property "Footprint" ""
 			(at 141.605 61.595 0)
 			(effects
 				(font
@@ -9578,15 +9507,6 @@
 			)
 		)
 		(property "Description" "Speaker"
-			(at 141.605 56.515 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "LCSC Part #" "C18186315"
 			(at 141.605 56.515 0)
 			(effects
 				(font
@@ -9703,7 +9623,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "RevK:C_0603"
+		(property "Footprint" ""
 			(at 63.1952 144.145 0)
 			(effects
 				(font
@@ -9722,15 +9642,6 @@
 			)
 		)
 		(property "Description" ""
-			(at 62.23 140.335 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "LCSC Part #" "C194427"
 			(at 62.23 140.335 0)
 			(effects
 				(font
@@ -9912,7 +9823,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "RevK:C_0402"
+		(property "Footprint" ""
 			(at 259.3848 135.89 0)
 			(effects
 				(font
@@ -9982,7 +9893,7 @@
 				(justify right)
 			)
 		)
-		(property "Footprint" "RevK:C_0402"
+		(property "Footprint" ""
 			(at 58.0898 29.21 0)
 			(effects
 				(font
@@ -10317,7 +10228,7 @@
 				(justify right)
 			)
 		)
-		(property "Footprint" "RevK:C_0402"
+		(property "Footprint" ""
 			(at 92.3798 29.21 0)
 			(effects
 				(font
@@ -10384,7 +10295,7 @@
 				)
 			)
 		)
-		(property "Footprint" "RevK:R_0402"
+		(property "Footprint" ""
 			(at 119.253 121.92 90)
 			(effects
 				(font
@@ -10533,7 +10444,7 @@
 				)
 			)
 		)
-		(property "Footprint" "RevK:TS-1092S-B3D2-G"
+		(property "Footprint" ""
 			(at 173.99 25.4 0)
 			(effects
 				(font
@@ -10600,7 +10511,7 @@
 				)
 			)
 		)
-		(property "Footprint" "RevK:R_0402"
+		(property "Footprint" ""
 			(at 145.542 69.215 90)
 			(effects
 				(font
@@ -10808,7 +10719,7 @@
 				(justify right)
 			)
 		)
-		(property "Footprint" "RevK:C_0402"
+		(property "Footprint" ""
 			(at 80.9498 29.21 0)
 			(effects
 				(font
@@ -10968,7 +10879,7 @@
 				(hide yes)
 			)
 		)
-		(property "LCSC Part #" "C709357"
+		(property "MPN" "C709357"
 			(at 209.55 45.72 0)
 			(effects
 				(font
@@ -11131,7 +11042,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "RevK:CP_EIA-3528-21_Kemet-B"
+		(property "Footprint" ""
 			(at 45.4152 144.78 0)
 			(effects
 				(font
@@ -11150,24 +11061,6 @@
 			)
 		)
 		(property "Description" "Polarized capacitor"
-			(at 44.45 140.97 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "LCSC Part #" "C122649"
-			(at 44.45 140.97 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "JLCPCB Rotation Offset" "180"
 			(at 44.45 140.97 0)
 			(effects
 				(font
@@ -11219,7 +11112,7 @@
 				(justify right)
 			)
 		)
-		(property "Footprint" "RevK:C_0402"
+		(property "Footprint" ""
 			(at 115.2398 29.21 0)
 			(effects
 				(font
@@ -11447,12 +11340,13 @@
 				(hide yes)
 			)
 		)
-		(property "LCSC Part #" ""
+		(property "MPN" "C2682619"
 			(at 123.825 64.135 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(pin "B2"
@@ -11585,7 +11479,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "RevK:C_0402"
+		(property "Footprint" ""
 			(at 91.7702 144.78 0)
 			(effects
 				(font
@@ -11604,15 +11498,6 @@
 			)
 		)
 		(property "Description" ""
-			(at 90.805 140.97 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "LCSC Part #" "C15525"
 			(at 90.805 140.97 0)
 			(effects
 				(font
@@ -11728,7 +11613,7 @@
 				)
 			)
 		)
-		(property "Footprint" "RevK:R_0402"
+		(property "Footprint" ""
 			(at 78.232 100.965 90)
 			(effects
 				(font
@@ -11811,7 +11696,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "RevK:SMD1010"
+		(property "Footprint" ""
 			(at 111.76 17.78 0)
 			(effects
 				(font
@@ -11840,7 +11725,7 @@
 				(hide yes)
 			)
 		)
-		(property "LCSC Part #" "C5349953"
+		(property "MPN" "C5349953"
 			(at 111.76 13.97 0)
 			(effects
 				(font
@@ -11900,7 +11785,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "RevK:SMD1010"
+		(property "Footprint" ""
 			(at 77.47 17.78 0)
 			(effects
 				(font
@@ -11929,7 +11814,7 @@
 				(hide yes)
 			)
 		)
-		(property "LCSC Part #" "C5349953"
+		(property "MPN" "C5349953"
 			(at 77.47 13.97 0)
 			(effects
 				(font
@@ -12314,7 +12199,7 @@
 				)
 			)
 		)
-		(property "Footprint" "RevK:D_SOD-123"
+		(property "Footprint" ""
 			(at 177.165 117.475 0)
 			(effects
 				(font
@@ -12341,13 +12226,12 @@
 				(hide yes)
 			)
 		)
-		(property "LCSC Part " "C5204746"
+		(property "MPN" "C5204746"
 			(at 177.165 117.475 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(pin "1"
@@ -12457,7 +12341,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "RevK:C_0402"
+		(property "Footprint" ""
 			(at 33.3502 144.78 0)
 			(effects
 				(font
@@ -12794,7 +12678,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "RevK:SMD1010"
+		(property "Footprint" ""
 			(at 88.9 17.78 0)
 			(effects
 				(font
@@ -12823,7 +12707,7 @@
 				(hide yes)
 			)
 		)
-		(property "LCSC Part #" "C5349953"
+		(property "MPN" "C5349953"
 			(at 88.9 13.97 0)
 			(effects
 				(font
@@ -13015,7 +12899,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "RevK:SMD1010"
+		(property "Footprint" ""
 			(at 54.61 17.78 0)
 			(effects
 				(font
@@ -13044,7 +12928,7 @@
 				(hide yes)
 			)
 		)
-		(property "LCSC Part #" "C5349953"
+		(property "MPN" "C5349953"
 			(at 54.61 13.97 0)
 			(effects
 				(font
@@ -13169,7 +13053,7 @@
 				(justify right)
 			)
 		)
-		(property "Footprint" "RevK:C_0402"
+		(property "Footprint" ""
 			(at 69.5198 29.21 0)
 			(effects
 				(font
@@ -13268,7 +13152,7 @@
 				(hide yes)
 			)
 		)
-		(property "LCSC Part #" "C5656610"
+		(property "MPN" "C5656610"
 			(at 242.57 148.463 0)
 			(effects
 				(font
@@ -13357,7 +13241,7 @@
 				(hide yes)
 			)
 		)
-		(property "LCSC Part #" "C5137770"
+		(property "MPN" "C5137770"
 			(at 129.54 144.78 0)
 			(effects
 				(font
@@ -13475,7 +13359,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "RevK:C_0402"
+		(property "Footprint" ""
 			(at 80.9752 112.395 0)
 			(effects
 				(font
@@ -13560,7 +13444,7 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "https://www.lcsc.com/datasheet/lcsc_datasheet_2409241408_UMW-Youtai-Semiconductor-Co---Ltd--TP4054_C668215.pdf"
+		(property "Datasheet" ""
 			(at 127 116.205 0)
 			(effects
 				(font
@@ -13578,17 +13462,8 @@
 				(hide yes)
 			)
 		)
-		(property "LCSC Part #" "C668215"
+		(property "MPN" "C668215"
 			(at 120.65 110.49 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "JLCPCB Rotation Offset" "180"
-			(at 118.11 108.585 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13672,7 +13547,7 @@
 				(hide yes)
 			)
 		)
-		(property "LCSC Part #" "C5137770"
+		(property "MPN" "C5137770"
 			(at 173.99 37.465 0)
 			(effects
 				(font
@@ -13787,7 +13662,7 @@
 				)
 			)
 		)
-		(property "Footprint" "RevK:R_0402"
+		(property "Footprint" ""
 			(at 166.497 121.285 90)
 			(effects
 				(font
@@ -13856,7 +13731,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "RevK:C_0402"
+		(property "Footprint" ""
 			(at 156.5402 68.58 0)
 			(effects
 				(font
@@ -13875,15 +13750,6 @@
 			)
 		)
 		(property "Description" ""
-			(at 155.575 64.77 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "LCSC Part #" "C15525"
 			(at 155.575 64.77 0)
 			(effects
 				(font
