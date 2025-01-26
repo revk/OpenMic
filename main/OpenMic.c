@@ -99,10 +99,11 @@ char *tones = NULL;             // Malloc'd
 typedef enum
 {
    MIC_IDLE,
+   MIC_TEST,
    MIC_SIP,
    MIC_RECORD,
 } mic_mode_t;
-mic_mode_t mic_mode = 0;
+mic_mode_t mic_mode = MIC_TEST;
 
 typedef enum
 {
@@ -122,6 +123,7 @@ struct
    uint8_t sdpresent:1;         // SD present
    uint8_t doformat:1;          // SD format
    uint8_t dodismount:1;        // Dismount SD
+   uint8_t micok:1;             // Mic is OK
    uint8_t micon:1;             // Sounds required
    uint8_t miconha:1;           // Sounds required (started by HA so keep WiFi on)
    uint8_t sharedi2s:1;         // I2S shared for Mic and Spk
@@ -873,6 +875,8 @@ mic_task (void *arg)
    }
    void led (char c)
    {
+      if (!b.micok)
+         c = 'R';               // Mic faulty
       if (led_mic)
       {
          revk_led (led_mic, 0, 255, micchannels == 0 || micchannels == 2 || !micright ? revk_rgb (c) : 0);
@@ -895,17 +899,21 @@ mic_task (void *arg)
    }
    while (!b.die)
    {                            // Loop here as we restart for SIP on/off
-      mic_mode_t mode = MIC_IDLE;
-      if (sip_mode > SIP_REGISTERED)
-         mode = MIC_SIP;
-      else if (b.micon)
-         mode = MIC_RECORD;
+      mic_mode_t mode = mic_mode;
+      if (!mode)
+      {
+         if (sip_mode > SIP_REGISTERED)
+            mode = MIC_SIP;
+         else if (b.micon)
+            mode = MIC_RECORD;
+      }
       if (!mode)
       {
          led (sdrgb);
          usleep (100000);
          continue;
       }
+      ESP_LOGE (TAG, "Mic mode %d", mode);
       revk_disable_upgrade ();
       esp_err_t err;
       i2s_chan_config_t chan_cfg = I2S_CHANNEL_DEFAULT_CONFIG (I2S_NUM_AUTO, I2S_ROLE_MASTER);
@@ -921,13 +929,13 @@ mic_task (void *arg)
          micchannels = 1;
          micbytes = 2;
          micsamples = SIP_BYTES;
-      } else if (mode == MIC_RECORD)
+      } else if (mode == MIC_RECORD || mode == MIC_TEST)
       {
          micfreq = micrate;
          micchannels = (micstereo ? 2 : 1);
          micbytes = 2;
          micsamples = micfreq * MICMS / 1000;
-         led (micbeep ? 'O' : dark ? 'K' : 'G');
+         led (micbeep ? 'O' : dark ? 'b' : 'G');
          if (wifirecord && !b.miconha)
             revk_disable_wifi ();
       }
@@ -1003,10 +1011,10 @@ mic_task (void *arg)
          beep = 1000 / MICMS + 1;
       ESP_LOGE (TAG, "Mic started mode %d, %ld*%d*%d bits at %ldHz - mapped to %d*%d bits", mode, micsamples, micchannels,
                 rawbytes * 8, micfreq, micchannels, micbytes * 8);
-      while (!b.die && !(sip_mode <= SIP_REGISTERED && !b.micon))
+      while (!b.die && mic_mode)
       {
          if (beep && !--beep)
-            led (dark ? 'K' : 'G');
+            led (dark ? 'b' : 'G');
          size_t n = 0;
          i2s_channel_read (mic_handle, raw ? : micaudio[sdin], micchannels * rawbytes * micsamples, &n, MICMS * 2);
          if (n < micchannels * rawbytes * micsamples)
@@ -1033,8 +1041,21 @@ mic_task (void *arg)
          }
          switch (mode)
          {
+         case MIC_TEST:
+            {
+               int16_t *i = (void *) micaudio[sdin];
+               for (int s = 0; s < micsamples * micchannels && !b.micok; s++)
+                  if (*i++)
+                     b.micok = 1;
+               if (!b.micok)
+                  ESP_LOGE (TAG, "Mic not OK");
+               mic_mode = MIC_IDLE;     // End test
+            }
+            break;
          case MIC_SIP:
-            if (sip_mode == SIP_IC || sip_mode == SIP_OG)
+            if (sip_mode <= SIP_REGISTERED)
+               mic_mode = MIC_IDLE;     // End SIP
+            else if (sip_mode == SIP_IC || sip_mode == SIP_OG)
             {
                int16_t *i = (void *) micaudio[sdin];
                uint8_t *o = (void *) micaudio[sdin];
@@ -1044,6 +1065,9 @@ mic_task (void *arg)
             }
             break;
          case MIC_RECORD:      // These are not as fast as SIP, so do LED
+            if (!b.micon)
+               mic_mode = MIC_IDLE;     // End recording
+            else
             {
                if (beep)
                {
@@ -1077,7 +1101,6 @@ mic_task (void *arg)
          default:
          }
       }
-      mic_mode = MIC_IDLE;
       i2s_channel_disable (mic_handle);
       free (raw);
       for (int i = 0; i < MICQUEUE; i++)
@@ -1554,7 +1577,7 @@ app_main ()
       if (led_status)
       {
          char c1 =
-            (!usb ? sip_mode == SIP_REGISTERED ? 'C' : 'M' : charge == 0xFF ? 'Y' : charge ? 'R' : sip_mode ==
+            (!usb ? sip_mode == SIP_REGISTERED ? 'C' : 'M' : charge == 0xFF ? 'Y' : charge ? 'O' : sip_mode ==
              SIP_REGISTERED ? 'C' : 'M');
          uint32_t c2 = revk_blinker ();
          if (mic_mode == MIC_RECORD)
@@ -1572,6 +1595,8 @@ app_main ()
             else
                c1 = 'R';
          }
+         if (!b.micok)
+            c1 = 'R';
          revk_led (led_status, 0, 255, revk_rgb (c1));
          revk_led (led_status, 1, 255, c2);
          REVK_ERR_CHECK (led_strip_refresh (led_status));
