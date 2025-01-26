@@ -123,7 +123,8 @@ struct
    uint8_t sdpresent:1;         // SD present
    uint8_t doformat:1;          // SD format
    uint8_t dodismount:1;        // Dismount SD
-   uint8_t micok:1;             // Mic is OK
+   uint8_t micokl:1;            // Mic L is OK
+   uint8_t micokr:1;            // Mic R is OK
    uint8_t micon:1;             // Sounds required
    uint8_t miconha:1;           // Sounds required (started by HA so keep WiFi on)
    uint8_t sharedi2s:1;         // I2S shared for Mic and Spk
@@ -371,6 +372,7 @@ sd_task (void *arg)
    slot.width = (sddat2.set && sddat3.set ? 4 : sddat1.set ? 2 : 1);
    if (slot.width == 1)
       slot.flags |= SDMMC_SLOT_FLAG_INTERNAL_PULLUP;    // Old boards?
+   //if (slot.width == 4) slot.flags |= SDMMC_SLOT_FLAG_UHS1;
    sdmmc_host_t host = SDMMC_HOST_DEFAULT ();
    host.max_freq_khz = SDMMC_FREQ_HIGHSPEED;
    host.slot = SDMMC_HOST_SLOT_1;
@@ -875,12 +877,12 @@ mic_task (void *arg)
    }
    void led (char c)
    {
-      if (!b.micok)
-         c = 'R';               // Mic faulty
       if (led_mic)
       {
-         revk_led (led_mic, 0, 255, micchannels == 0 || micchannels == 2 || !micright ? revk_rgb (c) : 0);
-         revk_led (led_mic, 1, 255, micchannels == 0 || micchannels == 2 || micright ? revk_rgb (c) : 0);
+         revk_led (led_mic, 0, 255, !b.micokl ? revk_rgb ('R') : micchannels == 0 || micchannels == 2
+                   || !micright ? revk_rgb (c) : 0);
+         revk_led (led_mic, 1, 255, !b.micokr ? revk_rgb ('R') : micchannels == 0 || micchannels == 2
+                   || micright ? revk_rgb (c) : 0);
          REVK_ERR_CHECK (led_strip_refresh (led_mic));
       }
    }
@@ -1044,11 +1046,17 @@ mic_task (void *arg)
          case MIC_TEST:
             {
                int16_t *i = (void *) micaudio[sdin];
-               for (int s = 0; s < micsamples * micchannels && !b.micok; s++)
+               for (int s = 0; s < micsamples && (!b.micokl || !b.micokr); s++)
+               {
                   if (*i++)
-                     b.micok = 1;
-               if (!b.micok)
-                  ESP_LOGE (TAG, "Mic not OK");
+                     b.micokl = 1;
+                  if (*i++)
+                     b.micokr = 1;
+               }
+               if (!b.micokl)
+                  ESP_LOGE (TAG, "Mic L not OK");
+               if (!b.micokr)
+                  ESP_LOGE (TAG, "Mic R not OK");
                mic_mode = MIC_IDLE;     // End test
             }
             break;
@@ -1595,7 +1603,7 @@ app_main ()
             else
                c1 = 'R';
          }
-         if (!b.micok)
+         if (!b.micokl || !b.micokr)
             c1 = 'R';
          revk_led (led_status, 0, 255, revk_rgb (c1));
          revk_led (led_status, 1, 255, c2);
