@@ -1,7 +1,7 @@
-gpio	spk.pwr		38		// Speaker power on
-gpio	spk.lrc		35		// Speaker LR clock
-gpio	spk.bclk	36		// Speaker Bit clock
-gpio	spk.data	37		// Speaker Data
+gpio	spk.pwr				// Speaker power on
+gpio	spk.lrc				// Speaker LR clock
+gpio	spk.bclk			// Speaker Bit clock
+gpio	spk.data			// Speaker Data
 
 gpio	mic.data	7		// Microphone Data / SD
 gpio	mic.clock	5		// Microphone Clock / SCK
@@ -12,13 +12,13 @@ bit	mic.stereo	1	.live=1		// Microphone Stereo
 bit	mic.right		.live=1		// Microphone use right channel
 bit	mic.beep		.live=1		// Add sync beep and red LED on start of recording
 
-gpio	sd.dat2				// MicroSD DAT2
-gpio	sd.dat3		.old="sdss"	// MicroSD DAT3
-gpio	sd.cmd		.old="sdmosi"	// MicroSD CMD
-gpio	sd.clk		.old="sdsck"	// MicroSD CLK
-gpio	sd.dat0		.old="sdmiso"	// MicroSD DAT0
-gpio	sd.dat1				// MicroSD DAT1
-gpio	sd.cd				// MicroSD CD
+gpio	sd.dat2		12		// MicroSD DAT2
+gpio	sd.dat3		13 .old="sdss"	// MicroSD DAT3
+gpio	sd.cmd		14 .old="sdmosi"	// MicroSD CMD
+gpio	sd.clk		15 .old="sdsck"	// MicroSD CLK
+gpio	sd.dat0		16 .old="sdmiso"	// MicroSD DAT0
+gpio	sd.dat1		17		// MicroSD DAT1
+gpio	sd.cd		-18		// MicroSD CD
 
 u32	sd.rectime	3600	.unit="s"	// Max record time per whole file
 u32	sd.synctime	60	.unit="s"	// Max record time per file sync
@@ -28,9 +28,9 @@ bit	sd.delete	1	.live=1	// Auto delete old files if space needed for new file
 u32	auto.off	900	.unit="s",.live=1	// Auto power off if idle
 bit	auto.usb					// Auto off only if USB disconnected
 
-gpio	button				// Button
-gpio	charging			// Charging status
-gpio	vbus				// USB power status
+gpio	button		-1		// Button
+gpio	charging	-18		// Charging status
+gpio	vbus		"41↓"		// USB power status
 gpio	ir				// IR receiver
 
 gpio	rgb.status	39		// Status LED
