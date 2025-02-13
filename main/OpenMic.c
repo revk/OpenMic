@@ -143,7 +143,11 @@ FILE *volatile sdfile = NULL;
 i2s_chan_handle_t mic_handle = { 0 };
 
 #define	MICMS		100
+#if defined(CONFIG_ESP32_SPIRAM_SUPPORT) || defined(CONFIG_ESP32S3_SPIRAM_SUPPORT)
 #define	MICQUEUE	32
+#else
+#define	MICQUEUE	4
+#endif
 uint8_t micchannels = 0;        // Channels (1 or 2)
 uint8_t micbytes = 0;           // Bytes per channel (2, 3, or 4)
 uint32_t micsamples = 0;        // Samples per collection

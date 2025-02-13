@@ -35,13 +35,17 @@ issue:
 image:
 	esptool.py -b 460800 read_flash 0 0x400000 s3.bin
 
-set:	s3
+set:	n8 s3
 
 main/settings.h:     components/ESP32-RevK/revk_settings main/settings.def components/ESP32-RevK/settings.def
 	components/ESP32-RevK/revk_settings $^
 
 components/ESP32-RevK/revk_settings: components/ESP32-RevK/revk_settings.c
 	make -C components/ESP32-RevK
+
+n8:
+	components/ESP32-RevK/setbuildsuffix -S3-MINI-N8
+	@make
 s3:
 	components/ESP32-RevK/setbuildsuffix -S3-MINI-N4-R2
 	@make
