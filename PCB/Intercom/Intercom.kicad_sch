@@ -3728,7 +3728,7 @@
 						(type default)
 					)
 					(fill
-						(type none)
+						(type outline)
 					)
 				)
 				(arc
@@ -3740,7 +3740,7 @@
 						(type default)
 					)
 					(fill
-						(type outline)
+						(type none)
 					)
 				)
 				(arc
@@ -12220,7 +12220,7 @@
 				)
 			)
 		)
-		(property "Footprint" "RevK:SPEH130103"
+		(property "Footprint" "Button_Switch_SMD:SW_Push_1TS009xxxx-xxxx-xxxx_6x6x5mm"
 			(at 139.7 64.77 0)
 			(effects
 				(font
