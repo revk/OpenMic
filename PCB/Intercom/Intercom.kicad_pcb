@@ -1,5 +1,5 @@
 (kicad_pcb
-	(version 20241228)
+	(version 20241229)
 	(generator "pcbnew")
 	(generator_version "9.0")
 	(general
@@ -28,15 +28,15 @@
 		(29 "B.CrtYd" user "B.Courtyard")
 		(35 "F.Fab" user)
 		(33 "B.Fab" user)
-		(39 "User.1" auxiliary)
-		(41 "User.2" auxiliary)
-		(43 "User.3" auxiliary)
-		(45 "User.4" auxiliary)
-		(47 "User.5" auxiliary)
-		(49 "User.6" auxiliary)
-		(51 "User.7" auxiliary)
-		(53 "User.8" auxiliary)
-		(55 "User.9" auxiliary)
+		(39 "User.1" user)
+		(41 "User.2" user)
+		(43 "User.3" user)
+		(45 "User.4" user)
+		(47 "User.5" user)
+		(49 "User.6" user)
+		(51 "User.7" user)
+		(53 "User.8" user)
+		(55 "User.9" user)
 	)
 	(setup
 		(stackup
@@ -88,8 +88,8 @@
 		(tenting front back)
 		(aux_axis_origin 65 135)
 		(pcbplotparams
-			(layerselection 0x55555555_5755f5ff)
-			(plot_on_all_layers_selection 0x00000000_00000000)
+			(layerselection 0x00000000_00000000_55555555_5755f5ff)
+			(plot_on_all_layers_selection 0x00000000_00000000_00000000_00000000)
 			(disableapertmacros no)
 			(usegerberextensions no)
 			(usegerberattributes yes)
@@ -113,6 +113,7 @@
 			(dxfusepcbnewfont yes)
 			(psnegative no)
 			(psa4output no)
+			(plot_black_and_white yes)
 			(plotinvisibletext no)
 			(sketchpadsonfab no)
 			(plotpadnumbers no)
@@ -10992,7 +10993,7 @@
 			(at -32.5 -32.5)
 			(size 2 2)
 			(drill 2)
-			(layers "F&B.Cu" "*.Mask")
+			(layers "*.Cu" "*.Mask")
 			(solder_mask_margin 0.1)
 			(clearance 0.1)
 			(uuid "c5ce311f-6eab-4e02-b9cd-172a84dfd00d")
@@ -11001,7 +11002,7 @@
 			(at -32.5 32.5)
 			(size 2 2)
 			(drill 2)
-			(layers "F&B.Cu" "*.Mask")
+			(layers "*.Cu" "*.Mask")
 			(solder_mask_margin 0.1)
 			(clearance 0.1)
 			(uuid "3813a410-1001-4627-8e7e-a87e4719a3a5")
@@ -11074,7 +11075,7 @@
 			(at 32.5 -32.5)
 			(size 2 2)
 			(drill 2)
-			(layers "F&B.Cu" "*.Mask")
+			(layers "*.Cu" "*.Mask")
 			(solder_mask_margin 0.1)
 			(clearance 0.1)
 			(uuid "2b36e337-9a3c-4d82-95a8-44648ad65b9d")
@@ -11083,7 +11084,7 @@
 			(at 32.5 32.5)
 			(size 2 2)
 			(drill 2)
-			(layers "F&B.Cu" "*.Mask")
+			(layers "*.Cu" "*.Mask")
 			(solder_mask_margin 0.1)
 			(clearance 0.1)
 			(uuid "1cb733bb-2fe3-4e6e-a83a-562d0277632e")
@@ -14099,7 +14100,12 @@
 			(at -4.32 -0.49)
 			(size 0.8 1.6)
 			(drill oval 0.5 1.3)
-			(layers "*.Cu" "F.Mask" "F.Paste")
+			(layers "*.Cu" "F.Mask" "In1.Cu" "In2.Cu" "In3.Cu" "In4.Cu" "In5.Cu" "F.Paste"
+				"In6.Cu" "In7.Cu" "In8.Cu" "In9.Cu" "In10.Cu" "In11.Cu" "In12.Cu" "In13.Cu"
+				"In14.Cu" "In15.Cu" "In16.Cu" "In17.Cu" "In18.Cu" "In19.Cu" "In20.Cu"
+				"In21.Cu" "In22.Cu" "In23.Cu" "In24.Cu" "In25.Cu" "In26.Cu" "In27.Cu"
+				"In28.Cu" "In29.Cu" "In30.Cu"
+			)
 			(remove_unused_layers no)
 			(net 1 "GND")
 			(pinfunction "SHIELD")
@@ -14110,7 +14116,12 @@
 			(at -4.32 3.7)
 			(size 0.8 1.3)
 			(drill oval 0.5 1)
-			(layers "*.Cu" "F.Mask" "F.Paste")
+			(layers "*.Cu" "F.Mask" "In1.Cu" "In2.Cu" "In3.Cu" "In4.Cu" "In5.Cu" "F.Paste"
+				"In6.Cu" "In7.Cu" "In8.Cu" "In9.Cu" "In10.Cu" "In11.Cu" "In12.Cu" "In13.Cu"
+				"In14.Cu" "In15.Cu" "In16.Cu" "In17.Cu" "In18.Cu" "In19.Cu" "In20.Cu"
+				"In21.Cu" "In22.Cu" "In23.Cu" "In24.Cu" "In25.Cu" "In26.Cu" "In27.Cu"
+				"In28.Cu" "In29.Cu" "In30.Cu"
+			)
 			(remove_unused_layers no)
 			(net 1 "GND")
 			(pinfunction "SHIELD")
@@ -14131,7 +14142,12 @@
 			(at 4.32 -0.49)
 			(size 0.8 1.6)
 			(drill oval 0.5 1.3)
-			(layers "*.Cu" "F.Mask" "F.Paste")
+			(layers "*.Cu" "F.Mask" "In1.Cu" "In2.Cu" "In3.Cu" "In4.Cu" "In5.Cu" "F.Paste"
+				"In6.Cu" "In7.Cu" "In8.Cu" "In9.Cu" "In10.Cu" "In11.Cu" "In12.Cu" "In13.Cu"
+				"In14.Cu" "In15.Cu" "In16.Cu" "In17.Cu" "In18.Cu" "In19.Cu" "In20.Cu"
+				"In21.Cu" "In22.Cu" "In23.Cu" "In24.Cu" "In25.Cu" "In26.Cu" "In27.Cu"
+				"In28.Cu" "In29.Cu" "In30.Cu"
+			)
 			(remove_unused_layers no)
 			(net 1 "GND")
 			(pinfunction "SHIELD")
@@ -14142,7 +14158,12 @@
 			(at 4.32 3.7)
 			(size 0.8 1.3)
 			(drill oval 0.5 1)
-			(layers "*.Cu" "F.Mask" "F.Paste")
+			(layers "*.Cu" "F.Mask" "In1.Cu" "In2.Cu" "In3.Cu" "In4.Cu" "In5.Cu" "F.Paste"
+				"In6.Cu" "In7.Cu" "In8.Cu" "In9.Cu" "In10.Cu" "In11.Cu" "In12.Cu" "In13.Cu"
+				"In14.Cu" "In15.Cu" "In16.Cu" "In17.Cu" "In18.Cu" "In19.Cu" "In20.Cu"
+				"In21.Cu" "In22.Cu" "In23.Cu" "In24.Cu" "In25.Cu" "In26.Cu" "In27.Cu"
+				"In28.Cu" "In29.Cu" "In30.Cu"
+			)
 			(remove_unused_layers no)
 			(net 1 "GND")
 			(pinfunction "SHIELD")
@@ -24800,7 +24821,7 @@
 		(at -2.54 0)
 		(size 0.85 0.85)
 		(drill 0.85)
-		(layers "F&B.Cu" "*.Mask")
+		(layers "*.Cu" "*.Mask")
 		(solder_mask_margin 0.1)
 		(clearance 0.1)
 		(uuid "69de7847-f907-49cf-9f27-30711f0dde2c")
@@ -24809,7 +24830,7 @@
 		(at 2.54 -1.016)
 		(size 0.85 0.85)
 		(drill 0.85)
-		(layers "F&B.Cu" "*.Mask")
+		(layers "*.Cu" "*.Mask")
 		(solder_mask_margin 0.1)
 		(clearance 0.1)
 		(uuid "7d0980a6-45b7-436f-973a-fc0afde280e2")
@@ -24818,7 +24839,7 @@
 		(at 2.54 1.016)
 		(size 0.85 0.85)
 		(drill 0.85)
-		(layers "F&B.Cu" "*.Mask")
+		(layers "*.Cu" "*.Mask")
 		(solder_mask_margin 0.1)
 		(clearance 0.1)
 		(uuid "95b142a2-d42a-49f6-ae5d-e062dc24a923")
@@ -28501,6 +28522,44 @@
 		)
 	)
 )
+(gr_text "A"
+	(at 112 100 0)
+	(layer "B.SilkS")
+	(uuid "e4b79820-8d70-4bc3-9d79-37f222667366")
+	(effects
+		(font
+			(face "AJK")
+			(size 5 5)
+			(thickness 0.15)
+		)
+		(justify left bottom mirror)
+	)
+	(render_cache "A" 0
+		(polygon
+			(pts
+				(xy 107.90072 93.576208) (xy 107.963886 93.637744) (xy 111.958173 99.233958) (xy 112.001939 99.33487)
+				(xy 111.979239 99.440343) (xy 111.90604 99.521404) (xy 111.797278 99.548726) (xy 111.708784 99.528116)
+				(xy 111.636383 99.464767) (xy 109.698621 96.750619) (xy 108.005713 96.750619) (xy 108.005713 99.352721)
+				(xy 108.031649 99.56253) (xy 108.107719 99.748076) (xy 108.236523 99.915701) (xy 108.40241 100.046387)
+				(xy 108.587929 100.123721) (xy 108.799808 100.150174) (xy 109.011605 100.123806) (xy 109.198311 100.04653)
+				(xy 109.366451 99.915701) (xy 109.497268 99.747839) (xy 109.574364 99.562309) (xy 109.600619 99.352721)
+				(xy 109.615478 99.275157) (xy 109.660153 99.209534) (xy 109.725348 99.164716) (xy 109.800287 99.15)
+				(xy 109.874964 99.164701) (xy 109.940116 99.209534) (xy 109.984553 99.275133) (xy 109.999345 99.352721)
+				(xy 109.977032 99.594321) (xy 109.911845 99.812921) (xy 109.803857 100.013347) (xy 109.649773 100.199023)
+				(xy 109.46393 100.353263) (xy 109.263394 100.461343) (xy 109.044747 100.526575) (xy 108.803166 100.5489)
+				(xy 108.561612 100.526621) (xy 108.34236 100.461452) (xy 108.140679 100.353367) (xy 107.953201 100.199023)
+				(xy 107.797351 100.013126) (xy 107.688263 99.812635) (xy 107.622473 99.594121) (xy 107.599965 99.352721)
+				(xy 107.599965 97.093475) (xy 105.557484 99.478811) (xy 105.45683 99.545305) (xy 105.337055 99.534682)
+				(xy 105.239608 99.464259) (xy 105.207606 99.352721) (xy 105.219999 99.280769) (xy 105.25676 99.219914)
+				(xy 107.537072 96.554919) (xy 107.363828 96.351892) (xy 108.005713 96.351892) (xy 109.411941 96.351892)
+				(xy 108.005713 94.379326) (xy 108.005713 96.351892) (xy 107.363828 96.351892) (xy 105.25676 93.882597)
+				(xy 105.207027 93.785383) (xy 105.225314 93.672854) (xy 105.296575 93.583266) (xy 105.403611 93.553785)
+				(xy 105.487213 93.571178) (xy 105.557484 93.624005) (xy 107.599965 96.016058) (xy 107.599965 93.756812)
+				(xy 107.616022 93.669008) (xy 107.661206 93.60695) (xy 107.740099 93.564471) (xy 107.828616 93.552516)
+			)
+		)
+	)
+)
 (gr_text "34\n35\n36\n37"
 	(at 118 112 0)
 	(layer "B.SilkS" knockout)
@@ -32030,7 +32089,7 @@
 (zone
 	(net 1)
 	(net_name "GND")
-	(layers "F&B.Cu")
+	(layers "F.Cu" "B.Cu")
 	(uuid "b258a62f-29a9-40fb-aa52-c0ceabea8903")
 	(hatch edge 0.5)
 	(connect_pads
