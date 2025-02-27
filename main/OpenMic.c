@@ -116,6 +116,8 @@ spk_mode_t spk_mode = 0;
 
 sip_state_t sip_mode;
 
+sdmmc_card_t *card = NULL;
+
 struct
 {
    uint8_t die:1;               // Shutting down
@@ -386,7 +388,6 @@ sd_task (void *arg)
       .allocation_unit_size = 16 * 1024,
       .disk_status_check_enable = 1,
    };
-   sdmmc_card_t *card = NULL;
    while (!b.die)
    {
       if (sdcd.set)
@@ -1466,7 +1467,7 @@ sip_callback (sip_state_t state, uint8_t len, const uint8_t * data)
 void
 app_main ()
 {
-   //ESP_LOGE (TAG, "Started");
+   ESP_LOGE (TAG, "Started");
    sd_mutex = xSemaphoreCreateBinary ();
    xSemaphoreGive (sd_mutex);
    revk_boot (&app_callback);
@@ -1573,7 +1574,7 @@ app_main ()
                sip_answer ();
             else if (sip_mode == SIP_IC || sip_mode == SIP_OG || sip_mode == SIP_OG_ALERT)
                sip_hangup ();
-            else if (press >= 10 && *sipoutgoing)
+            else if ((!card || press >= 10) && *sipoutgoing)
                sip_call (NULL, sipoutgoing, strchr (sipoutgoing, '@') ? NULL : siphost, sipuser, sippass);
             else if (!b.micon && !b.sdpresent)
                ESP_LOGE (TAG, "No card");
