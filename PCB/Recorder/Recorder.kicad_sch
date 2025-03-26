@@ -9842,7 +9842,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "RevK:SOT-23-5"
+		(property "Footprint" "RevK:SOT-23-5-90"
 			(at 204.47 120.65 0)
 			(effects
 				(font
