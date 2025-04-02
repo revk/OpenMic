@@ -35,6 +35,7 @@ gpio	ir				// IR receiver
 
 gpio	rgb.status	39		// Status LED
 gpio	rgb.led		8	.old="ledrecord"	// Mic/record LED
+gpio	rgb.pwr				// LED power control
 
 u32	morse.freq	600	.unit="Hz",.live=1		// Morse tone frequency
 u8	morse.level	50	.unit="%",.live=1		// Morse audio level 

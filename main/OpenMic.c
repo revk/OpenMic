@@ -1483,6 +1483,7 @@ app_main ()
       register_get_uri ("/", web_root);
       register_post_uri ("/", web_root);
    }
+   revk_gpio_output (rgbpwr, 1);        // Power on LED
    led_strip_handle_t led_status = NULL;
    if (rgbstatus.set)
    {
@@ -1646,6 +1647,7 @@ app_main ()
       gpio_wakeup_enable (button.num, button.invert ? GPIO_INTR_LOW_LEVEL : GPIO_INTR_HIGH_LEVEL);
       esp_sleep_enable_gpio_wakeup ();
    }
+   revk_gpio_set (rgbpwr, 0);   // LED off
    // Shutdown
    sleep (1);                   // Allow tasks to end
    // Night night

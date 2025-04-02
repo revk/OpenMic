@@ -41,6 +41,7 @@ revk_settings_t const revk_settings[]={
  {.type=REVK_SETTINGS_UNSIGNED,.gpio=1,.name="ir",.comment="IR receiver",.len=2,.ptr=&ir,.size=sizeof(revk_gpio_t),.fix=1,.set=1,.flags="- ~↓↕⇕"},
  {.type=REVK_SETTINGS_UNSIGNED,.gpio=1,.name="rgbstatus",.comment="Status LED",.group=5,.len=9,.dot=3,.def="39",.ptr=&rgbstatus,.size=sizeof(revk_gpio_t),.fix=1,.set=1,.flags="- ~↓↕⇕"},
  {.type=REVK_SETTINGS_UNSIGNED,.gpio=1,.name="rgbled",.comment="Mic/record LED",.group=5,.len=6,.dot=3,.def="8",.ptr=&rgbled,.size=sizeof(revk_gpio_t),.fix=1,.set=1,.flags="- ~↓↕⇕",.old="ledrecord"},
+ {.type=REVK_SETTINGS_UNSIGNED,.gpio=1,.name="rgbpwr",.comment="LED power control",.group=5,.len=6,.dot=3,.ptr=&rgbpwr,.size=sizeof(revk_gpio_t),.fix=1,.set=1,.flags="- ~↓↕⇕"},
  {.type=REVK_SETTINGS_UNSIGNED,.name="morsefreq",.comment="Morse tone frequency",.group=6,.len=9,.dot=5,.def="600",.ptr=&morsefreq,.size=sizeof(uint32_t),.unit="Hz",.live=1},
  {.type=REVK_SETTINGS_UNSIGNED,.name="morselevel",.comment="Morse audio level",.group=6,.len=10,.dot=5,.def="50",.ptr=&morselevel,.size=sizeof(uint8_t),.unit="%",.live=1},
  {.type=REVK_SETTINGS_UNSIGNED,.name="morsewpm",.comment="Morse basic rate",.group=6,.len=8,.dot=5,.def="20",.ptr=&morsewpm,.size=sizeof(uint8_t),.unit="wpm",.live=1},
@@ -59,9 +60,9 @@ revk_settings_t const revk_settings[]={
  {.type=REVK_SETTINGS_BIT,.name="wifiusb",.comment="WiFi off when not on USB power",.group=9,.len=7,.dot=4,.bit=REVK_SETTINGS_BITFIELD_wifiusb,.hide=1},
  {.type=REVK_SETTINGS_BIT,.name="haenable",.comment="Enable Home Assistant",.group=10,.len=8,.dot=2,.def="1",.bit=REVK_SETTINGS_BITFIELD_haenable,.hide=1},
 #ifdef	CONFIG_REVK_SETTINGS_PASSWORD
- {.type=REVK_SETTINGS_STRING,.name="password",.comment="Settings password (this is not sent securely so use with care on local networks you control)",.len=8,.ptr=&password,.malloc=1,.revk=1,.hide=1,.secret=1},
+ {.type=REVK_SETTINGS_STRING,.name="password",.comment="Settings password<br>(not sent securely so use with care)",.len=8,.ptr=&password,.malloc=1,.revk=1,.hide=1,.secret=1},
 #endif
- {.type=REVK_SETTINGS_STRING,.name="hostname",.comment="Host name - used in DHCP and MQTT (optional)",.len=8,.ptr=&hostname,.malloc=1,.revk=1,.hide=1},
+ {.type=REVK_SETTINGS_STRING,.name="hostname",.comment="Host name<br>(used in DHCP and MQTT)",.len=8,.ptr=&hostname,.malloc=1,.revk=1,.hide=1},
  {.type=REVK_SETTINGS_STRING,.name="appname",.comment="Application name",.len=7,.dq=1,.def=quote(CONFIG_REVK_APPNAME),.ptr=&appname,.malloc=1,.revk=1,.hide=1},
  {.type=REVK_SETTINGS_STRING,.name="otahost",.comment="OTA hostname",.group=11,.len=7,.dot=3,.dq=1,.def=quote(CONFIG_REVK_OTAHOST),.ptr=&otahost,.malloc=1,.revk=1,.live=1},
  {.type=REVK_SETTINGS_UNSIGNED,.name="otadays",.comment="OTA auto load (days)",.group=11,.len=7,.dot=3,.dq=1,.def=quote(CONFIG_REVK_OTADAYS),.ptr=&otadays,.size=sizeof(uint8_t),.revk=1},
@@ -175,6 +176,7 @@ revk_gpio_t vbus={0};
 revk_gpio_t ir={0};
 revk_gpio_t rgbstatus={0};
 revk_gpio_t rgbled={0};
+revk_gpio_t rgbpwr={0};
 uint32_t morsefreq=0;
 uint8_t morselevel=0;
 uint8_t morsewpm=0;

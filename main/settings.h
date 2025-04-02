@@ -176,6 +176,7 @@ extern revk_gpio_t vbus;	// USB power status
 extern revk_gpio_t ir;	// IR receiver
 extern revk_gpio_t rgbstatus;	// Status LED
 extern revk_gpio_t rgbled;	// Mic/record LED
+extern revk_gpio_t rgbpwr;	// LED power control
 extern uint32_t morsefreq;	// Morse tone frequency
 extern uint8_t morselevel;	// Morse audio level
 extern uint8_t morsewpm;	// Morse basic rate
@@ -194,9 +195,9 @@ extern char* sipoutgoing;	// SIP target or number for outgoing call
 #define	wifiusb	revk_settings_bits.wifiusb
 #define	haenable	revk_settings_bits.haenable
 #ifdef	CONFIG_REVK_SETTINGS_PASSWORD
-extern char* password;	// Settings password (this is not sent securely so use with care on local networks you control)
+extern char* password;	// Settings password<br>(not sent securely so use with care)
 #endif
-extern char* hostname;	// Host name - used in DHCP and MQTT (optional)
+extern char* hostname;	// Host name<br>(used in DHCP and MQTT)
 extern char* appname;	// Application name
 extern char* otahost;	// OTA hostname
 extern uint8_t otadays;	// OTA auto load (days)
