@@ -5571,7 +5571,7 @@
 		(uuid "2da6d772-7c57-453c-8c0f-46e875d3234b")
 	)
 	(no_connect
-		(at 35.56 83.82)
+		(at 66.04 53.34)
 		(uuid "31b0d9c2-4628-4ed6-8d29-9b5ad2c261d7")
 	)
 	(no_connect
@@ -5603,7 +5603,7 @@
 		(uuid "73821e3e-faf4-4442-9e2e-b181d3092647")
 	)
 	(no_connect
-		(at 35.56 81.28)
+		(at 66.04 50.8)
 		(uuid "75043f11-9bc4-4698-ac07-137a6c463394")
 	)
 	(no_connect
@@ -5611,7 +5611,7 @@
 		(uuid "79e957a5-52fc-4e9e-a108-24850a1fe126")
 	)
 	(no_connect
-		(at 66.04 66.04)
+		(at 66.04 73.66)
 		(uuid "7ac4999b-8c93-436b-853e-aa595776e5ac")
 	)
 	(no_connect
@@ -5619,7 +5619,7 @@
 		(uuid "7d5c449e-70fb-4c4b-83f2-051d308a91d6")
 	)
 	(no_connect
-		(at 35.56 78.74)
+		(at 66.04 88.9)
 		(uuid "88c63bac-e2b6-4fc7-be82-4a04f3271dbf")
 	)
 	(no_connect
@@ -5667,7 +5667,7 @@
 		(uuid "f20fe296-7d7d-4007-b738-94409e48a3e3")
 	)
 	(no_connect
-		(at 66.04 99.06)
+		(at 66.04 76.2)
 		(uuid "f5c092b5-d037-4eb2-a9cb-a5eb9a76c7d3")
 	)
 	(no_connect
@@ -7058,22 +7058,22 @@
 	)
 	(global_label "MICSCK"
 		(shape output)
-		(at 66.04 53.34 0)
+		(at 35.56 83.82 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
-			(justify left)
+			(justify right)
 		)
 		(uuid "48872986-313a-4f02-976d-4534b053f382")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 75.4467 53.34 0)
+			(at 26.1533 83.82 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(justify left)
+				(justify right)
 				(hide yes)
 			)
 		)
@@ -7102,7 +7102,7 @@
 	)
 	(global_label "SPKDATA"
 		(shape output)
-		(at 66.04 73.66 0)
+		(at 66.04 68.58 0)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -7112,7 +7112,7 @@
 		)
 		(uuid "5fe26b57-9e11-42ed-b922-055aae09bb92")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 76.5353 73.66 0)
+			(at 76.5353 68.58 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7124,7 +7124,7 @@
 	)
 	(global_label "SPKBSCK"
 		(shape output)
-		(at 66.04 71.12 0)
+		(at 66.04 66.04 0)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -7134,7 +7134,7 @@
 		)
 		(uuid "648c157c-29e2-4d25-8608-5cc5bd9a61e7")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 77.14 71.12 0)
+			(at 77.14 66.04 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7212,7 +7212,7 @@
 	)
 	(global_label "SPKPWR"
 		(shape output)
-		(at 66.04 76.2 0)
+		(at 66.04 71.12 0)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -7222,7 +7222,7 @@
 		)
 		(uuid "9546d6a1-4173-460d-8fe3-4ffd4efcc5a4")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 76.1119 76.2 0)
+			(at 76.1119 71.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7256,44 +7256,44 @@
 	)
 	(global_label "MICSD"
 		(shape input)
-		(at 66.04 50.8 0)
+		(at 35.56 81.28 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
-			(justify left)
+			(justify right)
 		)
 		(uuid "9ad4dbb7-a527-4ac3-b5a1-c115355da77e")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 74.1767 50.8 0)
+			(at 27.4233 81.28 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(justify left)
+				(justify right)
 				(hide yes)
 			)
 		)
 	)
 	(global_label "MICWS"
 		(shape output)
-		(at 66.04 88.9 0)
+		(at 35.56 78.74 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
-			(justify left)
+			(justify right)
 		)
 		(uuid "9c925212-fed7-4c54-9d2b-aac059f3affd")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 74.3581 88.9 0)
+			(at 27.2419 78.74 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(justify left)
+				(justify right)
 				(hide yes)
 			)
 		)
@@ -7432,7 +7432,7 @@
 	)
 	(global_label "SPKLRC"
 		(shape output)
-		(at 66.04 68.58 0)
+		(at 66.04 99.06 0)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -7442,7 +7442,7 @@
 		)
 		(uuid "f0605392-6eb6-4dc1-bed9-c8669e1b4e70")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 75.6886 68.58 0)
+			(at 75.6886 99.06 0)
 			(effects
 				(font
 					(size 1.27 1.27)
