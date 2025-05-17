@@ -1596,8 +1596,6 @@ app_main ()
          char c1 =
             (!usb ? sip_mode == SIP_REGISTERED ? 'C' : 'M' : charge == 0xFF ? 'Y' : charge ? 'O' : sip_mode ==
              SIP_REGISTERED ? 'C' : 'M');
-         if (usb && charge != 0xFF && tick < 5)
-            c1 = tolower (c1);
          uint32_t c2 = revk_blinker ();
          if (mic_mode == MIC_RECORD)
          {
@@ -1616,6 +1614,8 @@ app_main ()
          }
          if (!b.micokl || !b.micokr)
             c1 = 'R';
+         if (usb && charge != 0xFF && tick < 5) 
+            c1 = tolower (c1); // Charging so blink
          revk_led (led_status, 0, 255, revk_rgb (c1));
          revk_led (led_status, 1, 255, c2);
          REVK_ERR_CHECK (led_strip_refresh (led_status));
