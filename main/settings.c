@@ -60,9 +60,13 @@ revk_settings_t const revk_settings[]={
  {.type=REVK_SETTINGS_BIT,.name="wifiusb",.comment="WiFi off when not on USB power",.group=9,.len=7,.dot=4,.bit=REVK_SETTINGS_BITFIELD_wifiusb,.hide=1},
  {.type=REVK_SETTINGS_BIT,.name="haenable",.comment="Enable Home Assistant",.group=10,.len=8,.dot=2,.def="1",.bit=REVK_SETTINGS_BITFIELD_haenable,.hide=1},
 #ifdef	CONFIG_REVK_SETTINGS_PASSWORD
- {.type=REVK_SETTINGS_STRING,.name="password",.comment="Settings password (this is not sent securely so use with care on local networks you control)",.len=8,.ptr=&password,.malloc=1,.revk=1,.hide=1,.secret=1},
+ {.type=REVK_SETTINGS_STRING,.name="password",.comment="Settings password<br>(not sent securely so use with care)",.len=8,.ptr=&password,.malloc=1,.revk=1,.hide=1,.secret=1},
 #endif
- {.type=REVK_SETTINGS_STRING,.name="hostname",.comment="Host name - used in DHCP and MQTT (optional)",.len=8,.ptr=&hostname,.malloc=1,.revk=1,.hide=1},
+#ifdef  CONFIG_MDNS_MAX_INTERFACES
+ {.type=REVK_SETTINGS_STRING,.name="hostname",.comment="Hostname[.local]<br>(used in DHCP and MQTT)",.len=8,.ptr=&hostname,.malloc=1,.revk=1,.hide=1},
+#else
+ {.type=REVK_SETTINGS_STRING,.name="hostname",.comment="Host name<br>(used in DHCP and MQTT)",.len=8,.ptr=&hostname,.malloc=1,.revk=1,.hide=1},
+#endif
  {.type=REVK_SETTINGS_STRING,.name="appname",.comment="Application name",.len=7,.dq=1,.def=quote(CONFIG_REVK_APPNAME),.ptr=&appname,.malloc=1,.revk=1,.hide=1},
  {.type=REVK_SETTINGS_STRING,.name="otahost",.comment="OTA hostname",.group=11,.len=7,.dot=3,.dq=1,.def=quote(CONFIG_REVK_OTAHOST),.ptr=&otahost,.malloc=1,.revk=1,.live=1},
  {.type=REVK_SETTINGS_UNSIGNED,.name="otadays",.comment="OTA auto load (days)",.group=11,.len=7,.dot=3,.dq=1,.def=quote(CONFIG_REVK_OTADAYS),.ptr=&otadays,.size=sizeof(uint8_t),.revk=1},
@@ -115,7 +119,7 @@ revk_settings_t const revk_settings[]={
  {.type=REVK_SETTINGS_BLOB,.name="clientkey",.comment="Client Key (OTA and MQTT TLS)",.group=16,.len=9,.dot=6,.ptr=&clientkey,.malloc=1,.revk=1,.base64=1},
  {.type=REVK_SETTINGS_BLOB,.name="clientcert",.comment="Client certificate (OTA and MQTT TLS)",.group=16,.len=10,.dot=6,.ptr=&clientcert,.malloc=1,.revk=1,.base64=1},
 #if     defined(CONFIG_REVK_WIFI) || defined(CONFIG_REVK_MESH)
- {.type=REVK_SETTINGS_UNSIGNED,.name="wifireset",.comment="Restart if WiFi off for this long (seconds)",.group=9,.len=9,.dot=4,.dq=1,.def=quote(CONFIG_REVK_WIFIRESET),.ptr=&wifireset,.size=sizeof(uint16_t),.revk=1,.hide=1},
+ {.type=REVK_SETTINGS_UNSIGNED,.name="wifireset",.comment="Restart if WiFi off for this long (seconds)",.group=9,.len=9,.dot=4,.dq=1,.def=quote(CONFIG_REVK_WIFIRESET),.ptr=&wifireset,.size=sizeof(uint16_t),.revk=1},
  {.type=REVK_SETTINGS_STRING,.name="wifissid",.comment="WiFI SSID (name)",.group=9,.len=8,.dot=4,.dq=1,.def=quote(CONFIG_REVK_WIFISSID),.ptr=&wifissid,.malloc=1,.revk=1,.hide=1},
  {.type=REVK_SETTINGS_STRING,.name="wifipass",.comment="WiFi password",.group=9,.len=8,.dot=4,.dq=1,.def=quote(CONFIG_REVK_WIFIPASS),.ptr=&wifipass,.malloc=1,.revk=1,.hide=1,.secret=1},
  {.type=REVK_SETTINGS_STRING,.name="wifiip",.comment="WiFi Fixed IP",.group=9,.len=6,.dot=4,.dq=1,.def=quote(CONFIG_REVK_WIFIIP),.ptr=&wifiip,.malloc=1,.revk=1},
@@ -192,7 +196,11 @@ char* sipoutgoing=NULL;
 #ifdef	CONFIG_REVK_SETTINGS_PASSWORD
 char* password=NULL;
 #endif
+#ifdef  CONFIG_MDNS_MAX_INTERFACES
 char* hostname=NULL;
+#else
+char* hostname=NULL;
+#endif
 char* appname=NULL;
 char* otahost=NULL;
 uint8_t otadays=0;
