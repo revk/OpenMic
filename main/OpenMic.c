@@ -1518,8 +1518,11 @@ app_main ()
    uint8_t press = 255;
    uint8_t charge = 0;
    uint8_t usb = 1;
+   uint8_t tick = 0;
    while (!b.die)
    {
+      if (tick++ >= 10)
+         tick = 0;
       usleep (100000);
       uint32_t up = uptime ();
       if (b.status)
@@ -1593,6 +1596,8 @@ app_main ()
          char c1 =
             (!usb ? sip_mode == SIP_REGISTERED ? 'C' : 'M' : charge == 0xFF ? 'Y' : charge ? 'O' : sip_mode ==
              SIP_REGISTERED ? 'C' : 'M');
+         if (usb && charge != 0xFF && tick < 5)
+            c1 = tolower (c1);
          uint32_t c2 = revk_blinker ();
          if (mic_mode == MIC_RECORD)
          {
