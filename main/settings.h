@@ -195,9 +195,9 @@ extern char* sipoutgoing;	// SIP target or number for outgoing call
 #define	wifiusb	revk_settings_bits.wifiusb
 #define	haenable	revk_settings_bits.haenable
 #ifdef	CONFIG_REVK_SETTINGS_PASSWORD
-extern char* password;	// Settings password<br>(not sent securely so use with care)
+extern char* password;	// Settings password (this is not sent securely so use with care on local networks you control)
 #endif
-extern char* hostname;	// Host name<br>(used in DHCP and MQTT)
+extern char* hostname;	// Host name - used in DHCP and MQTT (optional)
 extern char* appname;	// Application name
 extern char* otahost;	// OTA hostname
 extern uint8_t otadays;	// OTA auto load (days)
