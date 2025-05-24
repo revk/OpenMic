@@ -1,6 +1,6 @@
 // Generated case design for Recorder/Recorder.kicad_pcb
 // By https://github.com/revk/PCBCase
-// Generated 2025-05-24 09:38:37
+// Generated 2025-05-24 09:27:35
 // title:	PCB-AUDIO
 // rev:	1
 // company:	Adrian Kennard, Andrews & Arnold Ltd
@@ -9,9 +9,9 @@
 // Globals
 margin=0.200000;
 lip=2.000000;
-casebottom=3.000000;
+casebottom=6.000000;
 casetop=4.000000;
-casewall=3.000000;
+casewall=6.000000;
 fit=0.000000;
 edge=2.000000;
 pcbthickness=1.200000;
@@ -19,7 +19,7 @@ nohull=false;
 hullcap=1.000000;
 hulledge=1.000000;
 useredge=false;
-spacing=69.915957;
+spacing=75.915957;
 pcbwidth=53.915957;
 pcblength=20.000000;
 originx=96.042022;
@@ -271,6 +271,10 @@ module part_U1(part=true,hole=false,block=false)
 {
 translate([-7.042022,8.000000,0.000000])rotate([0,0,90.000000])rotate([180,0,0])m16(part,hole,block,casebottom); // U2
 };
+module part_BT1(part=true,hole=false,block=false)
+{
+translate([8.957978,1.500000,0.000000])rotate([0,0,180.000000])rotate([180,0,0])m17(part,hole,block,casebottom); // BT1
+};
 // Parts to go on PCB (bottom)
 module parts_bottom(part=false,hole=false,block=false){
 part_J4(part,hole,block);
@@ -280,9 +284,10 @@ part_U2(part,hole,block);
 part_V2(part,hole,block);
 part_J3(part,hole,block);
 part_U1(part,hole,block);
+part_BT1(part,hole,block);
 }
 
-parts_bottom=3;
+parts_bottom=4;
 module b(cx,cy,z,w,l,h){translate([cx-w/2,cy-l/2,z])cube([w,l,h]);}
 module m0(part=false,hole=false,block=false,height)
 { // RevK:R_0402 R_0402_1005Metric
@@ -529,6 +534,15 @@ if(hole)
 			translate([0.75+casewall+1,0,0])cylinder(d=1,h=pcbthickness+0.02);
 		}
 }
+}
+
+module m17(part=false,hole=false,block=false,height)
+{ // BT1
+if(part)
+{
+	b(0,0,0,35,25,5);
+}
+
 }
 
 // Generate PCB casework
