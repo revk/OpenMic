@@ -46,6 +46,38 @@ For I2S output the [MAX98357A](https://www.lcsc.com/datasheet/lcsc_datasheet_210
 
 * `spkrate` sets the speaker rate, which (for the MAX98357A) can be 8kHz, 16kHz, 32kHz, 44.1kHz, 48kHz, 88.2kHz, or 96kHz.
 
+## LED
+
+Where LEDs are set up by the microphone, they are actiove for left and right, so a mono recording will only show one. The colour indicates either SD state or recording state.
+
+|Colour|Standby (i.e. not recording)|
+|------|-------|
+|Blue|Waiting SD dismount|
+|Magenta|SD not present|
+|Red|SD mount for format failed, also indicates mic not working|
+|Yellow|Mounted and ready, standby|
+|Green|Recording|
+
+|Colour|Recording mode|
+|------|--------------|
+|Red|SD mount for format failed, also indicates mic not working|
+|Cyan|SIP mode|
+|Orange|Recording initial sync beep|
+|Dim Blue|Recording (dark mode)|
+|Green|Recording|
+
+In addition a battery LED may be shown. This blinks dim/bright if battery charging.
+
+|Colour|Meaning|
+|------|-------|
+|Red|One or both mics seem to not be working|
+|Cyan|SIP registered|
+|Magenta|SIP not registered|
+|Yellow|USB connected... TODO|
+|Orange|USB connected... TODO|
+
+A general status LED normally cycles colours, but shows Green when on a SIP call, or Red if setting up a SIP call or alerting. Otehr colours relate to the RevK library, such as green on power up, and magenta/white when s/w upgrade.
+
 ## Input processing
 
 The input from the I2S microphones can be mono or stereo, and can be 16 or 24 bits. If a PDM microphone is used it is always 16 bits. If the ICS-43434 microphone is used it is received as 24 bits which can either be passed on unprocessed, or converted to 16 bits.
