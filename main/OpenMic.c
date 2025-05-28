@@ -940,7 +940,7 @@ mic_task (void *arg)
       {
          micfreq = micrate;
          micchannels = (micstereo ? 2 : 1);
-         micbytes = 2;
+         micbytes = (micws.set && !micgain ? 3 : 2);
          micsamples = micfreq * MICMS / 1000;
          led (micbeep ? 'O' : dark ? 'b' : 'G');
          if (wifirecord && !b.miconha)
@@ -1614,8 +1614,8 @@ app_main ()
          }
          if (!b.micokl || !b.micokr)
             c1 = 'R';
-         if (usb && charge != 0xFF && tick < 5) 
-            c1 = tolower (c1); // Charging so blink
+         if (usb && charge != 0xFF && tick < 5)
+            c1 = tolower (c1);  // Charging so blink
          revk_led (led_status, 0, 255, revk_rgb (c1));
          revk_led (led_status, 1, 255, c2);
          REVK_ERR_CHECK (led_strip_refresh (led_status));
