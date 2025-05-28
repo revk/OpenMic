@@ -73,8 +73,7 @@ In addition a battery LED may be shown. This blinks dim/bright if battery chargi
 |Red|One or both mics seem to not be working|
 |Cyan|SIP registered|
 |Magenta|SIP not registered|
-|Yellow|USB connected... TODO|
-|Orange|USB connected... TODO|
+|Yellow or Orange|USB connected, charged|
 
 A general status LED normally cycles colours, but shows Green when on a SIP call, or Red if setting up a SIP call or alerting. Otehr colours relate to the RevK library, such as green on power up, and magenta/white when s/w upgrade.
 
