@@ -125,11 +125,11 @@ ir_task (void *arg)
             }
 #endif
 #endif
-            raw[bit / 8] = (raw[bit / 8] << 1) | (ir_rx_symbols[i].duration0 >= 1000 ? 1 : 0);
+            raw[bit / 8] = (raw[bit / 8] << 1) | (ir_rx_symbols[i].duration0 >= 800 ? 1 : 0);
             bit++;
             if (ir_rx_symbols[i].duration1 || i + 1 < ir_rx_data.num_symbols)
             {
-               raw[bit / 8] = (raw[bit / 8] << 1) | (ir_rx_symbols[i].duration1 >= 1000 ? 1 : 0);
+               raw[bit / 8] = (raw[bit / 8] << 1) | (ir_rx_symbols[i].duration1 >= 800 ? 1 : 0);
                bit++;
             }
             i++;
