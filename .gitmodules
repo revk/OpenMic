@@ -11,3 +11,6 @@
 [submodule "components/ESP32-SIP"]
 	path = components/ESP32-SIP
 	url = https://github.com/revk/ESP32-SIP.git
+[submodule "components/ESP32-IR"]
+	path = components/ESP32-IR
+	url = https://github.com/revk/ESP32-IR

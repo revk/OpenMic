@@ -13,7 +13,6 @@ static const char TAG[] = "OpenMic";
 #include <driver/i2s_std.h>
 #include <driver/i2s_pdm.h>
 #include <driver/rtc_io.h>
-#include <driver/rmt_rx.h>
 #include <driver/sdmmc_host.h>
 #include "esp_http_client.h"
 #include <esp_http_server.h>
@@ -23,7 +22,8 @@ static const char TAG[] = "OpenMic";
 #include "esp_vfs_fat.h"
 #include <sys/dirent.h>
 #include <sip.h>
-#include "halib.h"
+#include <halib.h>
+#include <ir.h>
 
 typedef int16_t audio_t;
 #define	audio_max	32767
@@ -662,9 +662,6 @@ sd_task (void *arg)
    }
    vTaskDelete (NULL);
 }
-
-#define	IR_GPIO	ir
-#include "irtask.c"
 
 static void
 ir_callback (uint8_t coding, uint16_t lead0, uint16_t lead1, uint8_t len, uint8_t * data)
@@ -1478,8 +1475,8 @@ app_main ()
       revk_task ("mic", mic_task, NULL, 8);
    if (sdcmd.set && sddat0.set && sdclk.set)
       revk_task ("sd", sd_task, NULL, 16);
-   if (ir.set)
-      revk_task ("ir", ir_task, ir_callback, 10);
+   if (irgpio.set)
+      ir_start (irgpio, ir_callback);
    if (*siphost)
       sip_register (siphost, sipuser, sippass, sip_callback, sipdebug ? sip_debug : NULL);
    // Buttons and LEDs

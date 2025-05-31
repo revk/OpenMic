@@ -179,7 +179,7 @@ extern uint32_t autooff;	// Auto power off if idle
 extern revk_gpio_t button;	// Button
 extern revk_gpio_t charging;	// Charging status
 extern revk_gpio_t vbus;	// USB power status
-extern revk_gpio_t ir;	// IR receiver
+extern revk_gpio_t irgpio;	// IR receiver
 extern revk_gpio_t rgbstatus;	// Status LED
 extern revk_gpio_t rgbled;	// Mic/record LED
 extern revk_gpio_t rgbpwr;	// LED power control
@@ -328,7 +328,7 @@ enum {
 #define REVK_SETTINGS_BUTTON
 #define REVK_SETTINGS_CHARGING
 #define REVK_SETTINGS_VBUS
-#define REVK_SETTINGS_IR
+#define REVK_SETTINGS_IRGPIO
 #define REVK_SETTINGS_RGBSTATUS
 #define REVK_SETTINGS_RGBLED
 #define REVK_SETTINGS_RGBPWR

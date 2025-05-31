@@ -31,7 +31,7 @@ bit	auto.usb					// Auto off only if USB disconnected
 gpio	button		-16		// Button
 gpio	charging			// Charging status
 gpio	vbus				// USB power status
-gpio	ir				// IR receiver
+gpio	ir.gpio				// IR receiver
 
 gpio	rgb.status	39		// Status LED
 gpio	rgb.led		8	.old="ledrecord"	// Mic/record LED
