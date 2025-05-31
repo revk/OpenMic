@@ -1,6 +1,7 @@
 // Settings
 // Generated from:-
 // main/settings.def
+// components/ESP32-IR/settings.def
 // components/ESP32-RevK/settings.def
 
 #include <stdint.h>
@@ -63,6 +64,8 @@ enum {
  REVK_SETTINGS_BITFIELD_wifirecord,
  REVK_SETTINGS_BITFIELD_wifiusb,
  REVK_SETTINGS_BITFIELD_haenable,
+ REVK_SETTINGS_BITFIELD_irlog,
+ REVK_SETTINGS_BITFIELD_irdebug,
 #ifdef	CONFIG_REVK_SETTINGS_PASSWORD
 #endif
 #ifdef  CONFIG_MDNS_MAX_INTERFACES
@@ -113,6 +116,8 @@ struct revk_settings_bits_s {
  uint8_t wifirecord:1;	// WiFi off during recording (unless started via HA)
  uint8_t wifiusb:1;	// WiFi off when not on USB power
  uint8_t haenable:1;	// Enable Home Assistant
+ uint8_t irlog:1;	// IR logging to MQTT
+ uint8_t irdebug:1;	// IT logging includes timings
 #ifdef	CONFIG_REVK_SETTINGS_PASSWORD
 #endif
 #ifdef  CONFIG_MDNS_MAX_INTERFACES
@@ -200,6 +205,8 @@ extern char* sipoutgoing;	// SIP target or number for outgoing call
 #define	wifirecord	revk_settings_bits.wifirecord
 #define	wifiusb	revk_settings_bits.wifiusb
 #define	haenable	revk_settings_bits.haenable
+#define	irlog	revk_settings_bits.irlog
+#define	irdebug	revk_settings_bits.irdebug
 #ifdef	CONFIG_REVK_SETTINGS_PASSWORD
 extern char* password;	// Settings password<br>(not sent securely so use with care)
 #endif
@@ -349,6 +356,8 @@ enum {
 #define REVK_SETTINGS_WIFIRECORD
 #define REVK_SETTINGS_WIFIUSB
 #define REVK_SETTINGS_HAENABLE
+#define REVK_SETTINGS_IRLOG
+#define REVK_SETTINGS_IRDEBUG
 #ifdef	CONFIG_REVK_SETTINGS_PASSWORD
 #define REVK_SETTINGS_PASSWORD
 #endif

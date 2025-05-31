@@ -37,7 +37,7 @@ image:
 
 set:	n8 s3
 
-main/settings.h:     components/ESP32-RevK/revk_settings main/settings.def components/ESP32-RevK/settings.def
+main/settings.h:     components/ESP32-RevK/revk_settings main/settings.def components/*/settings.def
 	components/ESP32-RevK/revk_settings $^
 
 components/ESP32-RevK/revk_settings: components/ESP32-RevK/revk_settings.c

@@ -1,6 +1,7 @@
 // Settings
 // Generated from:-
 // main/settings.def
+// components/ESP32-IR/settings.def
 // components/ESP32-RevK/settings.def
 
 #include <stdint.h>
@@ -59,6 +60,8 @@ revk_settings_t const revk_settings[]={
  {.type=REVK_SETTINGS_BIT,.name="wifirecord",.comment="WiFi off during recording (unless started via HA)",.group=10,.len=10,.dot=4,.def="1",.bit=REVK_SETTINGS_BITFIELD_wifirecord,.hide=1},
  {.type=REVK_SETTINGS_BIT,.name="wifiusb",.comment="WiFi off when not on USB power",.group=10,.len=7,.dot=4,.bit=REVK_SETTINGS_BITFIELD_wifiusb,.hide=1},
  {.type=REVK_SETTINGS_BIT,.name="haenable",.comment="Enable Home Assistant",.group=11,.len=8,.dot=2,.def="1",.bit=REVK_SETTINGS_BITFIELD_haenable,.hide=1},
+ {.type=REVK_SETTINGS_BIT,.name="irlog",.comment="IR logging to MQTT",.group=5,.len=5,.dot=2,.bit=REVK_SETTINGS_BITFIELD_irlog,.live=1},
+ {.type=REVK_SETTINGS_BIT,.name="irdebug",.comment="IT logging includes timings",.group=5,.len=7,.dot=2,.bit=REVK_SETTINGS_BITFIELD_irdebug,.live=1},
 #ifdef	CONFIG_REVK_SETTINGS_PASSWORD
  {.type=REVK_SETTINGS_STRING,.name="password",.comment="Settings password<br>(not sent securely so use with care)",.len=8,.ptr=&password,.malloc=1,.revk=1,.hide=1,.secret=1},
 #endif
