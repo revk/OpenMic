@@ -6317,6 +6317,47 @@
 			(embedded_fonts no)
 		)
 	)
+	(text "CHRG\nNormal: on\nFull: off\nReverse: off\nNo battery: Twinkle"
+		(exclude_from_sim no)
+		(at 148.59 144.272 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "0b4c49d5-34d8-4813-8627-a416d1d39e01")
+	)
+	(text "R"
+		(exclude_from_sim no)
+		(at 219.71 92.964 0)
+		(effects
+			(font
+				(size 5.08 5.08)
+			)
+		)
+		(uuid "381926dd-5660-4fed-9912-17e6e98fd7e9")
+	)
+	(text "5k1 is approx 200mA charge"
+		(exclude_from_sim no)
+		(at 147.574 152.4 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		(uuid "455c39f2-9357-41aa-b2d3-8348583b7e7d")
+	)
+	(text "L"
+		(exclude_from_sim no)
+		(at 220.218 61.976 0)
+		(effects
+			(font
+				(size 5.08 5.08)
+			)
+		)
+		(uuid "9afaf576-8a61-4c24-b41e-b37445b15a1f")
+	)
 	(junction
 		(at 271.145 49.53)
 		(diameter 0)
@@ -6690,6 +6731,10 @@
 	(no_connect
 		(at 35.56 58.42)
 		(uuid "db85827b-2cc3-4c66-b5d6-6c93beca3767")
+	)
+	(no_connect
+		(at 35.56 73.66)
+		(uuid "dd26c2ee-cddc-4654-8b93-5095049d69f8")
 	)
 	(no_connect
 		(at 66.04 76.2)
@@ -7797,26 +7842,6 @@
 			)
 		)
 	)
-	(global_label "ADCL"
-		(shape bidirectional)
-		(at 114.3 178.435 270)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right)
-		)
-		(uuid "0e982750-af5c-4a32-9e7e-a765d23b87d9")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 114.3 178.435 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-	)
 	(global_label "BTN"
 		(shape output)
 		(at 50.165 155.575 90)
@@ -8171,7 +8196,7 @@
 	)
 	(global_label "ADC"
 		(shape input)
-		(at 35.56 73.66 180)
+		(at 35.56 76.2 180)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -8180,7 +8205,7 @@
 		)
 		(uuid "5498ee0a-8bc4-4891-b5cd-ed5ac272fa1e")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 35.56 73.66 0)
+			(at 35.56 76.2 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8739,26 +8764,6 @@
 			)
 		)
 	)
-	(global_label "ADCL"
-		(shape bidirectional)
-		(at 35.56 76.2 180)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right)
-		)
-		(uuid "bd9a0c9b-525a-4bca-b8f0-ab27b7c6bfb0")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 35.56 76.2 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-	)
 	(global_label "SDDAT2"
 		(shape bidirectional)
 		(at 35.56 78.74 180)
@@ -9029,6 +9034,15 @@
 				(hide yes)
 			)
 		)
+		(property "MPN" "C274341"
+			(at 269.24 120.015 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "3e8eb95e-0784-4fc1-8a23-dbc4b3b01d3b")
 		)
@@ -9219,6 +9233,15 @@
 		)
 		(property "Description" "Resistor"
 			(at 269.24 122.555 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MPN" "C274341"
+			(at 269.24 122.555 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9504,6 +9527,15 @@
 		)
 		(property "Description" "Resistor"
 			(at 114.3 66.675 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MPN" "C106225"
+			(at 114.3 66.675 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9802,6 +9834,15 @@
 		)
 		(property "Description" "Resistor"
 			(at 121.92 66.675 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MPN" "C106225"
+			(at 121.92 66.675 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10337,7 +10378,6 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(fields_autoplaced yes)
 		(uuid "1b08969a-efbb-45e7-8438-630d3f18aa0d")
 		(property "Reference" "U5"
 			(at 205.232 53.975 0)
@@ -10349,14 +10389,13 @@
 				(hide yes)
 			)
 		)
-		(property "Value" "L"
-			(at 218.186 53.975 0)
+		(property "Value" "ICS-43434"
+			(at 218.694 51.054 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 				(justify left)
-				(hide yes)
 			)
 		)
 		(property "Footprint" "RevK:ICS43434_MEMS_Mic_Open"
@@ -10740,6 +10779,15 @@
 				(hide yes)
 			)
 		)
+		(property "Rotation Offset" "90"
+			(at 204.47 128.905 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "7735d771-b28f-4d57-a50b-3a488582e89e")
 		)
@@ -10950,6 +10998,15 @@
 				(hide yes)
 			)
 		)
+		(property "MPN" "C106225"
+			(at 133.35 66.675 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "3d063a03-d4ab-427b-a20e-770b76d0a0eb")
 		)
@@ -11010,6 +11067,15 @@
 		)
 		(property "Description" "Resistor"
 			(at 125.73 66.675 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MPN" "C106225"
+			(at 125.73 66.675 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12733,6 +12799,15 @@
 				(hide yes)
 			)
 		)
+		(property "Rotation Offset" "180"
+			(at 77.47 133.35 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "381346c3-6585-4fb7-94af-685ac84c4a03")
 		)
@@ -12799,6 +12874,15 @@
 		)
 		(property "Description" "Resistor"
 			(at 129.54 66.675 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MPN" "C106225"
+			(at 129.54 66.675 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13228,6 +13312,15 @@
 				(hide yes)
 			)
 		)
+		(property "MPN" "C106225"
+			(at 137.16 66.675 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "b75750c0-d573-4f24-9be1-1fad789aa27c")
 		)
@@ -13447,7 +13540,7 @@
 				)
 			)
 		)
-		(property "Footprint" "RevK:R_0402"
+		(property "Footprint" "RevK:R_0201"
 			(at 112.522 174.625 90)
 			(effects
 				(font
@@ -13474,7 +13567,7 @@
 				(hide yes)
 			)
 		)
-		(property "MPN" "C5139597"
+		(property "MPN" "C717003"
 			(at 114.3 174.625 90)
 			(effects
 				(font
@@ -13654,7 +13747,7 @@
 				)
 			)
 		)
-		(property "Footprint" "RevK:R_0402"
+		(property "Footprint" "RevK:R_0201"
 			(at 112.522 159.385 90)
 			(effects
 				(font
@@ -13681,7 +13774,7 @@
 				(hide yes)
 			)
 		)
-		(property "MPN" "C5139597"
+		(property "MPN" "C717003"
 			(at 114.3 159.385 90)
 			(effects
 				(font
@@ -14189,7 +14282,6 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(fields_autoplaced yes)
 		(uuid "9c833f15-c95f-4f06-8707-2b9c84855cf4")
 		(property "Reference" "U6"
 			(at 205.232 85.09 0)
@@ -14201,14 +14293,13 @@
 				(hide yes)
 			)
 		)
-		(property "Value" "R"
-			(at 218.186 85.09 0)
+		(property "Value" "ICS-43434"
+			(at 218.694 82.296 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 				(justify left)
-				(hide yes)
 			)
 		)
 		(property "Footprint" "RevK:ICS43434_MEMS_Mic_Open"
@@ -14418,6 +14509,15 @@
 		)
 		(property "Description" "Resistor"
 			(at 118.11 66.675 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MPN" "C106225"
+			(at 118.11 66.675 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -14735,7 +14835,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "RevK:C_0402"
+		(property "Footprint" "RevK:C_0201"
 			(at 238.4298 88.265 0)
 			(effects
 				(font
@@ -15160,6 +15260,15 @@
 		)
 		(property "Description" "Resistor"
 			(at 80.01 100.965 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MPN" "C106225"
+			(at 80.01 100.965 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -15595,6 +15704,15 @@
 				(hide yes)
 			)
 		)
+		(property "MPN" "C106225"
+			(at 77.47 90.805 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "68fbb9f7-b5e9-4365-a47b-af6f97c4ee99")
 		)
@@ -15637,7 +15755,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "RevK:C_0402"
+		(property "Footprint" "RevK:C_0201"
 			(at 238.4298 57.15 0)
 			(effects
 				(font
@@ -16003,7 +16121,7 @@
 				)
 			)
 		)
-		(property "Footprint" "RevK:R_0402"
+		(property "Footprint" "RevK:R_0201"
 			(at 112.522 167.005 90)
 			(effects
 				(font
@@ -16030,7 +16148,7 @@
 				(hide yes)
 			)
 		)
-		(property "MPN" "C5139597"
+		(property "MPN" "C717003"
 			(at 114.3 167.005 90)
 			(effects
 				(font
@@ -16200,7 +16318,7 @@
 				)
 			)
 		)
-		(property "Value" "10K"
+		(property "Value" "5K1"
 			(at 130.175 138.43 90)
 			(effects
 				(font
@@ -16208,7 +16326,7 @@
 				)
 			)
 		)
-		(property "Footprint" "RevK:R_0402"
+		(property "Footprint" "RevK:R_0201"
 			(at 131.953 138.43 90)
 			(effects
 				(font
@@ -16228,6 +16346,15 @@
 		)
 		(property "Description" "Resistor"
 			(at 130.175 138.43 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MPN" "C274341"
+			(at 130.175 138.43 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -16340,7 +16467,7 @@
 				)
 			)
 		)
-		(property "Footprint" "RevK:R_0402"
+		(property "Footprint" "RevK:R_0201"
 			(at 179.197 137.795 90)
 			(effects
 				(font
@@ -16359,6 +16486,15 @@
 			)
 		)
 		(property "Description" "Resistor"
+			(at 180.975 137.795 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MPN" "C106225"
 			(at 180.975 137.795 0)
 			(effects
 				(font
@@ -16582,6 +16718,71 @@
 			(project "LED"
 				(path "/46c350bb-7de4-4e81-aafd-4af55e37aab0"
 					(reference "C2")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:GND")
+		(at 114.3 178.435 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "f8cf0ce4-001d-451f-b1d0-04f9e8005d98")
+		(property "Reference" "#PWR031"
+			(at 114.3 184.785 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "GND"
+			(at 114.3 182.245 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 114.3 178.435 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 114.3 178.435 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 114.3 178.435 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "86ed7ffc-ebce-4356-b9d7-30c989eac33a")
+		)
+		(instances
+			(project "Recorder"
+				(path "/46c350bb-7de4-4e81-aafd-4af55e37aab0"
+					(reference "#PWR031")
 					(unit 1)
 				)
 			)
