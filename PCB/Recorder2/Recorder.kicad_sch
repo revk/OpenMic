@@ -13054,7 +13054,7 @@
 				)
 			)
 		)
-		(property "Value" "~"
+		(property "Value" "TPS22916CNYFPR"
 			(at 67.818 143.2949 0)
 			(effects
 				(font
