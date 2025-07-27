@@ -6729,7 +6729,7 @@
 		(uuid "d34eb50a-223a-44aa-88cc-2616cdedfadc")
 	)
 	(no_connect
-		(at 35.56 58.42)
+		(at 66.04 68.58)
 		(uuid "db85827b-2cc3-4c66-b5d6-6c93beca3767")
 	)
 	(no_connect
@@ -6757,7 +6757,7 @@
 		(uuid "fc0e5312-e43f-4cb5-be04-1b7075b1d244")
 	)
 	(no_connect
-		(at 35.56 68.58)
+		(at 66.04 101.6)
 		(uuid "fef7d556-f6db-49df-a84e-9a7173f7cfac")
 	)
 	(wire
@@ -6789,16 +6789,6 @@
 			(type default)
 		)
 		(uuid "0abe2032-adc6-423d-925c-239f4e0cd6ed")
-	)
-	(wire
-		(pts
-			(xy 73.66 90.805) (xy 70.485 90.805)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "0d183d35-57c3-4715-a58b-6306b5d6e96c")
 	)
 	(wire
 		(pts
@@ -6919,16 +6909,6 @@
 			(type default)
 		)
 		(uuid "2c1d2d87-01b2-4573-9052-f09816a71151")
-	)
-	(wire
-		(pts
-			(xy 70.485 90.805) (xy 70.485 101.6)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "2c8dc734-ff4f-410f-8256-faee8b2cab17")
 	)
 	(wire
 		(pts
@@ -7062,6 +7042,16 @@
 	)
 	(wire
 		(pts
+			(xy 27.305 68.58) (xy 35.56 68.58)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "4d19241d-4c77-4df8-b365-cab15d4ccced")
+	)
+	(wire
+		(pts
 			(xy 239.395 52.705) (xy 239.395 57.15)
 		)
 		(stroke
@@ -7129,16 +7119,6 @@
 			(type default)
 		)
 		(uuid "632d4e35-3e28-430d-ae56-e418da47a4d5")
-	)
-	(wire
-		(pts
-			(xy 70.485 101.6) (xy 66.04 101.6)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "681268b1-80fd-4b1a-b48f-503808b79e1d")
 	)
 	(wire
 		(pts
@@ -8282,22 +8262,22 @@
 	)
 	(global_label "VBUS"
 		(shape input)
-		(at 81.28 90.805 0)
+		(at 19.685 68.58 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
-			(justify left)
+			(justify right)
 		)
 		(uuid "6c96c6d6-e1fd-45a0-b668-73a3fd1244fd")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 88.5096 90.805 0)
+			(at 12.4554 68.58 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(justify left)
+				(justify right)
 				(hide yes)
 			)
 		)
@@ -8700,22 +8680,22 @@
 	)
 	(global_label "BLINK"
 		(shape output)
-		(at 66.04 68.58 0)
+		(at 35.56 58.42 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
-			(justify left)
+			(justify right)
 		)
 		(uuid "b2fcf4ab-1e4a-4a29-9a3f-b95f7bc1fefb")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 73.8744 68.58 0)
+			(at 27.7256 58.42 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(justify left)
+				(justify right)
 				(hide yes)
 			)
 		)
@@ -15654,7 +15634,7 @@
 	)
 	(symbol
 		(lib_id "Device:R")
-		(at 77.47 90.805 90)
+		(at 23.495 68.58 270)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -15662,7 +15642,7 @@
 		(dnp no)
 		(uuid "c58cc2c9-8e47-48a1-838b-09ea5f602db4")
 		(property "Reference" "R1"
-			(at 77.47 88.9 90)
+			(at 23.495 70.485 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -15670,7 +15650,7 @@
 			)
 		)
 		(property "Value" "10K"
-			(at 77.47 90.805 90)
+			(at 23.495 68.58 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -15678,7 +15658,7 @@
 			)
 		)
 		(property "Footprint" "RevK:R_0201"
-			(at 77.47 92.583 90)
+			(at 23.495 66.802 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -15687,7 +15667,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 77.47 90.805 0)
+			(at 23.495 68.58 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -15696,7 +15676,7 @@
 			)
 		)
 		(property "Description" "Resistor"
-			(at 77.47 90.805 0)
+			(at 23.495 68.58 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -15705,7 +15685,7 @@
 			)
 		)
 		(property "MPN" "C106225"
-			(at 77.47 90.805 90)
+			(at 23.495 68.58 90)
 			(effects
 				(font
 					(size 1.27 1.27)
