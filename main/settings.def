@@ -33,8 +33,8 @@ gpio	charging	1		// Charging status
 gpio	vbus		48		// USB power status
 gpio	ir.gpio				// IR receiver
 
-gpio	rgb.status	39		// Status LED
-gpio	rgb.led		8	.old="ledrecord"	// Mic/record LED
+gpio	rgb.status	34		// Status LED
+gpio	rgb.led		9	.old="ledrecord"	// Mic/record LED
 gpio	rgb.pwr				// LED power control
 
 u32	morse.freq	600	.unit="Hz",.live=1		// Morse tone frequency
