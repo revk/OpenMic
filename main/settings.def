@@ -8,8 +8,8 @@ gpio	mic.clock	5		// Microphone Clock / SCK
 gpio	mic.ws		6		// Microphone WS (not set for PDM)
 u32	mic.rate	44100 .unit="Hz",.live=1	// Microphone Input rate (when not SIP)
 u8	mic.gain	8	.live=1		// Microphone Multiply input (set 0 for 24 bit raw)
-bit	mic.stereo	0	.live=1		// Microphone Stereo
-bit	mic.right	1	.live=1		// Microphone use right channel
+bit	mic.stereo	1	.live=1		// Microphone Stereo
+bit	mic.right	0	.live=1		// Microphone use right channel
 bit	mic.beep		.live=1		// Add sync beep and red LED on start of recording
 
 gpio	sd.dat2		12		// MicroSD DAT2
