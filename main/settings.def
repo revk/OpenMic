@@ -31,6 +31,8 @@ bit	auto.usb					// Auto off only if USB disconnected
 gpio	button		-3		// Button
 gpio	charging	1		// Charging status
 gpio	vbus		48		// USB power status
+gpio	adc		10		// ADC
+gpio	adce		-11		// ADC enabled
 gpio	ir.gpio				// IR receiver
 
 gpio	rgb.status	34		// Status LED

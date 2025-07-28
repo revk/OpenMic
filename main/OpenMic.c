@@ -1608,6 +1608,48 @@ app_main ()
       REVK_ERR_CHECK (led_strip_refresh (led_status));
    }
    revk_pre_shutdown ();
+   if (btn.set)
+   {
+      ESP_LOGE (TAG, "Wait release");
+      while (revk_gpio_get (btn))
+         usleep (100000);       // release
+   }
+   if (vbus.set && revk_gpio_get (vbus))
+   {
+      ESP_LOGE (TAG, "Wait USB");
+      while (revk_gpio_get (vbus))
+      {
+         if (revk_gpio_get (btn))
+            esp_restart ();
+         usleep (10000);
+      }
+   }
+   ESP_LOGE (TAG, "Shutdown");
+   // Shutdown
+   sleep (1);                   // Allow tasks to end
+#if     CONFIG_REVK_GPIO_POWER >= 0
+   if (btn.set && btn.pulldown && !btn.invert)
+   {
+      ESP_LOGE (TAG, "Power off GPIO %d", btn.num);
+      gpio_set_level (btn.num, 0);
+      gpio_set_direction (btn.num, GPIO_MODE_OUTPUT_OD);
+      gpio_hold_en (btn.num);
+   }
+   ESP_LOGE (TAG, "Power off GPIO %d", CONFIG_REVK_GPIO_POWER);
+   gpio_set_direction (CONFIG_REVK_GPIO_POWER, GPIO_MODE_OUTPUT_OD);
+   gpio_set_level (CONFIG_REVK_GPIO_POWER, 0);
+   gpio_hold_en (CONFIG_REVK_GPIO_POWER);
+   sleep (1);
+   // Should be off now - if not, undo so we can deep sleep
+   gpio_hold_dis (CONFIG_REVK_GPIO_POWER);
+   if (btn.set && btn.pulldown && !btn.invert)
+   {
+      gpio_hold_dis (btn.num);
+      revk_gpio_input (btn);
+   }
+#endif
+   ESP_LOGE (TAG, "Sleep");
+
    // Alarm
    if (rtc_gpio_is_valid_gpio (button.num))
    {                            // Deep sleep
