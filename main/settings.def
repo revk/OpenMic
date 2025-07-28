@@ -1,24 +1,24 @@
-gpio	spk.pwr		37		// Speaker power on
-gpio	spk.lrc		34		// Speaker LR clock
-gpio	spk.bclk	35		// Speaker Bit clock
-gpio	spk.data	36		// Speaker Data
+gpio	spk.pwr				// Speaker power on
+gpio	spk.lrc				// Speaker LR clock
+gpio	spk.bclk			// Speaker Bit clock
+gpio	spk.data			// Speaker Data
 
-gpio	mic.data	43		// Microphone Data / SD
-gpio	mic.clock	44		// Microphone Clock / SCK
-gpio	mic.ws		42		// Microphone WS (not set for PDM)
+gpio	mic.data	7		// Microphone Data / SD
+gpio	mic.clock	5		// Microphone Clock / SCK
+gpio	mic.ws		6		// Microphone WS (not set for PDM)
 u32	mic.rate	44100 .unit="Hz",.live=1	// Microphone Input rate (when not SIP)
 u8	mic.gain	8	.live=1		// Microphone Multiply input (set 0 for 24 bit raw)
 bit	mic.stereo	0	.live=1		// Microphone Stereo
 bit	mic.right	1	.live=1		// Microphone use right channel
 bit	mic.beep		.live=1		// Add sync beep and red LED on start of recording
 
-gpio	sd.dat2				// MicroSD DAT2
-gpio	sd.dat3		 .old="sdss"	// MicroSD DAT3
-gpio	sd.cmd		 .old="sdmosi"	// MicroSD CMD
-gpio	sd.clk		 .old="sdsck"	// MicroSD CLK
-gpio	sd.dat0		 .old="sdmiso"	// MicroSD DAT0
-gpio	sd.dat1				// MicroSD DAT1
-gpio	sd.cd				// MicroSD CD
+gpio	sd.dat2		12		// MicroSD DAT2
+gpio	sd.dat3		13 .old="sdss"	// MicroSD DAT3
+gpio	sd.cmd		14 .old="sdmosi"	// MicroSD CMD
+gpio	sd.clk		15 .old="sdsck"	// MicroSD CLK
+gpio	sd.dat0		16 .old="sdmiso"	// MicroSD DAT0
+gpio	sd.dat1		17		// MicroSD DAT1
+gpio	sd.cd		-18		// MicroSD CD
 
 u32	sd.rectime	3600	.unit="s"	// Max record time per whole file
 u32	sd.synctime	60	.unit="s"	// Max record time per file sync
@@ -28,9 +28,9 @@ bit	sd.delete	1	.live=1	// Auto delete old files if space needed for new file
 u32	auto.off	900	.unit="s",.live=1	// Auto power off if idle
 bit	auto.usb					// Auto off only if USB disconnected
 
-gpio	button		-16		// Button
-gpio	charging			// Charging status
-gpio	vbus				// USB power status
+gpio	button		-3		// Button
+gpio	charging	1		// Charging status
+gpio	vbus		48		// USB power status
 gpio	ir.gpio				// IR receiver
 
 gpio	rgb.status	39		// Status LED
