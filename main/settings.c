@@ -1,7 +1,6 @@
 // Settings
 // Generated from:-
 // main/settings.def
-// components/ESP32-IR/settings.def
 // components/ESP32-RevK/settings.def
 
 #include <stdint.h>
@@ -11,37 +10,37 @@ revk_settings_bits_t revk_settings_bits={0};
 #define	str(s)	#s
 #define	quote(s)	str(s)
 revk_settings_t const revk_settings[]={
- {.type=REVK_SETTINGS_UNSIGNED,.gpio=1,.name="spkpwr",.comment="Speaker power on",.group=1,.len=6,.dot=3,.def="37",.ptr=&spkpwr,.size=sizeof(revk_gpio_t),.fix=1,.set=1,.flags="- ~↓↕⇕"},
- {.type=REVK_SETTINGS_UNSIGNED,.gpio=1,.name="spklrc",.comment="Speaker LR clock",.group=1,.len=6,.dot=3,.def="34",.ptr=&spklrc,.size=sizeof(revk_gpio_t),.fix=1,.set=1,.flags="- ~↓↕⇕"},
- {.type=REVK_SETTINGS_UNSIGNED,.gpio=1,.name="spkbclk",.comment="Speaker Bit clock",.group=1,.len=7,.dot=3,.def="35",.ptr=&spkbclk,.size=sizeof(revk_gpio_t),.fix=1,.set=1,.flags="- ~↓↕⇕"},
- {.type=REVK_SETTINGS_UNSIGNED,.gpio=1,.name="spkdata",.comment="Speaker Data",.group=1,.len=7,.dot=3,.def="36",.ptr=&spkdata,.size=sizeof(revk_gpio_t),.fix=1,.set=1,.flags="- ~↓↕⇕"},
- {.type=REVK_SETTINGS_UNSIGNED,.gpio=1,.name="micdata",.comment="Microphone Data / SD",.group=2,.len=7,.dot=3,.def="43",.ptr=&micdata,.size=sizeof(revk_gpio_t),.fix=1,.set=1,.flags="- ~↓↕⇕"},
- {.type=REVK_SETTINGS_UNSIGNED,.gpio=1,.name="micclock",.comment="Microphone Clock / SCK",.group=2,.len=8,.dot=3,.def="44",.ptr=&micclock,.size=sizeof(revk_gpio_t),.fix=1,.set=1,.flags="- ~↓↕⇕"},
- {.type=REVK_SETTINGS_UNSIGNED,.gpio=1,.name="micws",.comment="Microphone WS (not set for PDM)",.group=2,.len=5,.dot=3,.def="42",.ptr=&micws,.size=sizeof(revk_gpio_t),.fix=1,.set=1,.flags="- ~↓↕⇕"},
+ {.type=REVK_SETTINGS_UNSIGNED,.gpio=1,.name="spkpwr",.comment="Speaker power on",.group=1,.len=6,.dot=3,.ptr=&spkpwr,.size=sizeof(revk_gpio_t),.fix=1,.set=1,.flags="- ~↓↕⇕"},
+ {.type=REVK_SETTINGS_UNSIGNED,.gpio=1,.name="spklrc",.comment="Speaker LR clock",.group=1,.len=6,.dot=3,.ptr=&spklrc,.size=sizeof(revk_gpio_t),.fix=1,.set=1,.flags="- ~↓↕⇕"},
+ {.type=REVK_SETTINGS_UNSIGNED,.gpio=1,.name="spkbclk",.comment="Speaker Bit clock",.group=1,.len=7,.dot=3,.ptr=&spkbclk,.size=sizeof(revk_gpio_t),.fix=1,.set=1,.flags="- ~↓↕⇕"},
+ {.type=REVK_SETTINGS_UNSIGNED,.gpio=1,.name="spkdata",.comment="Speaker Data",.group=1,.len=7,.dot=3,.ptr=&spkdata,.size=sizeof(revk_gpio_t),.fix=1,.set=1,.flags="- ~↓↕⇕"},
+ {.type=REVK_SETTINGS_UNSIGNED,.gpio=1,.name="micdata",.comment="Microphone Data / SD",.group=2,.len=7,.dot=3,.def="7",.ptr=&micdata,.size=sizeof(revk_gpio_t),.fix=1,.set=1,.flags="- ~↓↕⇕"},
+ {.type=REVK_SETTINGS_UNSIGNED,.gpio=1,.name="micclock",.comment="Microphone Clock / SCK",.group=2,.len=8,.dot=3,.def="5",.ptr=&micclock,.size=sizeof(revk_gpio_t),.fix=1,.set=1,.flags="- ~↓↕⇕"},
+ {.type=REVK_SETTINGS_UNSIGNED,.gpio=1,.name="micws",.comment="Microphone WS (not set for PDM)",.group=2,.len=5,.dot=3,.def="6",.ptr=&micws,.size=sizeof(revk_gpio_t),.fix=1,.set=1,.flags="- ~↓↕⇕"},
  {.type=REVK_SETTINGS_UNSIGNED,.name="micrate",.comment="Microphone Input rate (when not SIP)",.group=2,.len=7,.dot=3,.def="44100",.ptr=&micrate,.size=sizeof(uint32_t),.unit="Hz",.live=1},
  {.type=REVK_SETTINGS_UNSIGNED,.name="micgain",.comment="Microphone Multiply input (set 0 for 24 bit raw)",.group=2,.len=7,.dot=3,.def="8",.ptr=&micgain,.size=sizeof(uint8_t),.live=1},
  {.type=REVK_SETTINGS_BIT,.name="micstereo",.comment="Microphone Stereo",.group=2,.len=9,.dot=3,.def="0",.bit=REVK_SETTINGS_BITFIELD_micstereo,.live=1},
  {.type=REVK_SETTINGS_BIT,.name="micright",.comment="Microphone use right channel",.group=2,.len=8,.dot=3,.def="1",.bit=REVK_SETTINGS_BITFIELD_micright,.live=1},
  {.type=REVK_SETTINGS_BIT,.name="micbeep",.comment="Add sync beep and red LED on start of recording",.group=2,.len=7,.dot=3,.bit=REVK_SETTINGS_BITFIELD_micbeep,.live=1},
- {.type=REVK_SETTINGS_UNSIGNED,.gpio=1,.name="sddat2",.comment="MicroSD DAT2",.group=3,.len=6,.dot=2,.ptr=&sddat2,.size=sizeof(revk_gpio_t),.fix=1,.set=1,.flags="- ~↓↕⇕"},
- {.type=REVK_SETTINGS_UNSIGNED,.gpio=1,.name="sddat3",.comment="MicroSD DAT3",.group=3,.len=6,.dot=2,.ptr=&sddat3,.size=sizeof(revk_gpio_t),.fix=1,.set=1,.flags="- ~↓↕⇕",.old="sdss"},
- {.type=REVK_SETTINGS_UNSIGNED,.gpio=1,.name="sdcmd",.comment="MicroSD CMD",.group=3,.len=5,.dot=2,.ptr=&sdcmd,.size=sizeof(revk_gpio_t),.fix=1,.set=1,.flags="- ~↓↕⇕",.old="sdmosi"},
- {.type=REVK_SETTINGS_UNSIGNED,.gpio=1,.name="sdclk",.comment="MicroSD CLK",.group=3,.len=5,.dot=2,.ptr=&sdclk,.size=sizeof(revk_gpio_t),.fix=1,.set=1,.flags="- ~↓↕⇕",.old="sdsck"},
- {.type=REVK_SETTINGS_UNSIGNED,.gpio=1,.name="sddat0",.comment="MicroSD DAT0",.group=3,.len=6,.dot=2,.ptr=&sddat0,.size=sizeof(revk_gpio_t),.fix=1,.set=1,.flags="- ~↓↕⇕",.old="sdmiso"},
- {.type=REVK_SETTINGS_UNSIGNED,.gpio=1,.name="sddat1",.comment="MicroSD DAT1",.group=3,.len=6,.dot=2,.ptr=&sddat1,.size=sizeof(revk_gpio_t),.fix=1,.set=1,.flags="- ~↓↕⇕"},
- {.type=REVK_SETTINGS_UNSIGNED,.gpio=1,.name="sdcd",.comment="MicroSD CD",.group=3,.len=4,.dot=2,.ptr=&sdcd,.size=sizeof(revk_gpio_t),.fix=1,.set=1,.flags="- ~↓↕⇕"},
+ {.type=REVK_SETTINGS_UNSIGNED,.gpio=1,.name="sddat2",.comment="MicroSD DAT2",.group=3,.len=6,.dot=2,.def="12",.ptr=&sddat2,.size=sizeof(revk_gpio_t),.fix=1,.set=1,.flags="- ~↓↕⇕"},
+ {.type=REVK_SETTINGS_UNSIGNED,.gpio=1,.name="sddat3",.comment="MicroSD DAT3",.group=3,.len=6,.dot=2,.def="13",.ptr=&sddat3,.size=sizeof(revk_gpio_t),.fix=1,.set=1,.flags="- ~↓↕⇕",.old="sdss"},
+ {.type=REVK_SETTINGS_UNSIGNED,.gpio=1,.name="sdcmd",.comment="MicroSD CMD",.group=3,.len=5,.dot=2,.def="14",.ptr=&sdcmd,.size=sizeof(revk_gpio_t),.fix=1,.set=1,.flags="- ~↓↕⇕",.old="sdmosi"},
+ {.type=REVK_SETTINGS_UNSIGNED,.gpio=1,.name="sdclk",.comment="MicroSD CLK",.group=3,.len=5,.dot=2,.def="15",.ptr=&sdclk,.size=sizeof(revk_gpio_t),.fix=1,.set=1,.flags="- ~↓↕⇕",.old="sdsck"},
+ {.type=REVK_SETTINGS_UNSIGNED,.gpio=1,.name="sddat0",.comment="MicroSD DAT0",.group=3,.len=6,.dot=2,.def="16",.ptr=&sddat0,.size=sizeof(revk_gpio_t),.fix=1,.set=1,.flags="- ~↓↕⇕",.old="sdmiso"},
+ {.type=REVK_SETTINGS_UNSIGNED,.gpio=1,.name="sddat1",.comment="MicroSD DAT1",.group=3,.len=6,.dot=2,.def="17",.ptr=&sddat1,.size=sizeof(revk_gpio_t),.fix=1,.set=1,.flags="- ~↓↕⇕"},
+ {.type=REVK_SETTINGS_UNSIGNED,.gpio=1,.name="sdcd",.comment="MicroSD CD",.group=3,.len=4,.dot=2,.def="-18",.ptr=&sdcd,.size=sizeof(revk_gpio_t),.fix=1,.set=1,.flags="- ~↓↕⇕"},
  {.type=REVK_SETTINGS_UNSIGNED,.name="sdrectime",.comment="Max record time per whole file",.group=3,.len=9,.dot=2,.def="3600",.ptr=&sdrectime,.size=sizeof(uint32_t),.unit="s"},
  {.type=REVK_SETTINGS_UNSIGNED,.name="sdsynctime",.comment="Max record time per file sync",.group=3,.len=10,.dot=2,.def="60",.ptr=&sdsynctime,.size=sizeof(uint32_t),.unit="s"},
  {.type=REVK_SETTINGS_STRING,.name="sdupload",.comment="Where to post, then delete, files on power off",.group=3,.len=8,.dot=2,.ptr=&sdupload,.malloc=1,.live=1},
  {.type=REVK_SETTINGS_BIT,.name="sddelete",.comment="Auto delete old files if space needed for new file",.group=3,.len=8,.dot=2,.def="1",.bit=REVK_SETTINGS_BITFIELD_sddelete,.live=1},
  {.type=REVK_SETTINGS_UNSIGNED,.name="autooff",.comment="Auto power off if idle",.group=4,.len=7,.dot=4,.def="900",.ptr=&autooff,.size=sizeof(uint32_t),.unit="s",.live=1},
  {.type=REVK_SETTINGS_BIT,.name="autousb",.comment="Auto off only if USB disconnected",.group=4,.len=7,.dot=4,.bit=REVK_SETTINGS_BITFIELD_autousb},
- {.type=REVK_SETTINGS_UNSIGNED,.gpio=1,.name="button",.comment="Button",.len=6,.def="-16",.ptr=&button,.size=sizeof(revk_gpio_t),.fix=1,.set=1,.flags="- ~↓↕⇕"},
- {.type=REVK_SETTINGS_UNSIGNED,.gpio=1,.name="charging",.comment="Charging status",.len=8,.ptr=&charging,.size=sizeof(revk_gpio_t),.fix=1,.set=1,.flags="- ~↓↕⇕"},
- {.type=REVK_SETTINGS_UNSIGNED,.gpio=1,.name="vbus",.comment="USB power status",.len=4,.ptr=&vbus,.size=sizeof(revk_gpio_t),.fix=1,.set=1,.flags="- ~↓↕⇕"},
+ {.type=REVK_SETTINGS_UNSIGNED,.gpio=1,.name="button",.comment="Button",.len=6,.def="-3",.ptr=&button,.size=sizeof(revk_gpio_t),.fix=1,.set=1,.flags="- ~↓↕⇕"},
+ {.type=REVK_SETTINGS_UNSIGNED,.gpio=1,.name="charging",.comment="Charging status",.len=8,.def="1",.ptr=&charging,.size=sizeof(revk_gpio_t),.fix=1,.set=1,.flags="- ~↓↕⇕"},
+ {.type=REVK_SETTINGS_UNSIGNED,.gpio=1,.name="vbus",.comment="USB power status",.len=4,.def="48",.ptr=&vbus,.size=sizeof(revk_gpio_t),.fix=1,.set=1,.flags="- ~↓↕⇕"},
  {.type=REVK_SETTINGS_UNSIGNED,.gpio=1,.name="irgpio",.comment="IR receiver",.group=5,.len=6,.dot=2,.ptr=&irgpio,.size=sizeof(revk_gpio_t),.fix=1,.set=1,.flags="- ~↓↕⇕"},
- {.type=REVK_SETTINGS_UNSIGNED,.gpio=1,.name="rgbstatus",.comment="Status LED",.group=6,.len=9,.dot=3,.def="39",.ptr=&rgbstatus,.size=sizeof(revk_gpio_t),.fix=1,.set=1,.flags="- ~↓↕⇕"},
- {.type=REVK_SETTINGS_UNSIGNED,.gpio=1,.name="rgbled",.comment="Mic/record LED",.group=6,.len=6,.dot=3,.def="8",.ptr=&rgbled,.size=sizeof(revk_gpio_t),.fix=1,.set=1,.flags="- ~↓↕⇕",.old="ledrecord"},
+ {.type=REVK_SETTINGS_UNSIGNED,.gpio=1,.name="rgbstatus",.comment="Status LED",.group=6,.len=9,.dot=3,.def="34",.ptr=&rgbstatus,.size=sizeof(revk_gpio_t),.fix=1,.set=1,.flags="- ~↓↕⇕"},
+ {.type=REVK_SETTINGS_UNSIGNED,.gpio=1,.name="rgbled",.comment="Mic/record LED",.group=6,.len=6,.dot=3,.def="9",.ptr=&rgbled,.size=sizeof(revk_gpio_t),.fix=1,.set=1,.flags="- ~↓↕⇕",.old="ledrecord"},
  {.type=REVK_SETTINGS_UNSIGNED,.gpio=1,.name="rgbpwr",.comment="LED power control",.group=6,.len=6,.dot=3,.ptr=&rgbpwr,.size=sizeof(revk_gpio_t),.fix=1,.set=1,.flags="- ~↓↕⇕"},
  {.type=REVK_SETTINGS_UNSIGNED,.name="morsefreq",.comment="Morse tone frequency",.group=7,.len=9,.dot=5,.def="600",.ptr=&morsefreq,.size=sizeof(uint32_t),.unit="Hz",.live=1},
  {.type=REVK_SETTINGS_UNSIGNED,.name="morselevel",.comment="Morse audio level",.group=7,.len=10,.dot=5,.def="50",.ptr=&morselevel,.size=sizeof(uint8_t),.unit="%",.live=1},
@@ -60,8 +59,6 @@ revk_settings_t const revk_settings[]={
  {.type=REVK_SETTINGS_BIT,.name="wifirecord",.comment="WiFi off during recording (unless started via HA)",.group=10,.len=10,.dot=4,.def="1",.bit=REVK_SETTINGS_BITFIELD_wifirecord,.hide=1},
  {.type=REVK_SETTINGS_BIT,.name="wifiusb",.comment="WiFi off when not on USB power",.group=10,.len=7,.dot=4,.bit=REVK_SETTINGS_BITFIELD_wifiusb,.hide=1},
  {.type=REVK_SETTINGS_BIT,.name="haenable",.comment="Enable Home Assistant",.group=11,.len=8,.dot=2,.def="1",.bit=REVK_SETTINGS_BITFIELD_haenable,.hide=1},
- {.type=REVK_SETTINGS_BIT,.name="irlog",.comment="IR logging to MQTT",.group=5,.len=5,.dot=2,.bit=REVK_SETTINGS_BITFIELD_irlog,.live=1},
- {.type=REVK_SETTINGS_BIT,.name="irdebug",.comment="IT logging includes timings",.group=5,.len=7,.dot=2,.bit=REVK_SETTINGS_BITFIELD_irdebug,.live=1},
 #ifdef	CONFIG_REVK_SETTINGS_PASSWORD
  {.type=REVK_SETTINGS_STRING,.name="password",.comment="Settings password<br>(not sent securely so use with care)",.len=8,.ptr=&password,.malloc=1,.revk=1,.hide=1,.secret=1},
 #endif
