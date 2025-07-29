@@ -257,6 +257,8 @@ revk_state_extra (jo_t j)
       jo_bool (j, "sdcard", b.sdpresent);
    if (micws.set)
       jo_string (j, "record", b.micon ? "ON" : "OFF");
+   if (isfinite (voltage))
+      jo_litf (j, "V", "%.3f", voltage / 1000);
 }
 
 void
@@ -1457,7 +1459,16 @@ chg_task (void *p)
       charge = (charge << 1) | revk_gpio_get (chg);
       uint8_t v = revk_gpio_get (vbus);
       if (v != b.vbus)
+      {
          b.vbus = v;
+         if (wifiusb)
+         {
+            if (b.vbus)
+               revk_enable_wifi ();
+            else
+               revk_disable_wifi ();
+         }
+      }
       b.charging = ((b.vbus && charge == 255) ? 1 : 0);
       b.batfull = ((b.vbus && !charge) ? 1 : 0);
       if (b.vbus && charge && charge != 255)
@@ -1520,11 +1531,11 @@ sip_callback (sip_state_t state, uint8_t len, const uint8_t * data)
 void
 app_main ()
 {
-   //ESP_LOGE (TAG, "Started");
-   sd_mutex = xSemaphoreCreateBinary ();
-   xSemaphoreGive (sd_mutex);
+   ESP_LOGE (TAG, "Started");
    revk_boot (&app_callback);
    revk_start ();
+   sd_mutex = xSemaphoreCreateBinary ();
+   xSemaphoreGive (sd_mutex);
    if (micws.num == spklrc.num && micclock.num == spkbclk.num)
       b.sharedi2s = 1;
    httpd_config_t config = HTTPD_DEFAULT_CONFIG ();     // When updating the code below, make sure this is enough
@@ -1568,7 +1579,6 @@ app_main ()
       sip_register (siphost, sipuser, sippass, sip_callback, sipdebug ? sip_debug : NULL);
    // Buttons and LEDs
    revk_gpio_input (button);
-   revk_gpio_input (vbus);      // USB status
    uint8_t press = 255;
    uint8_t usb = 1;
    uint8_t tick = 0;
@@ -1593,21 +1603,6 @@ app_main ()
          idle = 0;
       if (b.ha)
          send_ha_config ();
-      if (vbus.set)
-      {
-         usb = revk_gpio_get (vbus);
-         if (usb != b.usb)
-         {
-            b.usb = usb;
-            if (wifiusb)
-            {
-               if (usb)
-                  revk_enable_wifi ();
-               else
-                  revk_disable_wifi ();
-            }
-         }
-      }
       if (revk_shutting_down (NULL) && b.micon)
       {
          b.micon = 0;
