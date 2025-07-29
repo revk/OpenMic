@@ -252,6 +252,11 @@ revk_state_extra (jo_t j)
 {
    if (vbus.set)
       jo_bool (j, "power", b.vbus);
+   if (chg.set)
+   {
+      jo_bool (j, "charging", b.charging);
+      jo_bool (j, "charged", b.batfull);
+   }
    if (sdcmd.set)
       jo_bool (j, "sdcard", b.sdpresent);
    if (micws.set)
@@ -1673,6 +1678,8 @@ app_main ()
                   l = l * tick / 5;
                if (b.batfull)
                   l = 256 * rgbleds;
+               else if (!b.charging && b.vbus)
+                  l = 0;
                for (int i = 0; i < rgbleds; i++)
                {
                   revk_led (led_status, i, l < 256 ? l : 255, revk_rgb (b.vbus ? 'G' : 'B'));
