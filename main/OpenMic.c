@@ -1585,7 +1585,18 @@ app_main ()
    while (!b.die)
    {
       if (tick++ >= 10)
+      {
          tick = 0;
+         if (revk_shutting_down (NULL))
+         {
+            if (b.micon)
+            {
+               b.micon = 0;
+               b.status = 1;
+            } else
+               b.die = 1;
+         }
+      }
       usleep (100000);
       uint32_t up = uptime ();
       if (b.status)
@@ -1603,11 +1614,6 @@ app_main ()
          idle = 0;
       if (b.ha)
          send_ha_config ();
-      if (revk_shutting_down (NULL) && b.micon)
-      {
-         b.micon = 0;
-         b.status = 1;
-      }
       if (revk_gpio_get (button))
       {                         // Pressed
          if (press < 255)
@@ -1680,7 +1686,13 @@ app_main ()
          REVK_ERR_CHECK (led_strip_refresh (led_status));
       }
    }
-   if (*sdupload && b.sdpresent)
+   if (revk_shutting_down (NULL))
+   {
+      for (int i = 0; i < rgbleds; i++)
+         revk_led (led_status, i, 255, revk_rgb ('O'));
+      while (revk_shutting_down (NULL))
+         sleep (1);
+   } else if (*sdupload && b.sdpresent && !revk_shutting_down (NULL))
    {                            // Upload
       for (int i = 0; i < rgbleds; i++)
          revk_led (led_status, i, 255, revk_rgb ('C'));
