@@ -31,7 +31,7 @@ static const char TAG[] = "OpenMic";
 
 float voltage = NAN;
 #define ADC_SCALE       (3)     // Resistor ratio
-#define ADC_ATTEN       ADC_ATTEN_DB_2_5
+#define ADC_ATTEN       ADC_ATTEN_DB_6
 #define	BAT_EMPTY	3100    // mV
 #define	BAT_FULL	4100    // mV
 
@@ -141,11 +141,10 @@ struct
    uint8_t miconha:1;           // Sounds required (started by HA so keep WiFi on)
    uint8_t sharedi2s:1;         // I2S shared for Mic and Spk
    uint8_t ha:1;                // Send HA config
-   uint8_t usb:1;               // USB connected
    uint8_t overrun:1;           // Record overrun
-   uint8_t vbus:1;
-   uint8_t charging:1;
-   uint8_t batfull:1;
+   uint8_t vbus:1;              // VBUS connected
+   uint8_t charging:1;          // Is charging
+   uint8_t batfull:1;           // Battery full
 } b = { 0 };
 
 const char sd_mount[] = "/sd";
@@ -252,7 +251,7 @@ void
 revk_state_extra (jo_t j)
 {
    if (vbus.set)
-      jo_bool (j, "power", b.usb);
+      jo_bool (j, "power", b.vbus);
    if (sdcmd.set)
       jo_bool (j, "sdcard", b.sdpresent);
    if (micws.set)
@@ -1103,7 +1102,7 @@ mic_task (void *arg)
          free (micaudio[i]);
       i2s_del_channel (mic_handle);
       revk_enable_upgrade ();
-      if (wifirecord && (!wifiusb || b.usb))
+      if (wifirecord && (!wifiusb || b.vbus))
          revk_enable_wifi ();
       ESP_LOGE (TAG, "Mic stopped");
    }
@@ -1479,13 +1478,14 @@ chg_task (void *p)
       {
          tick = 10;
          int volt = 0;
+         adc_oneshot_read (adc_handle, adc_channel, &volt);
          adc_oneshot_get_calibrated_result (adc_handle, adc_cali_handle, adc_channel, &volt);
          voltage = volt * ADC_SCALE;
-         //ESP_LOGE (TAG, "V=%lf", voltage);
       }
       usleep (100000);
       tick--;
    }
+   voltage = NAN;
    adc_oneshot_del_unit (adc_handle);
    vTaskDelete (NULL);
 }
@@ -1639,50 +1639,61 @@ app_main ()
       }
       if (led_status)
       {
-         char c1 =
-            (!usb ? sip_mode == SIP_REGISTERED ? 'C' : 'M' : b.charging == 0xFF ? 'Y' : b.batfull ? 'O' : sip_mode ==
-             SIP_REGISTERED ? 'C' : 'M');
-         uint32_t c2 = revk_blinker ();
-         if (mic_mode == MIC_RECORD)
-         {
-            c1 = 'B';
-            if (dark)
-            {
-               c1 = 'K';
-               c2 = 0;
-            }
-         } else if (mic_mode == MIC_SIP)
-         {
-            if (sip_mode == SIP_IC || sip_mode == SIP_OG)
-               c1 = 'G';
+         if (rgbleds < 3)
+         {                      // Simple status
+            char c = 'K';
+            if (mic_mode == MIC_RECORD)
+               c = (dark ? 'B' : 'K');
+            else if (mic_mode == MIC_SIP)
+               c = (sip_mode == SIP_IC || sip_mode == SIP_OG) ? 'G' : 'R';
+            if (b.charging && tick < 5)
+               c = tolower (c); // Charging so blink
+            revk_led (led_status, 0, 255, revk_blinker ());
+            for (int i = 1; i < rgbleds; i++)
+               revk_led (led_status, i, 255, revk_rgb (c));
+         } else
+         {                      // Battery level
+            if (mic_mode)
+               for (int i = 0; i < rgbleds; i++)
+                  revk_led (led_status, i, 0, 0);
             else
-               c1 = 'R';
+            {
+               uint16_t l = 0;
+               if (isfinite (voltage))
+                  l = (voltage - BAT_EMPTY) * rgbleds * 256 / (BAT_FULL - BAT_EMPTY);
+               else if (b.vbus || b.charging)
+                  l = 256;
+               if (b.charging && tick <= 5)
+                  l = l * tick / 5;
+               if (b.batfull)
+                  l = 256 * rgbleds;
+               for (int i = 0; i < rgbleds; i++)
+               {
+                  revk_led (led_status, i, l < 256 ? l : 255, revk_rgb (b.vbus ? 'G' : 'B'));
+                  if (l < 256)
+                     l = 0;
+                  else
+                     l -= 256;
+               }
+            }
          }
-         if (!b.micokl || !b.micokr)
-            c1 = 'R';
-         if (b.charging && tick < 5)
-            c1 = tolower (c1);  // Charging so blink
-         revk_led (led_status, 0, 255, revk_rgb (c1));
-         revk_led (led_status, 1, 255, c2);
          REVK_ERR_CHECK (led_strip_refresh (led_status));
       }
    }
    if (*sdupload && b.sdpresent)
    {                            // Upload
-      revk_led (led_status, 0, 255, revk_rgb ('B'));
-      revk_led (led_status, 1, 255, revk_rgb ('K'));
+      for (int i = 0; i < rgbleds; i++)
+         revk_led (led_status, i, 255, revk_rgb ('C'));
       REVK_ERR_CHECK (led_strip_refresh (led_status));
       revk_enable_wifi ();
       revk_wait_wifi (10);
-      revk_led (led_status, 1, 255, revk_rgb ('R'));
-      REVK_ERR_CHECK (led_strip_refresh (led_status));
       do_upload ();
    }
    // Go dark
    if (led_status)
    {
-      revk_led (led_status, 0, 255, 0);
-      revk_led (led_status, 1, 255, 0);
+      for (int i = 0; i < rgbleds; i++)
+         revk_led (led_status, i, 255, 0);
       REVK_ERR_CHECK (led_strip_refresh (led_status));
    }
    revk_pre_shutdown ();
