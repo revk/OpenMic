@@ -1690,7 +1690,9 @@ app_main ()
    {
       while (revk_shutting_down (NULL))
       {
-         uint32_t l = revk_ota_progress () * rgbleds * 256 / 100;
+         int32_t l = revk_ota_progress () * rgbleds * 256 / 100;
+         if (l < 64)
+            l = 64;
          for (int i = 0; i < rgbleds; i++)
          {
             revk_led (led_status, i, l < 256 ? l : 255, revk_rgb ('R'));
