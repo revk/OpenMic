@@ -6509,12 +6509,20 @@
 		(uuid "42f6e4fb-06c2-461d-8306-2f989c5d4af2")
 	)
 	(no_connect
+		(at 34.925 155.575)
+		(uuid "635d5872-df51-4392-980d-128cdde9a495")
+	)
+	(no_connect
 		(at 66.04 53.34)
 		(uuid "7a5b2055-ddb0-4aea-947a-1dec61a6565c")
 	)
 	(no_connect
 		(at 66.04 71.12)
 		(uuid "9dd0077e-199f-492f-9c0f-f844f57fe19c")
+	)
+	(no_connect
+		(at 81.28 190.5)
+		(uuid "a6d8f934-c609-4fdf-bfe6-271585101671")
 	)
 	(no_connect
 		(at 266.7 26.67)
@@ -16486,71 +16494,6 @@
 			(project "Audio"
 				(path "/46c350bb-7de4-4e81-aafd-4af55e37aab0"
 					(reference "#PWR037")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "power:GND")
-		(at 34.925 155.575 180)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "fb2709d8-f93c-420a-88dd-de9db10de0b7")
-		(property "Reference" "#PWR02"
-			(at 34.925 149.225 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Value" "GND"
-			(at 34.925 150.495 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" ""
-			(at 34.925 155.575 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" ""
-			(at 34.925 155.575 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 34.925 155.575 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "3759b9ca-4694-48c9-acb0-d878abed4693")
-		)
-		(instances
-			(project "Recorder"
-				(path "/46c350bb-7de4-4e81-aafd-4af55e37aab0"
-					(reference "#PWR02")
 					(unit 1)
 				)
 			)
