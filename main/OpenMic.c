@@ -1664,7 +1664,7 @@ app_main ()
                   revk_led (led_status, i, 0, 0);
             else
             {
-               uint16_t l = 0;
+               uint32_t l = 0;
                if (isfinite (voltage))
                   l = (voltage - BAT_EMPTY) * rgbleds * 256 / (BAT_FULL - BAT_EMPTY);
                else if (b.vbus || b.charging)
@@ -1688,10 +1688,22 @@ app_main ()
    }
    if (revk_shutting_down (NULL))
    {
-      for (int i = 0; i < rgbleds; i++)
-         revk_led (led_status, i, 255, revk_rgb ('O'));
       while (revk_shutting_down (NULL))
+      {
+         int32_t l = revk_ota_progress () * rgbleds * 256 / 100;
+         if (l < 64)
+            l = 64;
+         for (int i = 0; i < rgbleds; i++)
+         {
+            revk_led (led_status, i, l < 256 ? l : 255, revk_rgb ('R'));
+            if (l < 256)
+               l = 0;
+            else
+               l -= 256;
+         }
+         REVK_ERR_CHECK (led_strip_refresh (led_status));
          sleep (1);
+      }
    } else if (*sdupload && b.sdpresent && !revk_shutting_down (NULL))
    {                            // Upload
       for (int i = 0; i < rgbleds; i++)
