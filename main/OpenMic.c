@@ -14,6 +14,10 @@ static const char TAG[] = "OpenMic";
 #include <driver/i2s_pdm.h>
 #include <driver/rtc_io.h>
 #include <driver/sdmmc_host.h>
+#include "hal/adc_types.h"
+#include "esp_adc/adc_oneshot.h"
+#include "esp_adc/adc_cali.h"
+#include "esp_adc/adc_cali_scheme.h"
 #include "esp_http_client.h"
 #include <esp_http_server.h>
 #include "esp_crt_bundle.h"
@@ -24,6 +28,12 @@ static const char TAG[] = "OpenMic";
 #include <sip.h>
 #include <halib.h>
 #include <ir.h>
+
+float voltage = NAN;
+#define ADC_SCALE       (3)     // Resistor ratio
+#define ADC_ATTEN       ADC_ATTEN_DB_6
+#define	BAT_EMPTY	3100    // mV
+#define	BAT_FULL	4100    // mV
 
 typedef int16_t audio_t;
 #define	audio_max	32767
@@ -131,8 +141,10 @@ struct
    uint8_t miconha:1;           // Sounds required (started by HA so keep WiFi on)
    uint8_t sharedi2s:1;         // I2S shared for Mic and Spk
    uint8_t ha:1;                // Send HA config
-   uint8_t usb:1;               // USB connected
    uint8_t overrun:1;           // Record overrun
+   uint8_t vbus:1;              // VBUS connected
+   uint8_t charging:1;          // Is charging
+   uint8_t batfull:1;           // Battery full
 } b = { 0 };
 
 const char sd_mount[] = "/sd";
@@ -239,11 +251,13 @@ void
 revk_state_extra (jo_t j)
 {
    if (vbus.set)
-      jo_bool (j, "power", b.usb);
+      jo_bool (j, "power", b.vbus);
    if (sdcmd.set)
       jo_bool (j, "sdcard", b.sdpresent);
    if (micws.set)
       jo_string (j, "record", b.micon ? "ON" : "OFF");
+   if (isfinite (voltage))
+      jo_litf (j, "V", "%.3f", voltage / 1000);
 }
 
 void
@@ -1088,7 +1102,7 @@ mic_task (void *arg)
          free (micaudio[i]);
       i2s_del_channel (mic_handle);
       revk_enable_upgrade ();
-      if (wifirecord && (!wifiusb || b.usb))
+      if (wifirecord && (!wifiusb || b.vbus))
          revk_enable_wifi ();
       ESP_LOGE (TAG, "Mic stopped");
    }
@@ -1395,6 +1409,88 @@ spk_task (void *arg)
 }
 
 void
+chg_task (void *p)
+{
+   revk_gpio_input (chg);
+   revk_gpio_input (vbus);
+   revk_gpio_output (adce, 1);  // Waste of time FFS
+   adc_oneshot_unit_handle_t adc_handle;
+   adc_channel_t adc_channel = 0;
+   adc_cali_handle_t adc_cali_handle = NULL;
+   if (adc.set)
+   {
+      adc_unit_t adc_unit = 0;
+      adc_oneshot_io_to_channel (adc.num, &adc_unit, &adc_channel);
+      ESP_LOGE (TAG, "ADC %d unit %d channel %d", adc.num, adc_unit, adc_channel);
+      adc_oneshot_unit_init_cfg_t init_config1 = {
+         .unit_id = adc_unit,
+         .ulp_mode = ADC_ULP_MODE_DISABLE,
+      };
+      adc_oneshot_new_unit (&init_config1, &adc_handle);
+      adc_oneshot_chan_cfg_t config = {
+         .bitwidth = ADC_BITWIDTH_DEFAULT,
+         .atten = ADC_ATTEN,
+      };
+      adc_oneshot_config_channel (adc_handle, adc_channel, &config);
+#if ADC_CALI_SCHEME_CURVE_FITTING_SUPPORTED
+      adc_cali_curve_fitting_config_t cali_config = {
+         .unit_id = adc_unit,
+         .chan = adc_channel,
+         .atten = ADC_ATTEN,
+         .bitwidth = ADC_BITWIDTH_DEFAULT,
+      };
+      adc_cali_create_scheme_curve_fitting (&cali_config, &adc_cali_handle);
+#else
+#if ADC_CALI_SCHEME_LINE_FITTING_SUPPORTED
+      adc_cali_line_fitting_config_t cali_config = {
+         .unit_id = adc_unit,
+         .atten = ADC_ATTEN,
+         .bitwidth = ADC_BITWIDTH_DEFAULT,
+      };
+      adc_cali_create_scheme_line_fitting (&cali_config, &adc_cali_handle);
+#endif
+#endif
+   }
+   uint8_t charge = 0;
+   uint8_t tick = 0;
+   while (!b.die)
+   {
+      charge = (charge << 1) | revk_gpio_get (chg);
+      uint8_t v = revk_gpio_get (vbus);
+      if (v != b.vbus)
+      {
+         b.vbus = v;
+         if (wifiusb)
+         {
+            if (b.vbus)
+               revk_enable_wifi ();
+            else
+               revk_disable_wifi ();
+         }
+      }
+      b.charging = ((b.vbus && charge == 255) ? 1 : 0);
+      b.batfull = ((b.vbus && !charge) ? 1 : 0);
+      if (b.vbus && charge && charge != 255)
+         voltage = NAN;         // No bat
+      else if (adc.set && isnan (voltage))
+         tick = 0;
+      if (adc.set && !tick)
+      {
+         tick = 10;
+         int volt = 0;
+         adc_oneshot_read (adc_handle, adc_channel, &volt);
+         adc_oneshot_get_calibrated_result (adc_handle, adc_cali_handle, adc_channel, &volt);
+         voltage = volt * ADC_SCALE;
+      }
+      usleep (100000);
+      tick--;
+   }
+   voltage = NAN;
+   adc_oneshot_del_unit (adc_handle);
+   vTaskDelete (NULL);
+}
+
+void
 sip_debug (uint8_t rx, struct sockaddr_storage *addr, const char *message)
 {
    ESP_LOG_BUFFER_HEX_LEVEL (rx ? "Rx" : "Tx", addr, sizeof (*addr), ESP_LOG_ERROR);
@@ -1435,11 +1531,11 @@ sip_callback (sip_state_t state, uint8_t len, const uint8_t * data)
 void
 app_main ()
 {
-   //ESP_LOGE (TAG, "Started");
-   sd_mutex = xSemaphoreCreateBinary ();
-   xSemaphoreGive (sd_mutex);
+   ESP_LOGE (TAG, "Started");
    revk_boot (&app_callback);
    revk_start ();
+   sd_mutex = xSemaphoreCreateBinary ();
+   xSemaphoreGive (sd_mutex);
    if (micws.num == spklrc.num && micclock.num == spkbclk.num)
       b.sharedi2s = 1;
    httpd_config_t config = HTTPD_DEFAULT_CONFIG ();     // When updating the code below, make sure this is enough
@@ -1457,7 +1553,7 @@ app_main ()
    {
       led_strip_config_t strip_config = {
          .strip_gpio_num = rgbstatus.num,
-         .max_leds = 2,
+         .max_leds = rgbleds ? : 1,
          .color_component_format = LED_STRIP_COLOR_COMPONENT_FMT_GRB,
          .led_model = LED_MODEL_WS2812, // LED strip model
          .flags.invert_out = rgbstatus.invert,
@@ -1475,22 +1571,32 @@ app_main ()
       revk_task ("mic", mic_task, NULL, 8);
    if (sdcmd.set && sddat0.set && sdclk.set)
       revk_task ("sd", sd_task, NULL, 16);
+   if (chg.set)
+      revk_task ("chg", &chg_task, NULL, 4);
    if (irgpio.set)
       ir_start (irgpio, ir_callback);
    if (*siphost)
       sip_register (siphost, sipuser, sippass, sip_callback, sipdebug ? sip_debug : NULL);
    // Buttons and LEDs
    revk_gpio_input (button);
-   revk_gpio_input (charging);  // On, off, or flashing
-   revk_gpio_input (vbus);      // USB status
    uint8_t press = 255;
-   uint8_t charge = 0;
    uint8_t usb = 1;
    uint8_t tick = 0;
    while (!b.die)
    {
       if (tick++ >= 10)
+      {
          tick = 0;
+         if (revk_shutting_down (NULL))
+         {
+            if (b.micon)
+            {
+               b.micon = 0;
+               b.status = 1;
+            } else
+               b.die = 1;
+         }
+      }
       usleep (100000);
       uint32_t up = uptime ();
       if (b.status)
@@ -1508,28 +1614,6 @@ app_main ()
          idle = 0;
       if (b.ha)
          send_ha_config ();
-      if (vbus.set)
-      {
-         usb = revk_gpio_get (vbus);
-         if (usb != b.usb)
-         {
-            b.usb = usb;
-            if (wifiusb)
-            {
-               if (usb)
-                  revk_enable_wifi ();
-               else
-                  revk_disable_wifi ();
-            }
-         }
-      }
-      if (revk_shutting_down (NULL) && b.micon)
-      {
-         b.micon = 0;
-         b.status = 1;
-      }
-      if (charging.set)
-         charge = (charge << 1) | revk_gpio_get (charging);
       if (revk_gpio_get (button))
       {                         // Pressed
          if (press < 255)
@@ -1561,53 +1645,112 @@ app_main ()
       }
       if (led_status)
       {
-         char c1 =
-            (!usb ? sip_mode == SIP_REGISTERED ? 'C' : 'M' : charge == 0xFF ? 'Y' : charge ? 'O' : sip_mode ==
-             SIP_REGISTERED ? 'C' : 'M');
-         uint32_t c2 = revk_blinker ();
-         if (mic_mode == MIC_RECORD)
-         {
-            c1 = 'B';
-            if (dark)
-            {
-               c1 = 'K';
-               c2 = 0;
-            }
-         } else if (mic_mode == MIC_SIP)
-         {
-            if (sip_mode == SIP_IC || sip_mode == SIP_OG)
-               c1 = 'G';
+         if (rgbleds < 3)
+         {                      // Simple status
+            char c = 'K';
+            if (mic_mode == MIC_RECORD)
+               c = (dark ? 'B' : 'K');
+            else if (mic_mode == MIC_SIP)
+               c = (sip_mode == SIP_IC || sip_mode == SIP_OG) ? 'G' : 'R';
+            if (b.charging && tick < 5)
+               c = tolower (c); // Charging so blink
+            revk_led (led_status, 0, 255, revk_blinker ());
+            for (int i = 1; i < rgbleds; i++)
+               revk_led (led_status, i, 255, revk_rgb (c));
+         } else
+         {                      // Battery level
+            if (mic_mode)
+               for (int i = 0; i < rgbleds; i++)
+                  revk_led (led_status, i, 0, 0);
             else
-               c1 = 'R';
+            {
+               uint16_t l = 0;
+               if (isfinite (voltage))
+                  l = (voltage - BAT_EMPTY) * rgbleds * 256 / (BAT_FULL - BAT_EMPTY);
+               else if (b.vbus || b.charging)
+                  l = 256;
+               if (b.charging && tick <= 5)
+                  l = l * tick / 5;
+               if (b.batfull)
+                  l = 256 * rgbleds;
+               for (int i = 0; i < rgbleds; i++)
+               {
+                  revk_led (led_status, i, l < 256 ? l : 255, revk_rgb (b.vbus ? 'G' : 'B'));
+                  if (l < 256)
+                     l = 0;
+                  else
+                     l -= 256;
+               }
+            }
          }
-         if (!b.micokl || !b.micokr)
-            c1 = 'R';
-         if (usb && charge != 0xFF && tick < 5)
-            c1 = tolower (c1);  // Charging so blink
-         revk_led (led_status, 0, 255, revk_rgb (c1));
-         revk_led (led_status, 1, 255, c2);
          REVK_ERR_CHECK (led_strip_refresh (led_status));
       }
    }
-   if (*sdupload && b.sdpresent)
+   if (revk_shutting_down (NULL))
+   {
+      for (int i = 0; i < rgbleds; i++)
+         revk_led (led_status, i, 255, revk_rgb ('O'));
+      while (revk_shutting_down (NULL))
+         sleep (1);
+   } else if (*sdupload && b.sdpresent && !revk_shutting_down (NULL))
    {                            // Upload
-      revk_led (led_status, 0, 255, revk_rgb ('B'));
-      revk_led (led_status, 1, 255, revk_rgb ('K'));
+      for (int i = 0; i < rgbleds; i++)
+         revk_led (led_status, i, 255, revk_rgb ('C'));
       REVK_ERR_CHECK (led_strip_refresh (led_status));
       revk_enable_wifi ();
       revk_wait_wifi (10);
-      revk_led (led_status, 1, 255, revk_rgb ('R'));
-      REVK_ERR_CHECK (led_strip_refresh (led_status));
       do_upload ();
    }
    // Go dark
    if (led_status)
    {
-      revk_led (led_status, 0, 255, 0);
-      revk_led (led_status, 1, 255, 0);
+      for (int i = 0; i < rgbleds; i++)
+         revk_led (led_status, i, 255, 0);
       REVK_ERR_CHECK (led_strip_refresh (led_status));
    }
    revk_pre_shutdown ();
+   if (button.set)
+   {
+      ESP_LOGE (TAG, "Wait release");
+      while (revk_gpio_get (button))
+         usleep (100000);       // release
+   }
+   if (vbus.set && revk_gpio_get (vbus))
+   {
+      ESP_LOGE (TAG, "Wait USB");
+      while (revk_gpio_get (vbus))
+      {
+         if (revk_gpio_get (button))
+            esp_restart ();
+         usleep (10000);
+      }
+   }
+   ESP_LOGE (TAG, "Shutdown");
+   // Shutdown
+   sleep (1);                   // Allow tasks to end
+#if     CONFIG_REVK_GPIO_POWER >= 0
+   if (button.set && button.pulldown && !button.invert)
+   {
+      ESP_LOGE (TAG, "Power off GPIO %d", button.num);
+      gpio_set_level (button.num, 0);
+      gpio_set_direction (button.num, GPIO_MODE_OUTPUT_OD);
+      gpio_hold_en (button.num);
+   }
+   ESP_LOGE (TAG, "Power off GPIO %d", CONFIG_REVK_GPIO_POWER);
+   gpio_set_direction (CONFIG_REVK_GPIO_POWER, GPIO_MODE_OUTPUT_OD);
+   gpio_set_level (CONFIG_REVK_GPIO_POWER, 0);
+   gpio_hold_en (CONFIG_REVK_GPIO_POWER);
+   sleep (1);
+   // Should be off now - if not, undo so we can deep sleep
+   gpio_hold_dis (CONFIG_REVK_GPIO_POWER);
+   if (button.set && button.pulldown && !button.invert)
+   {
+      gpio_hold_dis (button.num);
+      revk_gpio_input (button);
+   }
+#endif
+   ESP_LOGE (TAG, "Sleep");
+
    // Alarm
    if (rtc_gpio_is_valid_gpio (button.num))
    {                            // Deep sleep

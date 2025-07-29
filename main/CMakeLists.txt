@@ -1,5 +1,5 @@
 set (COMPONENT_SRCS "OpenMic.c" "fft.c" "settings.c")
-set (COMPONENT_REQUIRES "ESP32-RevK" "ESP32-SIP" "ESP32-IR" "fatfs" "driver" "led_strip" "esp_driver_sdmmc")
+set (COMPONENT_REQUIRES "ESP32-RevK" "ESP32-SIP" "ESP32-IR" "fatfs" "driver" "led_strip" "esp_driver_sdmmc" "esp_adc")
 
 
 if("$ENV{SUFFIX}" MATCHES ".*-MT.*")
