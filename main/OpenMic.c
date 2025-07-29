@@ -936,7 +936,7 @@ mic_task (void *arg)
       if (led_status)
       {
          if (rgbleds < 3)
-         {                      // Simple status
+         {                      // Simple status - old boards
             char c = 'K';
             if (mic_mode == MIC_RECORD)
                c = (dark ? 'B' : 'K');
@@ -948,8 +948,8 @@ mic_task (void *arg)
             for (int i = 1; i < rgbleds; i++)
                revk_led (led_status, i, 255, revk_rgb (c));
          } else
-         {                      // Battery level
-            if (mic_mode || c == 'R')
+         {                      // Battery level or status, new boards
+            if (mic_mode)
                for (int i = 0; i < rgbleds; i++)
                   revk_led (led_status, i, 255, revk_rgb (c == 'R' ? c : 'K'));
             else
@@ -967,7 +967,7 @@ mic_task (void *arg)
                   l = 0;
                for (int i = 0; i < rgbleds; i++)
                {
-                  revk_led (led_status, i, l < 256 ? l : 255, revk_rgb (b.vbus ? 'G' : 'B'));
+                  revk_led (led_status, i, l < 256 ? l : 255, revk_rgb (b.vbus ? dark ? 'g' : 'G' : dark ? 'b' : 'B'));
                   if (l < 256)
                      l = 0;
                   else
@@ -1007,6 +1007,7 @@ mic_task (void *arg)
          usleep (100000);
          continue;
       }
+      mic_mode = mode;
       ESP_LOGE (TAG, "Mic mode %d", mode);
       revk_disable_upgrade ();
       esp_err_t err;
@@ -1098,7 +1099,6 @@ mic_task (void *arg)
          vTaskDelete (NULL);
          return;
       }
-      mic_mode = mode;
       uint8_t beep = 0;
       uint8_t phase = 0;
       if (micbeep)
