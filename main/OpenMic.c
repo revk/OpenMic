@@ -849,6 +849,8 @@ do_upload (void)
                      lastpercent = percent;
                      ESP_LOGE (TAG, "Upload %d%%", percent);
                      int l = (int) (100 - percent) * rgbleds * 256 / 100;
+                     if (l < 64)
+                        l = 64;
                      for (int i = 0; i < rgbleds; i++)
                      {
                         revk_led (led_status, i, l < 256 ? l : 255, revk_rgb (i & 1 ? 'O' : 'B'));
