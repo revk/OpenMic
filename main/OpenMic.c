@@ -1723,9 +1723,10 @@ app_main ()
          if (press == 10 && sip_mode == SIP_IC_ALERT)
             sip_hangup ();
          if (press == 30)
+         {
             b.die = 1;
-         if (!sip_mode)
-            b.micon = 0;        // End record anyway
+            b.micon = 0;
+         }
       } else if (press)
       {                         // Released
          if (press < 30)
