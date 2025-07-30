@@ -124,7 +124,7 @@ typedef enum
 } spk_mode_t;
 spk_mode_t spk_mode = 0;
 
-sip_state_t sip_mode;
+sip_state_t sip_mode = 0;
 
 sdmmc_card_t *card = NULL;
 
@@ -848,9 +848,7 @@ do_upload (void)
                   {
                      lastpercent = percent;
                      ESP_LOGE (TAG, "Upload %d%%", percent);
-                     int l = (int) percent * rgbleds * 256 / 100;
-                     if (l < 64)
-                        l = 64;
+                     int l = (int) (100 - percent) * rgbleds * 256 / 100;
                      for (int i = 0; i < rgbleds; i++)
                      {
                         revk_led (led_status, i, l < 256 ? l : 255, revk_rgb (i & 1 ? 'O' : 'B'));
@@ -1726,6 +1724,8 @@ app_main ()
             sip_hangup ();
          if (press == 30)
             b.die = 1;
+         if (!sip_mode)
+            b.micon = 0;        // End record anyway
       } else if (press)
       {                         // Released
          if (press < 30)
