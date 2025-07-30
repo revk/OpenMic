@@ -1773,6 +1773,14 @@ app_main ()
       do_upload ();
    }
    revk_pre_shutdown ();
+   sleep (1);                   // Allow tasks to end
+   // Go dark
+   if (led_status)
+   {
+      for (int i = 0; i < rgbleds; i++)
+         revk_led (led_status, i, 255, 0);
+      REVK_ERR_CHECK (led_strip_refresh (led_status));
+   }
    if (button.set)
    {
       ESP_LOGE (TAG, "Wait release");
@@ -1791,14 +1799,6 @@ app_main ()
    }
    ESP_LOGE (TAG, "Shutdown");
    // Shutdown
-   sleep (1);                   // Allow tasks to end
-   // Go dark
-   if (led_status)
-   {
-      for (int i = 0; i < rgbleds; i++)
-         revk_led (led_status, i, 255, 0);
-      REVK_ERR_CHECK (led_strip_refresh (led_status));
-   }
 #if     CONFIG_REVK_GPIO_POWER >= 0
    if (button.set && button.pulldown && !button.invert)
    {
