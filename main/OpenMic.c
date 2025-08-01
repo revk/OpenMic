@@ -920,8 +920,10 @@ mic_task (void *arg)
       };
       REVK_ERR_CHECK (led_strip_new_rmt_device (&strip_config, &rmt_config, &led_mic));
    }
-   void led (char c)
+   void led (char c, uint8_t beep)
    {
+      if (beep)
+         c = 'R';
       static uint8_t tick = 0;
       if (++tick == 10)
          tick = 0;
@@ -935,7 +937,11 @@ mic_task (void *arg)
       }
       if (led_status)
       {
-         if (rgbleds < 3)
+         if (beep)
+         {
+            for (int i = 0; i < rgbleds; i++)
+               revk_led (led_status, i, 255, revk_rgb ((i <= (uint32_t) rgbleds * beep * MICMS / 1000) ? 'R' : 'K'));
+         } else if (rgbleds < 3)
          {                      // Simple status - old boards
             char c = 'K';
             if (mic_mode == MIC_RECORD)
@@ -951,7 +957,7 @@ mic_task (void *arg)
          {                      // Battery level or status, new boards
             if (mic_mode)
                for (int i = 0; i < rgbleds; i++)
-                  revk_led (led_status, i, 255, revk_rgb (c == 'R' ? c : 'K'));
+                  revk_led (led_status, i, 255, 0);     // Off while recording
             else
             {
                uint32_t l = 0;
@@ -1003,7 +1009,7 @@ mic_task (void *arg)
       }
       if (!mode)
       {
-         led (sdrgb);
+         led (sdrgb, 0);
          usleep (100000);
          continue;
       }
@@ -1016,21 +1022,23 @@ mic_task (void *arg)
          err = i2s_new_channel (&chan_cfg, &spk_handle, &mic_handle);   // Shared
       else
          err = i2s_new_channel (&chan_cfg, NULL, &mic_handle);
+      uint8_t beep = 0;
+      if (micbeep)
+         beep = 1000 / MICMS + 1;
       uint8_t rawbytes = (micws.set ? micgain ? 4 : 3 : 2);     // No WS means PDM (16 bit)
       if (mode == MIC_SIP)
       {
-         led ('C');
          micfreq = SIP_RATE;
          micchannels = 1;
          micbytes = 2;
          micsamples = SIP_BYTES;
+         beep = 0;
       } else if (mode == MIC_RECORD || mode == MIC_TEST)
       {
          micfreq = micrate;
          micchannels = (micstereo ? 2 : 1);
          micbytes = (micws.set && !micgain ? 3 : 2);
          micsamples = micfreq * MICMS / 1000;
-         led (micbeep ? 'R' : dark ? 'b' : 'G');
          if (wifirecord && !b.miconha)
             revk_disable_wifi ();
       }
@@ -1099,16 +1107,15 @@ mic_task (void *arg)
          vTaskDelete (NULL);
          return;
       }
-      uint8_t beep = 0;
       uint8_t phase = 0;
-      if (micbeep)
-         beep = 1000 / MICMS + 1;
       ESP_LOGE (TAG, "Mic started mode %d, %ld*%d*%d bits at %ldHz - mapped to %d*%d bits", mode, micsamples, micchannels,
                 rawbytes * 8, micfreq, micchannels, micbytes * 8);
+      if (mode == MIC_SIP)
+         led ('C', 0);
       while (!b.die && mic_mode)
       {
-         if (beep && !--beep)
-            led (dark ? 'b' : 'G');
+         if (beep)
+            led (dark ? 'b' : 'G', --beep);
          size_t n = 0;
          i2s_channel_read (mic_handle, raw ? : micaudio[sdin], micchannels * rawbytes * micsamples, &n, MICMS * 2);
          if (n < micchannels * rawbytes * micsamples)
@@ -1191,7 +1198,7 @@ mic_task (void *arg)
                   if (!b.overrun)
                   {
                      b.overrun = 1;
-                     led ('R');
+                     led ('R', 0);
                   }
                   ESP_LOGE (TAG, "Mic overflow");
                } else
@@ -1211,7 +1218,7 @@ mic_task (void *arg)
          revk_enable_wifi ();
       ESP_LOGE (TAG, "Mic stopped");
    }
-   led ('K');
+   led ('K', 0);
    vTaskDelete (NULL);
 }
 
