@@ -1022,7 +1022,7 @@ mic_task (void *arg)
          err = i2s_new_channel (&chan_cfg, &spk_handle, &mic_handle);   // Shared
       else
          err = i2s_new_channel (&chan_cfg, NULL, &mic_handle);
-      uint8_t beep = 0;
+      uint8_t beep = 1;
       if (micbeep)
          beep = 1000 / MICMS + 1;
       uint8_t rawbytes = (micws.set ? micgain ? 4 : 3 : 2);     // No WS means PDM (16 bit)
@@ -1110,7 +1110,7 @@ mic_task (void *arg)
       uint8_t phase = 0;
       ESP_LOGE (TAG, "Mic started mode %d, %ld*%d*%d bits at %ldHz - mapped to %d*%d bits", mode, micsamples, micchannels,
                 rawbytes * 8, micfreq, micchannels, micbytes * 8);
-      if (mode == MIC_SIP)
+      if (!beep)
          led ('C', 0);
       while (!b.die && mic_mode)
       {
