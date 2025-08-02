@@ -1115,7 +1115,7 @@ mic_task (void *arg)
       while (!b.die && mic_mode)
       {
          if (beep)
-            led (dark ? 'b' : 'G', --beep);
+            led (dark ? 'l' : 'G', --beep);
          size_t n = 0;
          i2s_channel_read (mic_handle, raw ? : micaudio[sdin], micchannels * rawbytes * micsamples, &n, MICMS * 2);
          if (n < micchannels * rawbytes * micsamples)
