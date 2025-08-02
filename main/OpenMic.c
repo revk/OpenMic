@@ -1531,7 +1531,7 @@ sip_callback (sip_state_t state, uint8_t len, const uint8_t * data)
 void
 app_main ()
 {
-   ESP_LOGE (TAG, "Started");
+   //ESP_LOGE (TAG, "Started");
    revk_boot (&app_callback);
    revk_start ();
    sd_mutex = xSemaphoreCreateBinary ();

@@ -1,4 +1,4 @@
-26439480062752746
+26441232920521850
 Audio_Module
 Reverb_BTDR-1H
 Digital Reverberation Unit, http://www.belton.co.kr/inc/downfile.php?seq=17&file=pdf (footprint from http://www.uk-electronic.de/PDF/BTDR-1.pdf)
@@ -94702,6 +94702,13 @@ C_0805_
 0
 0
 0
+RevK
+C_0805_Tant
+
+
+0
+2
+2
 RevK
 C_1206
 Capacitor SMD 1206 (3216 Metric), square (rectangular) end terminal, IPC_7351 nominal, (Body size source: IPC-SM-782 page 76, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf), generated with kicad-footprint-generator
