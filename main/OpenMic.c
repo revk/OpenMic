@@ -124,9 +124,11 @@ typedef enum
 } spk_mode_t;
 spk_mode_t spk_mode = 0;
 
-sip_state_t sip_mode;
+sip_state_t sip_mode = 0;
 
 sdmmc_card_t *card = NULL;
+
+led_strip_handle_t led_status = NULL;
 
 struct
 {
@@ -252,6 +254,11 @@ revk_state_extra (jo_t j)
 {
    if (vbus.set)
       jo_bool (j, "power", b.vbus);
+   if (chg.set)
+   {
+      jo_bool (j, "charging", b.charging);
+      jo_bool (j, "charged", b.batfull);
+   }
    if (sdcmd.set)
       jo_bool (j, "sdcard", b.sdpresent);
    if (micws.set)
@@ -713,17 +720,49 @@ ir_callback (uint8_t coding, uint16_t lead0, uint16_t lead1, uint8_t len, uint8_
    }
 }
 
+long long uploaded = 0,
+   uploadtotal = 0;
+
 void
 do_upload (void)
 {
+
+   DIR *dir = opendir (sd_mount);
+   struct dirent *entry;
+   char *filename = NULL;
+   struct stat s = { 0 };
+   int files = 0;
+   if (!dir)
+      return;
+   uploadtotal = 0;
+   while ((entry = readdir (dir)))
+      if (entry->d_type == DT_REG)
+      {
+         if (!isdigit ((int) *(unsigned char *) (entry->d_name)))
+            continue;
+         const char *e = strrchr (entry->d_name, '.');
+         if (!e || strcasecmp (e, ".wav"))
+            continue;
+         for (e = entry->d_name; *e && isdigit ((int) *(unsigned char *) e); e++);
+         if (*e != '-')
+            continue;
+         asprintf (&filename, "%s/%s", sd_mount, entry->d_name);
+         if (!stat (filename, &s) && s.st_size)
+         {
+            uploadtotal += s.st_size;
+            files++;
+         }
+         free (filename);
+      }
+   closedir (dir);
+   ESP_LOGE (TAG, "Upload %d file%s, %lld bytes", files, files == 1 ? "" : "s", uploadtotal);
+
    while (1)
    {
-      DIR *dir = opendir (sd_mount);
+      dir = opendir (sd_mount);
       if (!dir)
          break;
-      struct dirent *entry;
       char *oldest = NULL;
-      char *filename = NULL;
       while ((entry = readdir (dir)))
          if (entry->d_type == DT_REG)
          {
@@ -749,7 +788,6 @@ do_upload (void)
       closedir (dir);
       if (!oldest)
          break;
-      struct stat s = { 0 };
       if (stat (filename, &s))
       {
          free (filename);
@@ -782,6 +820,7 @@ do_upload (void)
          .method = HTTP_METHOD_POST,
       };
 #define	BLOCK	2048
+      uint8_t lastpercent = 255;
       char *buf = mallocspi (BLOCK);
       if (buf)
       {
@@ -802,7 +841,26 @@ do_upload (void)
                   if (len <= 0)
                      break;
                   total += len;
+                  uploaded += len;
                   esp_http_client_write (client, buf, len);
+                  uint8_t percent = uploaded * 100 / uploadtotal;
+                  if (percent != lastpercent)
+                  {
+                     lastpercent = percent;
+                     ESP_LOGE (TAG, "Upload %d%%", percent);
+                     int l = (int) (100 - percent) * rgbleds * 256 / 100;
+                     if (l < 64)
+                        l = 64;
+                     for (int i = 0; i < rgbleds; i++)
+                     {
+                        revk_led (led_status, i, l < 256 ? l : 255, revk_rgb (i & 1 ? 'O' : 'B'));
+                        if (l < 256)
+                           l = 0;
+                        else
+                           l -= 256;
+                     }
+                     REVK_ERR_CHECK (led_strip_refresh (led_status));
+                  }
                }
                esp_http_client_fetch_headers (client);
                esp_http_client_flush_response (client, &len);
@@ -862,8 +920,13 @@ mic_task (void *arg)
       };
       REVK_ERR_CHECK (led_strip_new_rmt_device (&strip_config, &rmt_config, &led_mic));
    }
-   void led (char c)
+   void led (char c, uint8_t beep)
    {
+      if (beep)
+         c = 'R';
+      static uint8_t tick = 0;
+      if (++tick == 10)
+         tick = 0;
       if (led_mic)
       {
          revk_led (led_mic, 0, 255, !b.micokl ? revk_rgb ('R') : micchannels == 0 || micchannels == 2
@@ -871,6 +934,54 @@ mic_task (void *arg)
          revk_led (led_mic, 1, 255, !b.micokr ? revk_rgb ('R') : micchannels == 0 || micchannels == 2
                    || micright ? revk_rgb (c) : 0);
          REVK_ERR_CHECK (led_strip_refresh (led_mic));
+      }
+      if (led_status)
+      {
+         if (beep)
+         {
+            for (int i = 0; i < rgbleds; i++)
+               revk_led (led_status, i, 255, revk_rgb ((i <= (uint32_t) rgbleds * beep * MICMS / 1000) ? 'R' : 'K'));
+         } else if (rgbleds < 3)
+         {                      // Simple status - old boards
+            char c = 'K';
+            if (mic_mode == MIC_RECORD)
+               c = (dark ? 'B' : 'K');
+            else if (mic_mode == MIC_SIP)
+               c = (sip_mode == SIP_IC || sip_mode == SIP_OG) ? 'G' : 'R';
+            if (b.charging && tick < 5)
+               c = tolower (c); // Charging so blink
+            revk_led (led_status, 0, 255, revk_blinker ());
+            for (int i = 1; i < rgbleds; i++)
+               revk_led (led_status, i, 255, revk_rgb (c));
+         } else
+         {                      // Battery level or status, new boards
+            if (mic_mode)
+               for (int i = 0; i < rgbleds; i++)
+                  revk_led (led_status, i, 255, 0);     // Off while recording
+            else
+            {
+               uint32_t l = 0;
+               if (isfinite (voltage))
+                  l = (voltage - BAT_EMPTY) * rgbleds * 256 / (BAT_FULL - BAT_EMPTY);
+               else if (b.vbus || b.charging)
+                  l = 256;
+               if (b.charging && tick <= 5)
+                  l = l * tick / 5;
+               if (b.batfull)
+                  l = 256 * rgbleds;
+               else if (!b.charging && b.vbus)
+                  l = 0;
+               for (int i = 0; i < rgbleds; i++)
+               {
+                  revk_led (led_status, i, l < 256 ? l : 255, revk_rgb (b.vbus ? dark ? 'g' : 'G' : dark ? 'b' : 'B'));
+                  if (l < 256)
+                     l = 0;
+                  else
+                     l -= 256;
+               }
+            }
+         }
+         REVK_ERR_CHECK (led_strip_refresh (led_status));
       }
    }
    jo_t e (esp_err_t err, const char *msg)
@@ -898,10 +1009,11 @@ mic_task (void *arg)
       }
       if (!mode)
       {
-         led (sdrgb);
+         led (sdrgb, 0);
          usleep (100000);
          continue;
       }
+      mic_mode = mode;
       ESP_LOGE (TAG, "Mic mode %d", mode);
       revk_disable_upgrade ();
       esp_err_t err;
@@ -910,21 +1022,23 @@ mic_task (void *arg)
          err = i2s_new_channel (&chan_cfg, &spk_handle, &mic_handle);   // Shared
       else
          err = i2s_new_channel (&chan_cfg, NULL, &mic_handle);
+      uint8_t beep = 1;
+      if (micbeep)
+         beep = 1000 / MICMS + 1;
       uint8_t rawbytes = (micws.set ? micgain ? 4 : 3 : 2);     // No WS means PDM (16 bit)
       if (mode == MIC_SIP)
       {
-         led ('C');
          micfreq = SIP_RATE;
          micchannels = 1;
          micbytes = 2;
          micsamples = SIP_BYTES;
+         beep = 0;
       } else if (mode == MIC_RECORD || mode == MIC_TEST)
       {
          micfreq = micrate;
          micchannels = (micstereo ? 2 : 1);
          micbytes = (micws.set && !micgain ? 3 : 2);
          micsamples = micfreq * MICMS / 1000;
-         led (micbeep ? 'O' : dark ? 'b' : 'G');
          if (wifirecord && !b.miconha)
             revk_disable_wifi ();
       }
@@ -993,17 +1107,15 @@ mic_task (void *arg)
          vTaskDelete (NULL);
          return;
       }
-      mic_mode = mode;
-      uint8_t beep = 0;
       uint8_t phase = 0;
-      if (micbeep)
-         beep = 1000 / MICMS + 1;
       ESP_LOGE (TAG, "Mic started mode %d, %ld*%d*%d bits at %ldHz - mapped to %d*%d bits", mode, micsamples, micchannels,
                 rawbytes * 8, micfreq, micchannels, micbytes * 8);
+      if (!beep)
+         led ('C', 0);
       while (!b.die && mic_mode)
       {
-         if (beep && !--beep)
-            led (dark ? 'b' : 'G');
+         if (beep)
+            led (dark ? 'l' : 'G', --beep);
          size_t n = 0;
          i2s_channel_read (mic_handle, raw ? : micaudio[sdin], micchannels * rawbytes * micsamples, &n, MICMS * 2);
          if (n < micchannels * rawbytes * micsamples)
@@ -1086,7 +1198,7 @@ mic_task (void *arg)
                   if (!b.overrun)
                   {
                      b.overrun = 1;
-                     led ('R');
+                     led ('R', 0);
                   }
                   ESP_LOGE (TAG, "Mic overflow");
                } else
@@ -1106,7 +1218,7 @@ mic_task (void *arg)
          revk_enable_wifi ();
       ESP_LOGE (TAG, "Mic stopped");
    }
-   led ('K');
+   led ('K', 0);
    vTaskDelete (NULL);
 }
 
@@ -1548,7 +1660,6 @@ app_main ()
       register_post_uri ("/", web_root);
    }
    revk_gpio_output (rgbpwr, 1);        // Power on LED
-   led_strip_handle_t led_status = NULL;
    if (rgbstatus.set)
    {
       led_strip_config_t strip_config = {
@@ -1621,7 +1732,10 @@ app_main ()
          if (press == 10 && sip_mode == SIP_IC_ALERT)
             sip_hangup ();
          if (press == 30)
+         {
             b.die = 1;
+            b.micon = 0;
+         }
       } else if (press)
       {                         // Released
          if (press < 30)
@@ -1642,48 +1756,6 @@ app_main ()
             }
          }
          press = 0;
-      }
-      if (led_status)
-      {
-         if (rgbleds < 3)
-         {                      // Simple status
-            char c = 'K';
-            if (mic_mode == MIC_RECORD)
-               c = (dark ? 'B' : 'K');
-            else if (mic_mode == MIC_SIP)
-               c = (sip_mode == SIP_IC || sip_mode == SIP_OG) ? 'G' : 'R';
-            if (b.charging && tick < 5)
-               c = tolower (c); // Charging so blink
-            revk_led (led_status, 0, 255, revk_blinker ());
-            for (int i = 1; i < rgbleds; i++)
-               revk_led (led_status, i, 255, revk_rgb (c));
-         } else
-         {                      // Battery level
-            if (mic_mode)
-               for (int i = 0; i < rgbleds; i++)
-                  revk_led (led_status, i, 0, 0);
-            else
-            {
-               uint32_t l = 0;
-               if (isfinite (voltage))
-                  l = (voltage - BAT_EMPTY) * rgbleds * 256 / (BAT_FULL - BAT_EMPTY);
-               else if (b.vbus || b.charging)
-                  l = 256;
-               if (b.charging && tick <= 5)
-                  l = l * tick / 5;
-               if (b.batfull)
-                  l = 256 * rgbleds;
-               for (int i = 0; i < rgbleds; i++)
-               {
-                  revk_led (led_status, i, l < 256 ? l : 255, revk_rgb (b.vbus ? 'G' : 'B'));
-                  if (l < 256)
-                     l = 0;
-                  else
-                     l -= 256;
-               }
-            }
-         }
-         REVK_ERR_CHECK (led_strip_refresh (led_status));
       }
    }
    if (revk_shutting_down (NULL))
@@ -1706,13 +1778,12 @@ app_main ()
       }
    } else if (*sdupload && b.sdpresent && !revk_shutting_down (NULL))
    {                            // Upload
-      for (int i = 0; i < rgbleds; i++)
-         revk_led (led_status, i, 255, revk_rgb ('C'));
-      REVK_ERR_CHECK (led_strip_refresh (led_status));
       revk_enable_wifi ();
       revk_wait_wifi (10);
       do_upload ();
    }
+   revk_pre_shutdown ();
+   sleep (1);                   // Allow tasks to end
    // Go dark
    if (led_status)
    {
@@ -1720,7 +1791,6 @@ app_main ()
          revk_led (led_status, i, 255, 0);
       REVK_ERR_CHECK (led_strip_refresh (led_status));
    }
-   revk_pre_shutdown ();
    if (button.set)
    {
       ESP_LOGE (TAG, "Wait release");
@@ -1739,7 +1809,6 @@ app_main ()
    }
    ESP_LOGE (TAG, "Shutdown");
    // Shutdown
-   sleep (1);                   // Allow tasks to end
 #if     CONFIG_REVK_GPIO_POWER >= 0
    if (button.set && button.pulldown && !button.invert)
    {
