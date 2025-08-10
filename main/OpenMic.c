@@ -285,8 +285,9 @@ revk_web_extra (httpd_req_t * req, int page)
          revk_web_setting (req, NULL, "micbeep");
       revk_web_setting (req, NULL, "sdsynctime");
       revk_web_setting (req, NULL, "sdrectime");
-      revk_web_setting (req, NULL, "sdupload");
       revk_web_setting (req, NULL, "sddelete");
+      revk_web_setting (req, NULL, "sdupload");
+      revk_web_setting (req, NULL, "sdusb");
       revk_web_setting (req, NULL, "haenable");
       revk_web_setting (req, NULL, "wifilock");
       revk_web_setting (req, NULL, "wifirecord");
@@ -387,8 +388,8 @@ SemaphoreHandle_t sd_mutex = NULL;
 
 void
 usb_on (void)
-{
-   if (!usbmsc)
+{                               // Enable USB Mass Storage
+   if (!sdusb)
       return;
    tinyusb_config_t init = {
       .device_descriptor = NULL,        // Use the default device descriptor specified in Menuconfig
@@ -418,13 +419,11 @@ usb_on (void)
 
 void
 usb_off (void)
-{
-   if (usbmsc)
-   {
-      tinyusb_msc_storage_deinit ();
-      tinyusb_driver_uninstall ();
-   }
-
+{                               // Disable USB Mass Storage
+   if (!sdusb)
+      return;
+   tinyusb_msc_storage_deinit ();
+   tinyusb_driver_uninstall ();
 }
 
 void
@@ -719,13 +718,15 @@ sd_task (void *arg)
          free (filename);
          filename = NULL;
          sdrgb = 'B';
-         // All done, unmount partition and disable SPI peripheral
-         esp_vfs_fat_sdcard_unmount (sd_mount, card);
-         ESP_LOGE (TAG, "SD Card dismounted");
+         if (b.dodismount)
          {
-            jo_t j = jo_object_alloc ();
-            jo_string (j, "action", cardstatus = "Dismounted");
-            revk_info ("SD", &j);
+            esp_vfs_fat_sdcard_unmount (sd_mount, card);
+            ESP_LOGE (TAG, "SD Card dismounted");
+            {
+               jo_t j = jo_object_alloc ();
+               jo_string (j, "action", cardstatus = "Dismounted");
+               revk_info ("SD", &j);
+            }
          }
       }
    }
@@ -947,6 +948,7 @@ do_upload (void)
       if (response / 100 != 2)
          break;
    }
+   esp_vfs_fat_sdcard_unmount (sd_mount, card);
 }
 
 void
@@ -1806,6 +1808,7 @@ app_main ()
          press = 0;
       }
    }
+   usb_off ();
    if (revk_shutting_down (NULL))
    {
       while (revk_shutting_down (NULL))
