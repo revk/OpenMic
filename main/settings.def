@@ -61,3 +61,5 @@ bit	wifi.record	1	.hide=1 // WiFi off during recording (unless started via HA)
 bit	wifi.usb		.hide=1	// WiFi off when not on USB power
 
 bit	ha.enable	1	.hide=1 // Enable Home Assistant
+
+bit	usb.msc		0		// USB mass storage (experimental)

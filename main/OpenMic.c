@@ -21,6 +21,8 @@ static const char TAG[] = "OpenMic";
 #include "esp_http_client.h"
 #include <esp_http_server.h>
 #include "esp_crt_bundle.h"
+#include "tinyusb.h"
+#include "tusb_msc_storage.h"
 #include "fft.h"
 #include "math.h"
 #include "esp_vfs_fat.h"
@@ -409,6 +411,22 @@ sd_task (void *arg)
       .allocation_unit_size = 16 * 1024,
       .disk_status_check_enable = 1,
    };
+   if (usbmsc)
+   {
+      const tinyusb_config_t partial_init = {
+         .device_descriptor = NULL,     // Use the default device descriptor specified in Menuconfig
+         .string_descriptor = NULL,     // Use the default string descriptors specified in Menuconfig
+         .external_phy = false, // Use internal USB PHY
+#if (TUD_OPT_HIGH_SPEED)
+         .fs_configuration_descriptor = NULL,   // Use the default full-speed configuration descriptor according to settings in Menuconfig
+         .hs_configuration_descriptor = NULL,   // Use the default high-speed configuration descriptor according to settings in Menuconfig
+         .qualifier_descriptor = NULL,  // Use the default qualifier descriptor, with values from default device descriptor
+#else
+         .configuration_descriptor = NULL,      // Use the default configuration descriptor according to settings in Menuconfig
+#endif // TUD_OPT_HIGH_SPEED
+      };
+      tinyusb_driver_install (&partial_init);
+   }
    while (!b.die)
    {
       if (sdcd.set)
@@ -490,6 +508,13 @@ sd_task (void *arg)
          jo_int (j, "size", sdsize);
          jo_int (j, "free", sdfree);
          revk_info ("SD", &j);
+      }
+      if (usbmsc)
+      {
+         const tinyusb_msc_sdmmc_config_t config_sdmmc = {
+            .card = card
+         };
+         tinyusb_msc_storage_init_sdmmc (&config_sdmmc);
       }
       sdrgb = 'Y';              // Mounted, ready
       b.doformat = 0;
@@ -653,6 +678,13 @@ sd_task (void *arg)
                      free (filename);
                      filename = NULL;
                   }
+               }
+               if (usbmsc)
+               {
+                  const tinyusb_msc_sdmmc_config_t config_sdmmc = {
+                     .card = card
+                  };
+                  tinyusb_msc_storage_init_sdmmc (&config_sdmmc);
                }
             }
             if (sdfile && sdin != sdout)
