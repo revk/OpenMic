@@ -18,3 +18,4 @@ settings.c
 settings.h
 PCB/*/production/backups
 PCB/home
+fp-info-cache
