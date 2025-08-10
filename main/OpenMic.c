@@ -403,13 +403,11 @@ usb_on (void)
       .configuration_descriptor = NULL, // Use the default configuration descriptor according to settings in Menuconfig
 #endif // TUD_OPT_HIGH_SPEED
    };
-#if 0
    if (vbus.set)
    {
       init.self_powered = true;
       init.vbus_monitor_io = vbus.num;
    }
-#endif
    tinyusb_driver_install (&init);
    const tinyusb_msc_sdmmc_config_t config_sdmmc = {
       .card = card
