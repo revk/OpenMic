@@ -17,3 +17,4 @@ dependencies.lock
 settings.c
 settings.h
 PCB/*/production/backups
+PCB/home
