@@ -1,6 +1,6 @@
 // Generated case design for Recorder/Recorder.kicad_pcb
 // By https://github.com/revk/PCBCase
-// Generated 2025-08-10 12:46:13
+// Generated 2025-08-10 13:08:45
 // title:	PCB-AUDIO
 // rev:	1
 // company:	Adrian Kennard, Andrews & Arnold Ltd
@@ -10,7 +10,7 @@
 margin=0.200000;
 lip=3.000000;
 casebottom=3.000000;
-casetop=4.000000;
+casetop=7.000000;
 casewall=3.000000;
 fit=0.000000;
 edge=2.000000;
@@ -393,18 +393,21 @@ if(part)
 
 module m6(part=false,hole=false,block=false,height)
 { // SW1
+// Push switch
 if(part)
 {
- b(0,0,0,5.8,5.8,5);
- b(0,0,0,2.9,3.6,8);
+ b(0,0,0,5,9,1);	// Pads
+ // Not part as we expect to always be a hold through case
+ //b(0,0,0,5.8,5.8,5);
+ //b(0,0,0,2.9,3.6,8);
 }
 if(hole)
 {
- b(0,0,5,6,6,height);
+ b(0,0,0,6,6,height+1);
 }
 if(block)
 {
- b(0,0,0,7,7,height);
+ b(0,0,0,8,8,height);
 }
 }
 
@@ -859,5 +862,4 @@ module bottom()
 		pcb(height,r=margin);
 	}
 }
-translate([spacing*2,0,0])preview();
 bottom(); translate([spacing,0,0])top();
