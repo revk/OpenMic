@@ -410,7 +410,7 @@ usb_on (void)
    }
    tinyusb_driver_install (&init);
    const tinyusb_msc_sdmmc_config_t config_sdmmc = {
-      .card = card
+      .card = card,
    };
    tinyusb_msc_storage_init_sdmmc (&config_sdmmc);
 }
