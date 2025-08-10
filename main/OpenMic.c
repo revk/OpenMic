@@ -386,6 +386,48 @@ web_root (httpd_req_t * req)
 SemaphoreHandle_t sd_mutex = NULL;
 
 void
+usb_on (void)
+{
+   if (!usbmsc)
+      return;
+   tinyusb_config_t init = {
+      .device_descriptor = NULL,        // Use the default device descriptor specified in Menuconfig
+      .string_descriptor = NULL,        // Use the default string descriptors specified in Menuconfig
+      .external_phy = false,    // Use internal USB PHY
+#if (TUD_OPT_HIGH_SPEED)
+      .fs_configuration_descriptor = NULL,      // Use the default full-speed configuration descriptor according to settings in Menuconfig
+      .hs_configuration_descriptor = NULL,      // Use the default high-speed configuration descriptor according to settings in Menuconfig
+      .qualifier_descriptor = NULL,     // Use the default qualifier descriptor, with values from default device descriptor
+#else
+      .configuration_descriptor = NULL, // Use the default configuration descriptor according to settings in Menuconfig
+#endif // TUD_OPT_HIGH_SPEED
+   };
+#if 0
+   if (vbus.set)
+   {
+      init.self_powered = true;
+      init.vbus_monitor_io = vbus.num;
+   }
+#endif
+   tinyusb_driver_install (&init);
+   const tinyusb_msc_sdmmc_config_t config_sdmmc = {
+      .card = card
+   };
+   tinyusb_msc_storage_init_sdmmc (&config_sdmmc);
+}
+
+void
+usb_off (void)
+{
+   if (usbmsc)
+   {
+      tinyusb_msc_storage_deinit ();
+      tinyusb_driver_uninstall ();
+   }
+
+}
+
+void
 sd_task (void *arg)
 {
    esp_err_t e = 0;
@@ -411,22 +453,6 @@ sd_task (void *arg)
       .allocation_unit_size = 16 * 1024,
       .disk_status_check_enable = 1,
    };
-   if (usbmsc)
-   {
-      const tinyusb_config_t partial_init = {
-         .device_descriptor = NULL,     // Use the default device descriptor specified in Menuconfig
-         .string_descriptor = NULL,     // Use the default string descriptors specified in Menuconfig
-         .external_phy = false, // Use internal USB PHY
-#if (TUD_OPT_HIGH_SPEED)
-         .fs_configuration_descriptor = NULL,   // Use the default full-speed configuration descriptor according to settings in Menuconfig
-         .hs_configuration_descriptor = NULL,   // Use the default high-speed configuration descriptor according to settings in Menuconfig
-         .qualifier_descriptor = NULL,  // Use the default qualifier descriptor, with values from default device descriptor
-#else
-         .configuration_descriptor = NULL,      // Use the default configuration descriptor according to settings in Menuconfig
-#endif // TUD_OPT_HIGH_SPEED
-      };
-      tinyusb_driver_install (&partial_init);
-   }
    while (!b.die)
    {
       if (sdcd.set)
@@ -509,14 +535,8 @@ sd_task (void *arg)
          jo_int (j, "free", sdfree);
          revk_info ("SD", &j);
       }
-      if (usbmsc)
-      {
-         const tinyusb_msc_sdmmc_config_t config_sdmmc = {
-            .card = card
-         };
-         tinyusb_msc_storage_init_sdmmc (&config_sdmmc);
-      }
-      sdrgb = 'Y';              // Mounted, ready
+      sdrgb = 'Y';              // ready
+      usb_on ();
       b.doformat = 0;
       uint32_t writebytes = 0;  // Bytes of actual data written
       uint32_t filesize = 0;    // End of file writebytes
@@ -535,6 +555,7 @@ sd_task (void *arg)
             }
             if (mic_mode == MIC_RECORD && !sdfile)
             {                   // Start file
+               usb_off ();
                filesize = sdrectime * micfreq * micchannels * micbytes;
                filesync = sdsynctime * micfreq * micchannels * micbytes;
                int fileno = 0;
@@ -647,7 +668,7 @@ sd_task (void *arg)
                      ESP_LOGE (TAG, "Sync %s at %lu", filename, writebytes);
                      filesync += sdsynctime * micfreq * micchannels * micbytes;
                   } else
-                  {             // File sclose
+                  {             // File close
                      ESP_LOGE (TAG, "Recording closed %s at %lu", filename, writebytes);
                      fclose (sdfile);
                      sdfile = NULL;
@@ -679,13 +700,8 @@ sd_task (void *arg)
                      filename = NULL;
                   }
                }
-               if (usbmsc)
-               {
-                  const tinyusb_msc_sdmmc_config_t config_sdmmc = {
-                     .card = card
-                  };
-                  tinyusb_msc_storage_init_sdmmc (&config_sdmmc);
-               }
+               if (!sdfile)
+                  usb_on ();
             }
             if (sdfile && sdin != sdout)
             {
@@ -713,6 +729,7 @@ sd_task (void *arg)
          }
       }
    }
+   usb_off ();
    vTaskDelete (NULL);
 }
 
@@ -758,7 +775,6 @@ long long uploaded = 0,
 void
 do_upload (void)
 {
-
    DIR *dir = opendir (sd_mount);
    struct dirent *entry;
    char *filename = NULL;
