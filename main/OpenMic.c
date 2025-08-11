@@ -14,6 +14,7 @@ static const char TAG[] = "OpenMic";
 #include <driver/i2s_pdm.h>
 #include <driver/rtc_io.h>
 #include <driver/sdmmc_host.h>
+#include <sdmmc_cmd.h>
 #include "hal/adc_types.h"
 #include "esp_adc/adc_oneshot.h"
 #include "esp_adc/adc_cali.h"
@@ -129,6 +130,8 @@ spk_mode_t spk_mode = 0;
 sip_state_t sip_mode = 0;
 
 sdmmc_card_t *card = NULL;
+sdmmc_slot_config_t slot = SDMMC_SLOT_CONFIG_DEFAULT ();
+sdmmc_host_t host = SDMMC_HOST_DEFAULT ();
 
 led_strip_handle_t led_status = NULL;
 
@@ -136,9 +139,7 @@ struct
 {
    uint8_t die:1;               // Shutting down
    uint8_t status:1;            // Send status
-   uint8_t sdpresent:1;         // SD present
    uint8_t doformat:1;          // SD format
-   uint8_t dodismount:1;        // Dismount SD
    uint8_t micokl:1;            // Mic L is OK
    uint8_t micokr:1;            // Mic R is OK
    uint8_t micon:1;             // Sounds required
@@ -147,11 +148,18 @@ struct
    uint8_t ha:1;                // Send HA config
    uint8_t overrun:1;           // Record overrun
    uint8_t vbus:1;              // VBUS connected
+   uint8_t usbmsc:1;            // USB MSC active
+   uint8_t sdpresent:1;         // SD present
+   uint8_t sdmount:1;           // SD mounted locally (USB unmounts it)
    uint8_t charging:1;          // Is charging
    uint8_t batfull:1;           // Battery full
 } b = { 0 };
 
-const char sd_mount[] = "/sd";
+#ifdef	CONFIG_TINYUSB_MSC_MOUNT_PATH
+const char sd_dir[] = CONFIG_TINYUSB_MSC_MOUNT_PATH;
+#else
+const char sd_dir[] = "/sd";
+#endif
 char sdrgb = 0;                 // Colour for SD card
 const char *cardstatus = NULL;  // Status of SD card
 uint64_t sdsize = 0,            // SD card data
@@ -223,8 +231,10 @@ app_callback (int client, const char *prefix, const char *target, const char *su
    }
    if (!strcasecmp (suffix, "record"))
    {
-      if (b.sdpresent && !jo_strcmp (j, "ON"))
+      if (jo_strcmp (j, "ON"))
       {
+         if (!b.sdmount)
+            return "Not mounted";
          b.miconha = 1;
          b.micon = 1;
          b.status = 1;
@@ -262,7 +272,13 @@ revk_state_extra (jo_t j)
       jo_bool (j, "charged", b.batfull);
    }
    if (sdcmd.set)
-      jo_bool (j, "sdcard", b.sdpresent);
+   {
+      if (sdcd.set)
+         jo_bool (j, "sdcard", b.sdpresent);
+      if (b.sdpresent)
+         jo_bool (j, "sdmount", b.sdmount);
+   }
+   jo_bool (j, "usbmsc", b.usbmsc);
    if (micws.set)
       jo_string (j, "record", b.micon ? "ON" : "OFF");
    if (isfinite (voltage))
@@ -386,11 +402,97 @@ web_root (httpd_req_t * req)
 
 SemaphoreHandle_t sd_mutex = NULL;
 
+void usb_off (void);
+void usb_on (void);
+
+void
+sd_mount (void)
+{
+   if (b.sdmount)
+      return;
+   esp_vfs_fat_sdmmc_mount_config_t mount_config = {
+      .format_if_mount_failed = 1,
+      .max_files = 2,
+      .allocation_unit_size = 16 * 1024,
+      .disk_status_check_enable = 1,
+   };
+   esp_err_t e = esp_vfs_fat_sdmmc_mount (sd_dir, &host, &slot, &mount_config, &card);
+   if (e != ESP_OK)
+   {
+      ESP_LOGE (TAG, "SD Mount failed");
+      jo_t j = jo_object_alloc ();
+      if (e == ESP_FAIL)
+         jo_string (j, "error", cardstatus = "Failed to mount");
+      else
+         jo_string (j, "error", cardstatus = "Failed to iniitialise");
+      jo_int (j, "code", e);
+      revk_error ("SD", &j);
+      return;
+   }
+   b.sdpresent = 1;             // we mounted, so must be
+   sdrgb = 'G';                 // Writing to card (typically gets overridden)
+   if (b.doformat)
+   {
+      b.doformat = 0;
+      if ((e = esp_vfs_fat_sdcard_format (sd_dir, card)))
+      {
+         ESP_LOGE (TAG, "SD format failed");
+         jo_t j = jo_object_alloc ();
+         jo_string (j, "error", cardstatus = "Failed to format");
+         jo_int (j, "code", e);
+         revk_error ("SD", &j);
+         return;
+      }
+      ESP_LOGE (TAG, "SD formatted");
+   }
+   sdrgb = 'R';                 // Oddly this call can hang forever!
+   esp_vfs_fat_info (sd_dir, &sdsize, &sdfree);
+   jo_t j = jo_object_alloc ();
+   jo_string (j, "action", cardstatus = (b.doformat ? "Formatted" : "Mounted"));
+   jo_int (j, "size", sdsize);
+   jo_int (j, "free", sdfree);
+   revk_info ("SD", &j);
+   sdrgb = 'Y';                 // ready
+   b.sdmount = 1;
+   b.status = 1;
+}
+
+void
+sd_unmount (void)
+{
+   if (!b.sdmount)
+      return;
+   jo_t j = jo_object_alloc ();
+   jo_string (j, "action", cardstatus = "Unmounted");
+   revk_info ("SD", &j);
+   esp_vfs_fat_sdcard_unmount (sd_dir, card);
+   card = NULL;
+   sdmmc_host_deinit ();
+   b.sdmount = 0;
+   b.status = 1;
+}
+
+void
+usb_mount (tinyusb_msc_event_t * event)
+{
+   b.sdmount = (event->mount_changed_data.is_mounted ? 1 : 0);
+   cardstatus = (b.sdmount ? "USB release" : "USB active");
+   b.status = 1;
+}
+
 void
 usb_on (void)
 {                               // Enable USB Mass Storage
-   if (!sdusb)
+   if (!sdusb || b.usbmsc)
       return;
+   if (card)
+   {                            // Switch to USB based mount
+      sd_unmount ();
+      card = malloc (sizeof (*card));
+      sdmmc_host_init ();
+      sdmmc_host_init_slot (SDMMC_HOST_SLOT_1, &slot);
+      sdmmc_card_init (&host, card);
+   }
    tinyusb_config_t init = {
       .device_descriptor = NULL,        // Use the default device descriptor specified in Menuconfig
       .string_descriptor = NULL,        // Use the default string descriptors specified in Menuconfig
@@ -411,324 +513,208 @@ usb_on (void)
    tinyusb_driver_install (&init);
    const tinyusb_msc_sdmmc_config_t config_sdmmc = {
       .card = card,
+      .callback_mount_changed = usb_mount,
+      .mount_config = {
+                       .format_if_mount_failed = 1,
+                       .max_files = 2,
+                       .allocation_unit_size = 16 * 1024,
+                       .disk_status_check_enable = 1,
+                       },
    };
    tinyusb_msc_storage_init_sdmmc (&config_sdmmc);
+   tinyusb_msc_storage_mount (NULL);
+   b.usbmsc = 1;
+   jo_t j = jo_object_alloc ();
+   jo_string (j, "action", cardstatus = "Enable");
+   revk_info ("USB", &j);
+   b.status = 1;
 }
 
 void
 usb_off (void)
 {                               // Disable USB Mass Storage
-   if (!sdusb)
+   if (!sdusb || !b.usbmsc)
       return;
+   b.usbmsc = 0;
    tinyusb_msc_storage_deinit ();
    tinyusb_driver_uninstall ();
+   jo_t j = jo_object_alloc ();
+   jo_string (j, "action", cardstatus = "Disable");
+   revk_info ("USB", &j);
+   b.status = 1;
 }
 
 void
 sd_task (void *arg)
 {
-   esp_err_t e = 0;
-   revk_gpio_input (sdcd);
-   sdmmc_slot_config_t slot = SDMMC_SLOT_CONFIG_DEFAULT ();
-   slot.clk = sdclk.num;
-   slot.cmd = sdcmd.num;
-   slot.d0 = sddat0.num;
-   slot.d1 = sddat1.set ? sddat1.num : -1;
-   slot.d2 = sddat2.set ? sddat2.num : -1;
-   slot.d3 = sddat3.set ? sddat3.num : -1;
-   //slot.cd = sdcd.set ? sdcd.num : -1; // We do CD, and not sure how we would tell it polarity
-   slot.width = (sddat2.set && sddat3.set ? 4 : sddat1.set ? 2 : 1);
-   if (slot.width == 1)
-      slot.flags |= SDMMC_SLOT_FLAG_INTERNAL_PULLUP;    // Old boards?
-   //if (slot.width == 4) slot.flags |= SDMMC_SLOT_FLAG_UHS1;
-   sdmmc_host_t host = SDMMC_HOST_DEFAULT ();
-   host.max_freq_khz = SDMMC_FREQ_HIGHSPEED;
-   host.slot = SDMMC_HOST_SLOT_1;
-   esp_vfs_fat_sdmmc_mount_config_t mount_config = {
-      .format_if_mount_failed = 1,
-      .max_files = 2,
-      .allocation_unit_size = 16 * 1024,
-      .disk_status_check_enable = 1,
-   };
+   uint32_t writebytes = 0;     // Bytes of actual data written
+   uint32_t filesize = 0;       // End of file writebytes
+   uint32_t filesync = 0;       // Sync next writebytes
+   uint64_t writetime = 0;      // Total us writing
+   char *filename = NULL;
    while (!b.die)
    {
-      if (sdcd.set)
-      {
-         if (b.dodismount)
-         {                      // Waiting card removed
-            sdrgb = 'B';
-            jo_t j = jo_object_alloc ();
-            jo_string (j, "action", cardstatus = revk_shutting_down (NULL) ? "Card dismounted for shutdown" : "Remove card");
-            revk_info ("SD", &j);
-            b.dodismount = 0;
-            while ((b.sdpresent = revk_gpio_get (sdcd)))
-               sleep (1);
-            continue;
-         }
-         if (!(b.sdpresent = revk_gpio_get (sdcd)))
-         {                      // No card
-            jo_t j = jo_object_alloc ();
-            jo_string (j, "error", cardstatus = "Card not present");
-            revk_info ("SD", &j);
-            sdrgb = 'M';
-            if (wifilock)
-            {
-               revk_enable_ap ();
-               revk_enable_settings ();
-            }
-            while (!(b.sdpresent = revk_gpio_get (sdcd)))
-               sleep (1);
-         }
-         if (wifilock)
+      sdrgb = (sdfile ? 'G' : b.sdmount ? 'Y' : b.sdpresent ? 'B' : 'K');
+      if (mic_mode == MIC_RECORD && !sdfile)
+      {                         // Start file
+         filesize = sdrectime * micfreq * micchannels * micbytes;
+         filesync = sdsynctime * micfreq * micchannels * micbytes;
+         int fileno = 0;
+         char *oldest = NULL;
+         DIR *dir = opendir (sd_dir);
+         if (dir)
          {
-            revk_disable_ap ();
-            revk_disable_settings ();
-         }
-         b.sdpresent = 1;
-      } else if (b.dodismount)
-      {
-         b.dodismount = 0;
-         sleep (60);
-         continue;
-      }
-      sleep (1);
-      ESP_LOGD (TAG, "Mounting SD card");
-      e = esp_vfs_fat_sdmmc_mount (sd_mount, &host, &slot, &mount_config, &card);
-      if (e != ESP_OK)
-      {
-         ESP_LOGE (TAG, "SD Mount failed");
-         jo_t j = jo_object_alloc ();
-         if (e == ESP_FAIL)
-            jo_string (j, "error", cardstatus = "Failed to mount");
-         else
-            jo_string (j, "error", cardstatus = "Failed to iniitialise");
-         jo_int (j, "code", e);
-         revk_error ("SD", &j);
-         sdrgb = 'R';
-         sleep (1);
-         continue;
-      }
-      ESP_LOGE (TAG, "SD Card mounted");
-      b.sdpresent = 1;          // we mounted, so must be
-      sdrgb = 'G';              // Writing to card (typically gets overridden)
-      if (b.doformat)
-      {
-         if ((e = esp_vfs_fat_sdcard_format (sd_mount, card)))
-         {
-            ESP_LOGE (TAG, "SD format failed");
-            jo_t j = jo_object_alloc ();
-            jo_string (j, "error", cardstatus = "Failed to format");
-            jo_int (j, "code", e);
-            revk_error ("SD", &j);
-         } else
-            ESP_LOGE (TAG, "SD formatted");
-      }
-      sdrgb = 'R';              // Oddly this call can hang forever!
-      {
-         esp_vfs_fat_info (sd_mount, &sdsize, &sdfree);
-         jo_t j = jo_object_alloc ();
-         jo_string (j, "action", cardstatus = (b.doformat ? "Formatted" : "Mounted"));
-         jo_int (j, "size", sdsize);
-         jo_int (j, "free", sdfree);
-         revk_info ("SD", &j);
-      }
-      sdrgb = 'Y';              // ready
-      usb_on ();
-      b.doformat = 0;
-      uint32_t writebytes = 0;  // Bytes of actual data written
-      uint32_t filesize = 0;    // End of file writebytes
-      uint32_t filesync = 0;    // Sync next writebytes
-      uint64_t writetime = 0;   // Total us writing
-      char *filename = NULL;
-      while (!b.doformat && !b.dodismount && !b.die)
-      {
-         while (!b.doformat && !b.dodismount)
-         {
-            sdrgb = (sdfile ? 'G' : 'Y');
-            if (!(b.sdpresent = revk_gpio_get (sdcd)))
-            {                   // card removed
-               b.dodismount = 1;
-               break;
-            }
-            if (mic_mode == MIC_RECORD && !sdfile)
-            {                   // Start file
-               usb_off ();
-               filesize = sdrectime * micfreq * micchannels * micbytes;
-               filesync = sdsynctime * micfreq * micchannels * micbytes;
-               int fileno = 0;
-               char *oldest = NULL;
-               DIR *dir = opendir (sd_mount);
-               if (dir)
+            struct dirent *entry;
+            while ((entry = readdir (dir)))
+               if (entry->d_type == DT_REG)
                {
-                  struct dirent *entry;
-                  while ((entry = readdir (dir)))
-                     if (entry->d_type == DT_REG)
-                     {
-                        if (!isdigit ((int) *(unsigned char *) (entry->d_name)))
-                           continue;
-                        const char *e = strrchr (entry->d_name, '.');
-                        if (!e || (strcasecmp (e, ".wav") && !strcasecmp (e, ".bad")))
-                           continue;
-                        int n = atoi (entry->d_name);
-                        if (n > fileno)
-                           fileno = n;
-                        if (!oldest || atoi (entry->d_name) < atoi (oldest))
-                        {
-                           free (oldest);
-                           oldest = strdup (entry->d_name);
-                        }
-                     }
-                  if (sddelete && oldest)
-                  {             // Do we need to delete oldest
-                     esp_vfs_fat_info (sd_mount, &sdsize, &sdfree);
-                     if (sdfree < filesize + 44 + 4096)
-                     {
-                        asprintf (&filename, "%s/%s", sd_mount, oldest);
-                        ESP_LOGE (TAG, "Purge %s", filename);
-                        unlink (filename);
-                        free (oldest);
-                        free (filename);
-                        filename = NULL;
-                     }
-                  }
-                  closedir (dir);
-               }
-               fileno++;
-               time_t now = time (0);
-               struct tm t;
-               localtime_r (&now, &t);
-               if (t.tm_year >= 100)
-                  asprintf (&filename, "%s/%04d-%04d%02d%02dT%02d%02d%02d.WAV", sd_mount, fileno, t.tm_year + 1900, t.tm_mon + 1,
-                            t.tm_mday, t.tm_hour, t.tm_min, t.tm_sec);
-               else
-                  asprintf (&filename, "%s/%04d-.WAV", sd_mount, fileno);
-               FILE *o = fopen (filename, "w+");
-               if (!o)
-                  ESP_LOGE (TAG, "Failed to open file %s", filename);
-               else
-               {
-                  ESP_LOGE (TAG, "Recording opened %s sync %lu max %lu", filename, filesync, filesize);
-                  struct
+                  if (!isdigit ((int) *(unsigned char *) (entry->d_name)))
+                     continue;
+                  const char *e = strrchr (entry->d_name, '.');
+                  if (!e || (strcasecmp (e, ".wav") && !strcasecmp (e, ".bad")))
+                     continue;
+                  int n = atoi (entry->d_name);
+                  if (n > fileno)
+                     fileno = n;
+                  if (!oldest || atoi (entry->d_name) < atoi (oldest))
                   {
-                     char filetypeblocid[4];
-                     uint32_t filesize;
-                     char fileformatid[4];
-                     char formatblocid[4];
-                     uint32_t blocsize;
-                     uint16_t audioformat;
-                     uint16_t nbrchannels;
-                     uint32_t frequency;
-                     uint32_t bytepersec;
-                     uint16_t byteperbloc;
-                     uint16_t bitspersample;
-                     char datablocid[4];
-                     uint32_t datasize;
-                  } riff = {
-                     "RIFF",    // Master
-                     36,        // Length zero
-                     "WAVE",
-                     "fmt ",    // Chunk
-                     16,
-                     1,         // PCM
-                     micchannels,
-                     micfreq,
-                     micfreq * micchannels * micbytes,
-                     micchannels * micbytes,
-                     micbytes * 8,      // bits
-                     "data",    // Data block
-                     0,         // Length zero
-                  };
-                  fwrite (&riff, sizeof (riff), 1, o);
-                  sdfile = o;
-                  writetime = 0;
-                  writebytes = 0;
-               }
-            }
-            if (sdfile && (mic_mode != MIC_RECORD || writebytes >= filesize || writebytes >= filesync))
-            {                   // End file
-               // Rewind and set size
-               fclose (sdfile);
-               sdfile = fopen (filename, "r+");
-               if (!sdfile)
-                  ESP_LOGE (TAG, "Error %s", filename);
-               else
-               {
-                  uint32_t len = writebytes;    // Data len
-                  fseek (sdfile, 40, SEEK_SET);
-                  fwrite (&len, 4, 1, sdfile);
-                  len += 36;
-                  fseek (sdfile, 4, SEEK_SET);
-                  fwrite (&len, 4, 1, sdfile);
-                  if (mic_mode == MIC_RECORD && writebytes < filesize)
-                  {             // Just a sync
-                     fseek (sdfile, 0, SEEK_END);
-                     ESP_LOGE (TAG, "Sync %s at %lu", filename, writebytes);
-                     filesync += sdsynctime * micfreq * micchannels * micbytes;
-                  } else
-                  {             // File close
-                     ESP_LOGE (TAG, "Recording closed %s at %lu", filename, writebytes);
-                     fclose (sdfile);
-                     sdfile = NULL;
-                     if (writetime)
-                     {
-                        ESP_LOGE (TAG, "SD access %dbit: %lu bytes %llums (%llukB/sec) %s", slot.width, writebytes,
-                                  writetime / 1000ULL, writebytes * 1000ULL / writetime, filename);
-                        jo_t j = jo_object_alloc ();
-                        jo_string (j, "action", "Written");
-                        jo_string (j, "filename", filename);
-                        jo_int (j, "bytes", writebytes);
-                        jo_int (j, "ms", writetime / 1000ULL);
-                        if (b.overrun)
-                           jo_bool (j, "overrun", 1);
-                        revk_info ("SD", &j);
-                     }
-                     if (b.overrun)
-                     {          // Name
-                        char *new = strdup (filename);
-                        char *dot = strstr (new, ".WAV");
-                        if (dot)
-                        {
-                           strcpy (dot, ".BAD");
-                           rename (filename, new);
-                        }
-                        free (new);
-                     }
-                     free (filename);
-                     filename = NULL;
+                     free (oldest);
+                     oldest = strdup (entry->d_name);
                   }
                }
-               if (!sdfile)
-                  usb_on ();
-            }
-            if (sdfile && sdin != sdout)
-            {
-               while (sdin != sdout)
+            if (sddelete && oldest)
+            {                   // Do we need to delete oldest
+               esp_vfs_fat_info (sd_dir, &sdsize, &sdfree);
+               if (sdfree < filesize + 44 + 4096)
                {
-                  uint64_t a = esp_timer_get_time ();
-                  fwrite (micaudio[sdout], micsamples * micchannels * micbytes, 1, sdfile);
-                  writetime += esp_timer_get_time () - a;
-                  writebytes += micsamples * micchannels * micbytes;
-                  sdout = (sdout + 1) % MICQUEUE;
+                  asprintf (&filename, "%s/%s", sd_dir, oldest);
+                  ESP_LOGE (TAG, "Purge %s", filename);
+                  unlink (filename);
+                  free (oldest);
+                  free (filename);
+                  filename = NULL;
                }
             }
-            usleep (10000);
+            closedir (dir);
          }
-         free (filename);
-         filename = NULL;
-         sdrgb = 'B';
-         if (b.dodismount)
+         fileno++;
+         time_t now = time (0);
+         struct tm t;
+         localtime_r (&now, &t);
+         if (t.tm_year >= 100)
+            asprintf (&filename, "%s/%04d-%04d%02d%02dT%02d%02d%02d.WAV", sd_dir, fileno, t.tm_year + 1900, t.tm_mon + 1,
+                      t.tm_mday, t.tm_hour, t.tm_min, t.tm_sec);
+         else
+            asprintf (&filename, "%s/%04d-.WAV", sd_dir, fileno);
+         FILE *o = fopen (filename, "w+");
+         if (!o)
+            ESP_LOGE (TAG, "Failed to open file %s", filename);
+         else
          {
-            esp_vfs_fat_sdcard_unmount (sd_mount, card);
-            ESP_LOGE (TAG, "SD Card dismounted");
+            ESP_LOGE (TAG, "Recording opened %s sync %lu max %lu", filename, filesync, filesize);
+            struct
             {
-               jo_t j = jo_object_alloc ();
-               jo_string (j, "action", cardstatus = "Dismounted");
-               revk_info ("SD", &j);
+               char filetypeblocid[4];
+               uint32_t filesize;
+               char fileformatid[4];
+               char formatblocid[4];
+               uint32_t blocsize;
+               uint16_t audioformat;
+               uint16_t nbrchannels;
+               uint32_t frequency;
+               uint32_t bytepersec;
+               uint16_t byteperbloc;
+               uint16_t bitspersample;
+               char datablocid[4];
+               uint32_t datasize;
+            } riff = {
+               "RIFF",          // Master
+               36,              // Length zero
+               "WAVE",
+               "fmt ",          // Chunk
+               16,
+               1,               // PCM
+               micchannels,
+               micfreq,
+               micfreq * micchannels * micbytes,
+               micchannels * micbytes,
+               micbytes * 8,    // bits
+               "data",          // Data block
+               0,               // Length zero
+            };
+            fwrite (&riff, sizeof (riff), 1, o);
+            sdfile = o;
+            writetime = 0;
+            writebytes = 0;
+         }
+      }
+      if (sdfile && (mic_mode != MIC_RECORD || writebytes >= filesize || writebytes >= filesync))
+      {                         // End file
+         // Rewind and set size
+         fclose (sdfile);
+         sdfile = fopen (filename, "r+");
+         if (!sdfile)
+            ESP_LOGE (TAG, "Error %s", filename);
+         else
+         {
+            uint32_t len = writebytes;  // Data len
+            fseek (sdfile, 40, SEEK_SET);
+            fwrite (&len, 4, 1, sdfile);
+            len += 36;
+            fseek (sdfile, 4, SEEK_SET);
+            fwrite (&len, 4, 1, sdfile);
+            if (mic_mode == MIC_RECORD && writebytes < filesize)
+            {                   // Just a sync
+               fseek (sdfile, 0, SEEK_END);
+               ESP_LOGE (TAG, "Sync %s at %lu", filename, writebytes);
+               filesync += sdsynctime * micfreq * micchannels * micbytes;
+            } else
+            {                   // File close
+               ESP_LOGE (TAG, "Recording closed %s at %lu", filename, writebytes);
+               fclose (sdfile);
+               sdfile = NULL;
+               if (writetime)
+               {
+                  ESP_LOGE (TAG, "SD access %dbit: %lu bytes %llums (%llukB/sec) %s", slot.width, writebytes,
+                            writetime / 1000ULL, writebytes * 1000ULL / writetime, filename);
+                  jo_t j = jo_object_alloc ();
+                  jo_string (j, "action", "Written");
+                  jo_string (j, "filename", filename);
+                  jo_int (j, "bytes", writebytes);
+                  jo_int (j, "ms", writetime / 1000ULL);
+                  if (b.overrun)
+                     jo_bool (j, "overrun", 1);
+                  revk_info ("SD", &j);
+               }
+               if (b.overrun)
+               {                // Name
+                  char *new = strdup (filename);
+                  char *dot = strstr (new, ".WAV");
+                  if (dot)
+                  {
+                     strcpy (dot, ".BAD");
+                     rename (filename, new);
+                  }
+                  free (new);
+               }
+               free (filename);
+               filename = NULL;
             }
          }
       }
+      if (sdfile && sdin != sdout)
+      {                         // Write data
+         while (sdin != sdout)
+         {
+            uint64_t a = esp_timer_get_time ();
+            fwrite (micaudio[sdout], micsamples * micchannels * micbytes, 1, sdfile);
+            writetime += esp_timer_get_time () - a;
+            writebytes += micsamples * micchannels * micbytes;
+            sdout = (sdout + 1) % MICQUEUE;
+         }
+      }
+      usleep (10000);
    }
-   usb_off ();
    vTaskDelete (NULL);
 }
 
@@ -774,7 +760,7 @@ long long uploaded = 0,
 void
 do_upload (void)
 {
-   DIR *dir = opendir (sd_mount);
+   DIR *dir = opendir (sd_dir);
    struct dirent *entry;
    char *filename = NULL;
    struct stat s = { 0 };
@@ -793,7 +779,7 @@ do_upload (void)
          for (e = entry->d_name; *e && isdigit ((int) *(unsigned char *) e); e++);
          if (*e != '-')
             continue;
-         asprintf (&filename, "%s/%s", sd_mount, entry->d_name);
+         asprintf (&filename, "%s/%s", sd_dir, entry->d_name);
          if (!stat (filename, &s) && s.st_size)
          {
             uploadtotal += s.st_size;
@@ -806,7 +792,7 @@ do_upload (void)
 
    while (1)
    {
-      dir = opendir (sd_mount);
+      dir = opendir (sd_dir);
       if (!dir)
          break;
       char *oldest = NULL;
@@ -829,7 +815,7 @@ do_upload (void)
          }
       if (oldest)
       {
-         asprintf (&filename, "%s/%s", sd_mount, oldest);
+         asprintf (&filename, "%s/%s", sd_dir, oldest);
          free (oldest);
       }
       closedir (dir);
@@ -857,7 +843,7 @@ do_upload (void)
       }
       ESP_LOGE (TAG, "Upload %s, %lu bytes", filename, s.st_size);
       char *u;
-      asprintf (&u, "%s?%s-%s", sdupload, hostname, filename + sizeof (sd_mount));
+      asprintf (&u, "%s?%s-%s", sdupload, hostname, filename + sizeof (sd_dir));
       for (char *p = u + strlen (sdupload) + 1; *p; p++)
          if (!is_alnum (*p) && *p != '.')
             *p = '-';
@@ -946,7 +932,6 @@ do_upload (void)
       if (response / 100 != 2)
          break;
    }
-   esp_vfs_fat_sdcard_unmount (sd_mount, card);
 }
 
 void
@@ -1052,7 +1037,7 @@ mic_task (void *arg)
       {
          if (sip_mode > SIP_REGISTERED)
             mode = MIC_SIP;
-         else if (b.micon)
+         else if (b.micon && b.sdpresent)
             mode = MIC_RECORD;
       }
       if (!mode)
@@ -1573,6 +1558,7 @@ chg_task (void *p)
 {
    revk_gpio_input (chg);
    revk_gpio_input (vbus);
+   revk_gpio_input (sdcd);
    revk_gpio_output (adce, 1);  // Waste of time FFS
    adc_oneshot_unit_handle_t adc_handle;
    adc_channel_t adc_channel = 0;
@@ -1616,13 +1602,34 @@ chg_task (void *p)
    while (!b.die)
    {
       charge = (charge << 1) | revk_gpio_get (chg);
-      uint8_t v = revk_gpio_get (vbus);
+      uint8_t v = sdcd.set ? revk_gpio_get (sdcd) : 1;
+      if (v != b.sdpresent)
+      {
+         b.sdpresent = v;
+         if (v && !card)
+            sd_mount ();        // Initial mount
+         if (wifilock)
+         {
+            if (v)
+            {
+               revk_disable_ap ();
+               revk_disable_settings ();
+            } else
+            {
+               revk_enable_ap ();
+               revk_enable_settings ();
+            }
+         }
+      }
+      v = revk_gpio_get (vbus);
       if (v != b.vbus)
       {
          b.vbus = v;
+         if (v)
+            usb_on ();
          if (wifiusb)
          {
-            if (b.vbus)
+            if (v)
                revk_enable_wifi ();
             else
                revk_disable_wifi ();
@@ -1696,6 +1703,19 @@ app_main ()
    revk_start ();
    sd_mutex = xSemaphoreCreateBinary ();
    xSemaphoreGive (sd_mutex);
+   slot.clk = sdclk.num;
+   slot.cmd = sdcmd.num;
+   slot.d0 = sddat0.num;
+   slot.d1 = sddat1.set ? sddat1.num : -1;
+   slot.d2 = sddat2.set ? sddat2.num : -1;
+   slot.d3 = sddat3.set ? sddat3.num : -1;
+   //slot.cd = sdcd.set ? sdcd.num : -1; // We do CD, and not sure how we would tell it polarity
+   slot.width = (sddat2.set && sddat3.set ? 4 : sddat1.set ? 2 : 1);
+   if (slot.width == 1)
+      slot.flags |= SDMMC_SLOT_FLAG_INTERNAL_PULLUP;    // Old boards?
+   host.max_freq_khz = SDMMC_FREQ_HIGHSPEED;
+   host.slot = SDMMC_HOST_SLOT_1;
+   //if (slot.width == 4) slot.flags |= SDMMC_SLOT_FLAG_UHS1;
    if (micws.num == spklrc.num && micclock.num == spkbclk.num)
       b.sharedi2s = 1;
    httpd_config_t config = HTTPD_DEFAULT_CONFIG ();     // When updating the code below, make sure this is enough
@@ -1796,6 +1816,8 @@ app_main ()
                sip_call (NULL, sipoutgoing, strchr (sipoutgoing, '@') ? NULL : siphost, sipuser, sippass);
             else if (!b.micon && !b.sdpresent)
                ESP_LOGE (TAG, "No card");
+            else if (!b.micon && !b.sdmount)
+               ESP_LOGE (TAG, "Not mounted");
             else
             {
                b.miconha = 0;
@@ -1831,6 +1853,7 @@ app_main ()
       revk_wait_wifi (10);
       do_upload ();
    }
+   sd_unmount ();
    revk_pre_shutdown ();
    sleep (1);                   // Allow tasks to end
    // Go dark

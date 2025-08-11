@@ -46,9 +46,13 @@ For I2S output the [MAX98357A](https://www.lcsc.com/datasheet/lcsc_datasheet_210
 
 * `spkrate` sets the speaker rate, which (for the MAX98357A) can be 8kHz, 16kHz, 32kHz, 44.1kHz, 48kHz, 88.2kHz, or 96kHz.
 
+## USB
+
+USB can be used fir charging. If `sdusb` is enabled then when connected to a host computer it allows the SD card to be mounted. Whilst mounted recording is disabled. Unmounting on the host allows use of the USB for just charging and hence recording.
+
 ## LED
 
-Where LEDs are set up by the microphone, they are actiove for left and right, so a mono recording will only show one. The colour indicates either SD state or recording state.
+Where LEDs are set up by the microphone, they are active for left and right, so a mono recording will only show one. The colour indicates either SD state or recording state.
 
 |Colour|Standby (i.e. not recording)|
 |------|-------|
@@ -63,8 +67,14 @@ Where LEDs are set up by the microphone, they are actiove for left and right, so
 |Red|SD mount for format failed, also indicates mic not working|
 |Cyan|SIP mode|
 |Orange|Recording initial sync beep|
-|Dim Blue|Recording (dark mode)|
+|Dim|Recording (dark mode)|
 |Green|Recording|
+
+### 3 more more LEDs as well as mic LEDs
+
+The battery level is shown by number of LEDs, moving when charging. This also shows red for s/w upload progress, and blue/red for file upload progress. Off when recording.
+
+### Less than 3 LEDs as well as mic LEDs
 
 In addition a battery LED may be shown. This blinks dim/bright if battery charging.
 
