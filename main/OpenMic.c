@@ -408,7 +408,7 @@ void usb_on (void);
 void
 sd_mount (void)
 {
-   if (b.sdmount)
+   if (b.sdmount || card)
       return;
    esp_vfs_fat_sdmmc_mount_config_t mount_config = {
       .format_if_mount_failed = 1,
@@ -429,11 +429,9 @@ sd_mount (void)
       revk_error ("SD", &j);
       return;
    }
-   b.sdpresent = 1;             // we mounted, so must be
    sdrgb = 'G';                 // Writing to card (typically gets overridden)
    if (b.doformat)
    {
-      b.doformat = 0;
       if ((e = esp_vfs_fat_sdcard_format (sd_dir, card)))
       {
          ESP_LOGE (TAG, "SD format failed");
@@ -453,6 +451,7 @@ sd_mount (void)
    jo_int (j, "free", sdfree);
    revk_info ("SD", &j);
    sdrgb = 'Y';                 // ready
+   b.doformat = 0;
    b.sdmount = 1;
    b.status = 1;
 }
@@ -554,7 +553,7 @@ sd_task (void *arg)
    char *filename = NULL;
    while (!b.die)
    {
-      sdrgb = (sdfile ? 'G' : b.sdmount ? 'Y' : b.sdpresent ? 'B' : 'K');
+      sdrgb = (sdfile ? 'G' : !b.sdpresent ? 'K' : b.sdmount ? 'Y' : 'B');
       if (mic_mode == MIC_RECORD && !sdfile)
       {                         // Start file
          filesize = sdrectime * micfreq * micchannels * micbytes;
@@ -1602,12 +1601,15 @@ chg_task (void *p)
    while (!b.die)
    {
       charge = (charge << 1) | revk_gpio_get (chg);
-      uint8_t v = sdcd.set ? revk_gpio_get (sdcd) : 1;
+      uint8_t v = (sdcd.set ? revk_gpio_get (sdcd) : 1);
       if (v != b.sdpresent)
       {
          b.sdpresent = v;
          if (v && !card)
-            sd_mount ();        // Initial mount
+         {
+            sd_mount ();        // Initial mount (and format if needed, etc).
+            usb_on ();          /// Switch to USB is usbmsc
+         }
          if (wifilock)
          {
             if (v)
@@ -1620,6 +1622,7 @@ chg_task (void *p)
                revk_enable_settings ();
             }
          }
+         b.status = 1;
       }
       v = revk_gpio_get (vbus);
       if (v != b.vbus)
@@ -1634,9 +1637,21 @@ chg_task (void *p)
             else
                revk_disable_wifi ();
          }
+         b.status = 1;
       }
-      b.charging = ((b.vbus && charge == 255) ? 1 : 0);
-      b.batfull = ((b.vbus && !charge) ? 1 : 0);
+      v = ((b.vbus && charge == 255) ? 1 : 0);
+      if (v != b.charging)
+      {
+         b.charging = v;
+         b.status = 1;
+      }
+
+      v = ((b.vbus && !charge) ? 1 : 0);
+      if (v != b.batfull)
+      {
+         b.batfull = v;
+         b.status = 1;
+      }
       if (b.vbus && charge && charge != 255)
          voltage = NAN;         // No bat
       else if (adc.set && isnan (voltage))
