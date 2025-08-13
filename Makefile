@@ -35,7 +35,7 @@ issue:
 image:
 	esptool.py -b 460800 read_flash 0 0x400000 s3.bin
 
-set:	n8 s3
+set:	s3
 
 main/settings.h:     components/ESP32-RevK/revk_settings main/settings.def components/*/settings.def
 	components/ESP32-RevK/revk_settings $^
