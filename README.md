@@ -50,6 +50,8 @@ For I2S output the [MAX98357A](https://www.lcsc.com/datasheet/lcsc_datasheet_210
 
 USB can be used fir charging. If `sdusb` is enabled then when connected to a host computer it allows the SD card to be mounted. Whilst mounted recording is disabled. Unmounting on the host allows use of the USB for just charging and hence recording.
 
+Note that connecting a USB host whilst recording can cause a failed recording file as the local file system is unmounted when this happens. So, don't do that.
+
 ## LED
 
 Where LEDs are set up by the microphone, they are active for left and right, so a mono recording will only show one. The colour indicates either SD state or recording state.
