@@ -16320,7 +16320,7 @@
 		(at 66.04 58.42 270)
 		(unit 1)
 		(exclude_from_sim no)
-		(in_bom yes)
+		(in_bom no)
 		(on_board yes)
 		(dnp no)
 		(uuid "ebdd5dc7-b954-4325-ae5a-5468b6563a6a")
