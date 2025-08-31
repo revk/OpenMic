@@ -11308,24 +11308,6 @@
 				(hide yes)
 			)
 		)
-		(property "Sim.Device" "D"
-			(at 66.675 164.465 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Sim.Pins" "1=K 2=A"
-			(at 66.675 164.465 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
 		(property "MPN" "C28642302"
 			(at 66.675 164.465 0)
 			(effects
