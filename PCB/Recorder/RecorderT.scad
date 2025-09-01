@@ -1,6 +1,6 @@
 // Generated case design for Recorder/Recorder.kicad_pcb
 // By https://github.com/revk/PCBCase
-// Generated 2025-08-31 13:20:55
+// Generated 2025-09-01 10:58:41
 // title:	PCB-AUDIO
 // rev:	1
 // company:	Adrian Kennard, Andrews & Arnold Ltd
@@ -27,7 +27,7 @@ datey=0.000000;
 datet=0.500000;
 dateh=3.000000;
 datea=0;
-date="2025-08-31";
+date="2025-09-01";
 datef="OCRB";
 spacing=68.000000;
 pcbwidth=52.000000;
@@ -209,7 +209,7 @@ translate([-10.000000,-9.000000,1.200000])rotate([0,0,-90.000000])m4(part,hole,b
 };
 module part_J6(part=true,hole=false,block=false)
 {
-translate([21.200000,-7.500000,1.200000])rotate([0,0,180.000000])translate([0.000000,1.200000,0.000000])rotate([-0.000000,-0.000000,180.000000])m13(part,hole,block,casetop); // RevK:1.25T-2PWT (Molex 532610271) Molex_PicoBlade_53261-0271_1x02-1MP_P1.25mm_Horizontal (back)
+translate([21.200000,-6.000000,1.200000])rotate([0,0,180.000000])translate([0.000000,1.200000,0.000000])rotate([-0.000000,-0.000000,180.000000])m13(part,hole,block,casetop); // RevK:1.25T-2PWT (Molex 532610271) Molex_PicoBlade_53261-0271_1x02-1MP_P1.25mm_Horizontal (back)
 };
 module part_C6(part=true,hole=false,block=false)
 {
@@ -340,7 +340,7 @@ if(hole)
         hull()
         {
                 b(0,0,.8,1.2,1.2,1);
-                translate([0,0,height])cylinder(d=2,h=1,$fn=16);
+                translate([0,0,height])cylinder(d=2.001,h=1,$fn=16);
         }
 }
 if(block)
