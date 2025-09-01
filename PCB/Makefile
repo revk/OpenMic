@@ -16,16 +16,16 @@ PCBCase/clean: PCBCase/clean.c
 	echo "Made $@"
 
 Recorder/RecorderNoTagB.scad: Recorder/Recorder.kicad_pcb PCBCase/case Makefile
-	PCBCase/case -o $@ $< --edge=2 --bottom=3 --top=7 --pcb=2 --case=3 --ignore=BT1 --two-file
+	PCBCase/case -o $@ $< --edge=2 --bottom=3 --top=6 --pcb=2 --case=3 --ignore=BT1 --two-file
 
 Recorder/RecorderB.scad: Recorder/Recorder.kicad_pcb PCBCase/case Makefile
-	PCBCase/case -o $@ $< --edge=2 --bottom=3 --top=7 --pcb=2 --ignore=BT1 --two-file
+	PCBCase/case -o $@ $< --edge=2 --bottom=3 --top=6 --pcb=2 --ignore=BT1 --two-file
 
 Recorder/RecorderBatB.scad: Recorder/Recorder.kicad_pcb PCBCase/case Makefile
-	PCBCase/case -o $@ $< --edge=2 --bottom=6 --top=7 --pcb=2 --wall=6 --two-file
+	PCBCase/case -o $@ $< --edge=2 --bottom=6 --top=6 --pcb=2 --wall=6 --two-file
 
 Recorder/RecorderBatNotTagB.scad: Recorder/Recorder.kicad_pcb PCBCase/case Makefile
-	PCBCase/case -o $@ $< --edge=2 --bottom=6 --top=7 --pcb=2 --wall=6 --case=3 --two-file
+	PCBCase/case -o $@ $< --edge=2 --bottom=6 --top=6 --pcb=2 --wall=6 --case=3 --two-file
 
 %.png:	%.kicad_pcb PCBCase/clean PCBCase/render
 	PCBCase/render $<
