@@ -1628,7 +1628,7 @@ chg_task (void *p)
       if (v != b.vbus)
       {
          b.vbus = v;
-         if (v)
+         if (v && b.sdpresent)
             usb_on ();
          if (wifiusb)
          {
