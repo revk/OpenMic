@@ -23,7 +23,7 @@ gpio	sd.cd		-18		// MicroSD CD
 u32	sd.rectime	3600	.unit="s"	// Max record time per whole file
 u32	sd.synctime	60	.unit="s"	// Max record time per file sync
 s	sd.upload		.live=1	// Where to post, then delete, files on power off
-bit	sd.usb		0		// USB mass storage access to SD card
+bit	sd.usb		1		// USB mass storage access to SD card
 bit	sd.delete	1	.live=1	// Auto delete old files if space needed for new file
 
 u32	auto.off	900	.unit="s",.live=1	// Auto power off if idle
