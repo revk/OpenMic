@@ -6255,7 +6255,7 @@
 		)
 		(uuid "455c39f2-9357-41aa-b2d3-8348583b7e7d")
 	)
-	(text "TODO\nButton finger press hole\nSplit TF_PUSH so can do no finger on bigger cases\nSome sort of clip in case design"
+	(text "TODO\nButton finger press hole\nSplit TF_PUSH so can do no finger on bigger cases\nSome sort of clip in case design\nCovred LED holes"
 		(exclude_from_sim no)
 		(at 20.066 196.596 0)
 		(effects
