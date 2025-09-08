@@ -1,6 +1,6 @@
 all: png stl
 
-stl:    Recorder/Recorder.stl Recorder/RecorderBat.stl Recorder/RecorderNoTag.stl
+stl:    Recorder/RecorderB.stl Recorder/RecorderBatB.stl Recorder/RecorderNoTagB.stl Recorder/RecorderBatNotTagB.stl Recorder/RecorderT.stl Recorder/RecorderBatT.stl Recorder/RecorderNoTagT.stl Recorder/RecorderBatNotTagT.stl
 
 png:	$(patsubst %.kicad_pcb,%.png,$(wildcard */*.kicad_pcb))
 
@@ -15,14 +15,17 @@ PCBCase/clean: PCBCase/clean.c
 	/Applications/OpenSCAD.app/Contents/MacOS/OpenSCAD $< -o $@
 	echo "Made $@"
 
-Recorder/RecorderNoTag.scad: Recorder/Recorder.kicad_pcb PCBCase/case Makefile
-	PCBCase/case -o $@ $< --edge=2 --bottom=3 --top=7 --pcb=2 --case=3 --ignore=BT1
+Recorder/RecorderNoTagB.scad: Recorder/Recorder.kicad_pcb PCBCase/case Makefile
+	PCBCase/case -o $@ $< --edge=2 --bottom=3 --top=7 --pcb=2 --case=3 --ignore=BT1 --two-file
 
-Recorder/Recorder.scad: Recorder/Recorder.kicad_pcb PCBCase/case Makefile
-	PCBCase/case -o $@ $< --edge=2 --bottom=3 --top=7 --pcb=2 --ignore=BT1
+Recorder/RecorderB.scad: Recorder/Recorder.kicad_pcb PCBCase/case Makefile
+	PCBCase/case -o $@ $< --edge=2 --bottom=3 --top=7 --pcb=2 --ignore=BT1 --two-file
 
-Recorder/RecorderBat.scad: Recorder/Recorder.kicad_pcb PCBCase/case Makefile
-	PCBCase/case -o $@ $< --edge=2 --bottom=6 --top=7 --pcb=2 --wall=6
+Recorder/RecorderBatB.scad: Recorder/Recorder.kicad_pcb PCBCase/case Makefile
+	PCBCase/case -o $@ $< --edge=2 --bottom=6 --top=7 --pcb=2 --wall=6 --two-file
 
-%.png:	%.kicad_pcb PCBCase/clean PCBCase/render Makefile
+Recorder/RecorderBatNotTagB.scad: Recorder/Recorder.kicad_pcb PCBCase/case Makefile
+	PCBCase/case -o $@ $< --edge=2 --bottom=6 --top=7 --pcb=2 --wall=6 --case=3 --two-file
+
+%.png:	%.kicad_pcb PCBCase/clean PCBCase/render
 	PCBCase/render $<
