@@ -6255,6 +6255,17 @@
 		)
 		(uuid "455c39f2-9357-41aa-b2d3-8348583b7e7d")
 	)
+	(text "TODO\nButton finger press hole\nSplit TF_PUSH so can do no finger on bigger cases\nSome sort of clip in case design"
+		(exclude_from_sim no)
+		(at 20.066 196.596 0)
+		(effects
+			(font
+				(size 5.08 5.08)
+			)
+			(justify left)
+		)
+		(uuid "48d3ab1c-8ea4-40c5-a50d-78458fb6e417")
+	)
 	(text "L"
 		(exclude_from_sim no)
 		(at 220.218 61.976 0)
