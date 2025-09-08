@@ -1,6 +1,13 @@
 #!/bin/csh -f
+setenv bin ""
+if("$1" =~ *.bin) then
+	setenv bin "$1"
+	shift
+endif
+
 if("$1" != "") then
 	set d=($1)
+	shift
 else
 	set d=(/dev/cu.usbmodem* /dev/ttyACM*)
 endif
@@ -15,5 +22,11 @@ make -C components/ESP32-RevK idfmon
 
 again:
 components/ESP32-RevK/idfmon $d[1]
-esptool.py --chip esp32s3 -p $d[1] -b 460800 -b 460800 --before=default_reset --after=hard_reset write_flash --flash_mode dio --flash_freq 80m --flash_size 4MB 0x0 s3.bin
+
+if("$bin" == "") then
+	idf.py flash -p $d[1]
+else
+	esptool.py --chip esp32s3 -p $d[1] -b 460800 --before=default_reset --after=hard_reset write_flash --flash_mode dio --flash_freq 80m --flash_size 4MB 0x0 "$bin"
+endif
+
 goto again
