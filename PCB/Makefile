@@ -1,6 +1,6 @@
 all: png stl
 
-stl:    Recorder/RecorderB.stl Recorder/RecorderBatB.stl Recorder/RecorderNoTagB.stl Recorder/RecorderBatNotTagB.stl Recorder/RecorderT.stl Recorder/RecorderBatT.stl Recorder/RecorderNoTagT.stl Recorder/RecorderBatNotTagT.stl
+stl:    Recorder/RecorderB.stl Recorder/RecorderBatB.stl Recorder/RecorderNoTagB.stl Recorder/RecorderBatNoTagB.stl Recorder/RecorderT.stl Recorder/RecorderBatT.stl Recorder/RecorderNoTagT.stl Recorder/RecorderBatNoTagT.stl
 
 png:	$(patsubst %.kicad_pcb,%.png,$(wildcard */*.kicad_pcb))
 
@@ -24,7 +24,7 @@ Recorder/RecorderB.scad: Recorder/Recorder.kicad_pcb PCBCase/case Makefile
 Recorder/RecorderBatB.scad: Recorder/Recorder.kicad_pcb PCBCase/case Makefile
 	PCBCase/case -o $@ $< --edge=2 --bottom=6 --top=7 --pcb=2 --wall=6 --two-file
 
-Recorder/RecorderBatNotTagB.scad: Recorder/Recorder.kicad_pcb PCBCase/case Makefile
+Recorder/RecorderBatNoTagB.scad: Recorder/Recorder.kicad_pcb PCBCase/case Makefile
 	PCBCase/case -o $@ $< --edge=2 --bottom=6 --top=7 --pcb=2 --wall=6 --case=3 --two-file --date-x=8
 
 %.png:	%.kicad_pcb PCBCase/clean PCBCase/render

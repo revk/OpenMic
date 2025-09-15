@@ -1,6 +1,6 @@
 // Generated case design for Recorder/Recorder.kicad_pcb
 // By https://github.com/revk/PCBCase
-// Generated 2025-09-08 13:59:46
+// Generated 2025-09-15 09:52:42
 // title:	PCB-AUDIO
 // rev:	1
 // company:	Adrian Kennard, Andrews & Arnold Ltd
@@ -400,7 +400,7 @@ if(hole)
         hull()
         {
                 b(0,0,.8,1.2,1.2,1);
-                translate([0,0,height])cylinder(d=2.001,h=1,$fn=16);
+                translate([0,0,height-1.001])cylinder(d=2.001,h=0.001,$fn=16);
         }
 }
 if(block)
@@ -408,7 +408,7 @@ if(block)
         hull()
         {
                 b(0,0,.8,2.8,2.8,1);
-                translate([0,0,height])cylinder(d=4,h=1,$fn=16);
+                translate([0,0,height-1.001])cylinder(d=4,h=1,$fn=16);
         }
 }
 }
@@ -471,17 +471,24 @@ module m6(part=false,hole=false,block=false,height)
 if(part)
 {
  b(0,0,0,5,9,1);	// Pads
- // Not part as we expect to always be a hold through case
- //b(0,0,0,5.8,5.8,5);
- //b(0,0,0,2.9,3.6,8);
 }
 if(hole)
 {
  b(0,0,0,6,6,height+1);
+ hull()
+ {
+ 	b(0,0,5,6,6,1);
+	translate([0,0,10])cylinder(d=15,h=10);
+ }
 }
 if(block)
 {
  b(0,0,0,8,8,height);
+ hull()
+ {
+ 	b(0,0,5,8,8,1);
+	translate([0,0,10])cylinder(d=17,h=10);
+ }
 }
 }
 
@@ -624,7 +631,7 @@ if(part)
 if(hole)
 {
 	b(-0.95,-4.7-5,0.75,11.5,25,1.5);	// Card
-	translate([0,-9.12-10,0])sphere(10);
+	translate([0,-8.47-10,-height])cylinder(r=10,h=height*2);
 }
 }
 
