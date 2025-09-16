@@ -1,6 +1,6 @@
 // Generated case design for Recorder/Recorder.kicad_pcb
 // By https://github.com/revk/PCBCase
-// Generated 2025-09-16 12:28:11
+// Generated 2025-09-16 12:34:05
 // title:	PCB-AUDIO
 // rev:	1
 // company:	Adrian Kennard, Andrews & Arnold Ltd
@@ -13,7 +13,7 @@ lipa=0;
 lipt=2;
 casebottom=7.000000;
 casetop=7.000000;
-casewall=6.000000;
+casewall=3.000000;
 fit=0.000000;
 snap=0.150000;
 edge=2.000000;
@@ -30,7 +30,7 @@ dateh=3.000000;
 datea=0;
 date="2025-09-08";
 datef="OCRB";
-spacing=74.000000;
+spacing=68.000000;
 pcbwidth=52.000000;
 function pcbwidth()=52.000000;
 pcblength=25.000000;
