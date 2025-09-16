@@ -1,4 +1,4 @@
-26613116950910949
+26616633302339808
 Audio_Module
 Reverb_BTDR-1H
 Digital Reverberation Unit, http://www.belton.co.kr/inc/downfile.php?seq=17&file=pdf (footprint from http://www.uk-electronic.de/PDF/BTDR-1.pdf)
@@ -96320,6 +96320,13 @@ QR-USBA
 70
 1
 RevK
+RJ12_Horizontal
+RJ12 6P6C horizontal socket, plastic body, tab down, https://cdn.amphenol-icc.com/media/wysiwyg/files/drawing/c-bmj-0082.pdf
+RJ12 connector
+0
+6
+6
+RevK
 R_0201
 Capacitor SMD 0201 (0603 Metric), square (rectangular) end terminal, IPC_7351 nominal, (Body size source: https://www.vishay.com/docs/20052/crcw0201e3.pdf), generated with kicad-footprint-generator
 capacitor
@@ -96865,6 +96872,13 @@ USB-PROG2
 0
 16
 4
+RevK
+USB_A_Horizontal
+USB type A, Horizontal, https://www.molex.com/pdm_docs/sd/676433910_sd.pdf
+USB_A Female Connector receptacle
+0
+6
+5
 RevK
 USC16-TR
 USB Type C CMT R/A PCB  Mount Socket 16pin Power+Data

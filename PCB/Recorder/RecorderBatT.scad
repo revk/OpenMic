@@ -1,6 +1,6 @@
 // Generated case design for Recorder/Recorder.kicad_pcb
 // By https://github.com/revk/PCBCase
-// Generated 2025-09-15 09:52:30
+// Generated 2025-09-16 09:01:00
 // title:	PCB-AUDIO
 // rev:	1
 // company:	Adrian Kennard, Andrews & Arnold Ltd
@@ -627,17 +627,20 @@ module m16(part=false,hole=false,block=false,height)
 { // J4
 if(part)
 {
-	b(0,-2.45,0,14.85,14.5,2); // Main case
-	b(-7.75,4.3,0,1.2,1.5,0.2); // Tab
-	b(-7.75,-5.3,0,1.2,2.2,0.2); // Tab
-	b(7.75,-5.3,0,1.2,2.2,0.2); // Tab
-	for(i=[0:8])b(2.25-i*1.1,5.3,0,0.7,1.6,0.4); // Pins
-	b(-0.95,-4.7,0.75,11.5,15,1.5);	// Card
+	b(0,0.1,0,14.85,14.5,2); // Main case
+	b(-7.75,6.85,0,1.2,1.5,0.2); // Tab
+	b(-7.75,-2.75,0,1.2,2.2,0.2); // Tab
+	b(7.75,-2.75,0,1.2,2.2,0.2); // Tab
+	for(i=[0:8])b(2.25-i*1.1,7.85,0,0.7,1.6,0.4); // Pins
+	b(-0.95,-2.15,0.25,11,15,1.5);	// Card (inserted)
 }
 if(hole)
 {
-	b(-0.95,-4.7-5,0.75,11.5,25,1.5);	// Card
-	translate([0,-8.47-10,-height])cylinder(r=10,h=height*2);
+    hull()
+    {
+        b(-0.95,-8.47-0.5,0.25,11,1,1.5);	// Card
+        b(-0.95,-8.47-0.5-10,0.25-10,11+20,1,1.5+20);	// Card
+    }
 }
 }
 
@@ -665,6 +668,10 @@ if(hole)
 			cylinder(d=1,h=pcbthickness+0.02);
 			translate([0.75+casewall+1,0,0])cylinder(d=1,h=pcbthickness+0.02);
 		}
+}
+if(block)
+{
+    translate([1,0,-pcbthickness-5])cylinder(d=2,h=5);
 }
 }
 
