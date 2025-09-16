@@ -22,10 +22,10 @@ Recorder/RecorderB.scad: Recorder/Recorder.kicad_pcb PCBCase/case Makefile
 	PCBCase/case -o $@ $< --edge=2 --bottom=3 --top=7 --pcb=2 --ignore=BT1 --two-file
 
 Recorder/RecorderBatB.scad: Recorder/Recorder.kicad_pcb PCBCase/case Makefile
-	PCBCase/case -o $@ $< --edge=2 --bottom=7 --top=7 --pcb=2 --wall=5 --two-file
+	PCBCase/case -o $@ $< --edge=2 --bottom=7 --top=7 --pcb=2 --wall=6 --two-file
 
 Recorder/RecorderBatNoTagB.scad: Recorder/Recorder.kicad_pcb PCBCase/case Makefile
-	PCBCase/case -o $@ $< --edge=2 --bottom=7 --top=7 --pcb=2 --wall=5 --case=3 --two-file --date-x=8
+	PCBCase/case -o $@ $< --edge=2 --bottom=7 --top=7 --pcb=2 --wall=6 --case=3 --two-file --date-x=8
 
 %.png:	%.kicad_pcb PCBCase/clean PCBCase/render
 	PCBCase/render $<
