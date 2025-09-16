@@ -1,6 +1,6 @@
 // Generated case design for Recorder/Recorder.kicad_pcb
 // By https://github.com/revk/PCBCase
-// Generated 2025-09-16 12:36:12
+// Generated 2025-09-16 12:43:20
 // title:	PCB-AUDIO
 // rev:	1
 // company:	Adrian Kennard, Andrews & Arnold Ltd
@@ -28,7 +28,7 @@ datey=0.000000;
 datet=0.500000;
 dateh=3.000000;
 datea=0;
-date="2025-09-08";
+date="2025-09-16";
 datef="OCRB";
 spacing=68.000000;
 pcbwidth=52.000000;
@@ -362,10 +362,10 @@ module J3(){translate([13.500000,-9.800000,0.000000])rotate([180,0,0])children()
 module part_J3(part=true,hole=false,block=false)
 {
 };
-module BT1(){translate([8.500000,0.000000,0.000000])rotate([0,0,180.000000])rotate([180,0,0])children();}
+module BT1(){translate([7.000000,0.000000,0.000000])rotate([0,0,180.000000])rotate([180,0,0])children();}
 module part_BT1(part=true,hole=false,block=false)
 {
-translate([8.500000,0.000000,0.000000])rotate([0,0,180.000000])rotate([180,0,0])m17(part,hole,block,casebottom); // BT1
+translate([7.000000,0.000000,0.000000])rotate([0,0,180.000000])rotate([180,0,0])m17(part,hole,block,casebottom); // BT1
 };
 module U5(){translate([-11.500000,10.500000,0.000000])rotate([0,0,90.000000])rotate([180,0,0])children();}
 module part_U5(part=true,hole=false,block=false)
@@ -646,7 +646,7 @@ if(hole)
 
 module m17(part=false,hole=false,block=false,height)
 { // BT1
-if(part)
+if(hole)
 {
 	b(0,0,0,36,25,6);
 }
