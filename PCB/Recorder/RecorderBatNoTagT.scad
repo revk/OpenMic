@@ -1,6 +1,6 @@
 // Generated case design for Recorder/Recorder.kicad_pcb
 // By https://github.com/revk/PCBCase
-// Generated 2025-09-17 10:34:23
+// Generated 2025-09-18 12:57:54
 // title:	PCB-AUDIO
 // rev:	1
 // company:	Adrian Kennard, Andrews & Arnold Ltd
@@ -484,7 +484,7 @@ if(hole)
  hull()
  {
  	b(0,0,5,6,6,1);
-	translate([0,0,10])cylinder(d=15,h=10);
+	translate([0,0,7.5])cylinder(d=13,h=10);
  }
 }
 if(block)
@@ -492,8 +492,8 @@ if(block)
  b(0,0,0,8,8,height);
  hull()
  {
- 	b(0,0,5,8,8,1);
-	translate([0,0,10])cylinder(d=17,h=10);
+ 	b(0,0,4,8,8,1);
+	translate([0,0,6.5])cylinder(d=15,h=10);
  }
 }
 }
