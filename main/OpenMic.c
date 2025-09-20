@@ -153,6 +153,7 @@ struct
    uint8_t sdmount:1;           // SD mounted locally (USB unmounts it)
    uint8_t charging:1;          // Is charging
    uint8_t batfull:1;           // Battery full
+   uint8_t press:5;             // Button press count
 } b = { 0 };
 
 #ifdef	CONFIG_TINYUSB_MSC_MOUNT_PATH
@@ -969,7 +970,11 @@ mic_task (void *arg)
       }
       if (led_status)
       {
-         if (beep)
+         if (b.press && b.press < 30)
+         {
+            for (int i = 0; i < rgbleds; i++)
+               revk_led (led_status, i, 255, revk_rgb ((i + 1) * 29 > b.press * rgbleds ? 'Y' : 'K'));
+         } else if (beep)
          {
             for (int i = 0; i < rgbleds; i++)
                revk_led (led_status, i, 255, revk_rgb ((i <= (uint32_t) rgbleds * beep * MICMS / 1000) ? 'R' : 'K'));
@@ -1140,8 +1145,8 @@ mic_task (void *arg)
          return;
       }
       uint8_t phase = 0;
-      ESP_LOGE (TAG, "Mic started mode %d, %ld*%d*%d bits at %ldHz - mapped to %d*%d bits", mode, micsamples, micchannels,
-                rawbytes * 8, micfreq, micchannels, micbytes * 8);
+      ESP_LOGE (TAG, "Mic started mode %d, %ld*%d*%d bits at %ldHz - mapped to %d*%d bits", mode, micsamples,
+                micchannels, rawbytes * 8, micfreq, micchannels, micbytes * 8);
       if (!beep)
          led ('C', 0);
       while (!b.die && mic_mode)
@@ -1305,7 +1310,8 @@ spk_task (void *arg)
             .clk_cfg = I2S_STD_CLK_DEFAULT_CONFIG (spkfreq),
             .slot_cfg =
                I2S_STD_PHILIPS_SLOT_DEFAULT_CONFIG (sizeof (audio_t) == 1 ? I2S_DATA_BIT_WIDTH_8BIT : sizeof (audio_t) ==
-                                                    2 ? I2S_DATA_BIT_WIDTH_16BIT : I2S_DATA_BIT_WIDTH_32BIT, I2S_SLOT_MODE_MONO),
+                                                    2 ? I2S_DATA_BIT_WIDTH_16BIT : I2S_DATA_BIT_WIDTH_32BIT,
+                                                    I2S_SLOT_MODE_MONO),
             .gpio_cfg = {
                          .mclk = I2S_GPIO_UNUSED,
                          .bclk = spkbclk.num,
@@ -1773,7 +1779,7 @@ app_main ()
       sip_register (siphost, sipuser, sippass, sip_callback, sipdebug ? sip_debug : NULL);
    // Buttons and LEDs
    revk_gpio_input (button);
-   uint8_t press = 255;
+   b.press = 31;
    uint8_t usb = 1;
    uint8_t tick = 0;
    while (!b.die)
@@ -1810,37 +1816,44 @@ app_main ()
          send_ha_config ();
       if (revk_gpio_get (button))
       {                         // Pressed
-         if (press < 255)
-            press++;
-         if (press == 10 && sip_mode == SIP_IC_ALERT)
+         if (b.press < 32)
+            b.press++;
+         if (b.press == 10 && sip_mode == SIP_IC_ALERT)
             sip_hangup ();
-         if (press == 30)
+         if (b.micon)
+         {                      // Stop recording
+            b.micon = 0;
+            b.miconha = 0;
+            b.status = 1;
+            b.press = 31;       // we pressed to turn off only
+         }
+         if (b.press == 30)
          {
             b.die = 1;
             b.micon = 0;
          }
-      } else if (press)
+      } else if (b.press)
       {                         // Released
-         if (press < 30)
+         if (b.press < 30)
          {
             if (sip_mode == SIP_IC_ALERT)
                sip_answer ();
             else if (sip_mode == SIP_IC || sip_mode == SIP_OG || sip_mode == SIP_OG_ALERT)
                sip_hangup ();
-            else if ((!card || press >= 10) && *sipoutgoing)
+            else if ((!card || b.press >= 10) && *sipoutgoing)
                sip_call (NULL, sipoutgoing, strchr (sipoutgoing, '@') ? NULL : siphost, sipuser, sippass);
             else if (!b.micon && !b.sdpresent)
                ESP_LOGE (TAG, "No card");
             else if (!b.micon && !b.sdmount)
                ESP_LOGE (TAG, "Not mounted");
-            else
+            else if (!b.micon)
             {
+               b.micon = 1;
                b.miconha = 0;
-               b.micon = 1 - b.micon;
                b.status = 1;
             }
          }
-         press = 0;
+         b.press = 0;
       }
    }
    usb_off ();
@@ -1918,7 +1931,6 @@ app_main ()
    }
 #endif
    ESP_LOGE (TAG, "Sleep");
-
    // Alarm
    if (rtc_gpio_is_valid_gpio (button.num))
    {                            // Deep sleep
