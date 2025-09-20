@@ -1779,7 +1779,7 @@ app_main ()
       sip_register (siphost, sipuser, sippass, sip_callback, sipdebug ? sip_debug : NULL);
    // Buttons and LEDs
    revk_gpio_input (button);
-   b.press = 31;
+   b.ress = 31;
    uint8_t usb = 1;
    uint8_t tick = 0;
    while (!b.die)
@@ -1816,21 +1816,21 @@ app_main ()
          send_ha_config ();
       if (revk_gpio_get (button))
       {                         // Pressed
-         if (b.press < 32)
+         if (b.press < 31)
             b.press++;
          if (b.press == 10 && sip_mode == SIP_IC_ALERT)
             sip_hangup ();
+         if (b.press == 30)
+         {
+            b.die = 1;
+            b.micon = 0;
+         }
          if (b.micon)
          {                      // Stop recording
             b.micon = 0;
             b.miconha = 0;
             b.status = 1;
             b.press = 31;       // we pressed to turn off only
-         }
-         if (b.press == 30)
-         {
-            b.die = 1;
-            b.micon = 0;
          }
       } else if (b.press)
       {                         // Released
