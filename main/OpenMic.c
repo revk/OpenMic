@@ -1779,7 +1779,7 @@ app_main ()
       sip_register (siphost, sipuser, sippass, sip_callback, sipdebug ? sip_debug : NULL);
    // Buttons and LEDs
    revk_gpio_input (button);
-   b.ress = 31;
+   b.press = 31;
    uint8_t usb = 1;
    uint8_t tick = 0;
    while (!b.die)
