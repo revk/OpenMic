@@ -425,7 +425,7 @@ sd_mount (void)
       if (e == ESP_FAIL)
          jo_string (j, "error", cardstatus = "Failed to mount");
       else
-         jo_string (j, "error", cardstatus = "Failed to iniitialise");
+         jo_string (j, "error", cardstatus = "Failed to initialise");
       jo_int (j, "code", e);
       revk_error ("SD", &j);
       return;
