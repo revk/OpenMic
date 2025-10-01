@@ -1193,6 +1193,7 @@ mic_task (void *arg)
                   ESP_LOGE (TAG, "Mic L not OK");
                if (!b.micokr)
                   ESP_LOGE (TAG, "Mic R not OK");
+               printf ("\nATE: %s\n", b.micokl && b.micokr ? "PASS" : "FAIL");
                mic_mode = MIC_IDLE;     // End test
             }
             break;
