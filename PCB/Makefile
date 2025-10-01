@@ -12,7 +12,7 @@ PCBCase/clean: PCBCase/clean.c
 
 %.stl: %.scad
 	echo "Making $@"
-	/Applications/OpenSCAD.app/Contents/MacOS/OpenSCAD $< -o $@
+	/Applications/OpenSCAD.app/Contents/MacOS/OpenSCAD $< -o $@ --backend CGAL
 	echo "Made $@"
 
 Recorder/RecorderNoTagB.scad: Recorder/Recorder.kicad_pcb PCBCase/case Makefile
