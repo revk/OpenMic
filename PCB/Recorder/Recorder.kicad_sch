@@ -5427,7 +5427,7 @@
 			)
 			(embedded_fonts no)
 		)
-		(symbol "RevK:WS2812B-1mm"
+		(symbol "RevK:WS2812B-1.5mm"
 			(pin_names
 				(offset 0.254)
 			)
@@ -5443,7 +5443,7 @@
 					)
 				)
 			)
-			(property "Value" "XL-1010RGBC-WS2812B"
+			(property "Value" "XL-1615RGBC-WS2812B"
 				(at 1.27 5.715 0)
 				(effects
 					(font
@@ -5453,7 +5453,7 @@
 					(hide yes)
 				)
 			)
-			(property "Footprint" "RevK:SMD1010"
+			(property "Footprint" "RevK:SMD1615"
 				(at 1.27 7.62 0)
 				(effects
 					(font
@@ -5463,7 +5463,7 @@
 					(hide yes)
 				)
 			)
-			(property "Datasheet" "https://datasheet.lcsc.com/lcsc/2301111010_XINGLIGHT-XL-1010RGBC-WS2812B_C5349953.pdf"
+			(property "Datasheet" "https://www.lcsc.com/datasheet/C5349954.pdf"
 				(at 1.27 9.525 0)
 				(effects
 					(font
@@ -5482,7 +5482,7 @@
 					(hide yes)
 				)
 			)
-			(property "MPN" "C5349953"
+			(property "MPN" "C5349954"
 				(at 1.27 11.43 0)
 				(effects
 					(font
@@ -5510,7 +5510,7 @@
 					(hide yes)
 				)
 			)
-			(symbol "WS2812B-1mm_1_1"
+			(symbol "WS2812B-1.5mm_1_1"
 				(polyline
 					(pts
 						(xy 0 -3.175) (xy 3.175 0) (xy 0 3.175) (xy -3.175 0) (xy 0 -3.175)
@@ -5533,7 +5533,7 @@
 							)
 						)
 					)
-					(number "4"
+					(number "2"
 						(effects
 							(font
 								(size 1 1)
@@ -5551,7 +5551,7 @@
 							)
 						)
 					)
-					(number "2"
+					(number "3"
 						(effects
 							(font
 								(size 1 1)
@@ -5569,7 +5569,7 @@
 							)
 						)
 					)
-					(number "3"
+					(number "1"
 						(effects
 							(font
 								(size 1 1)
@@ -5587,7 +5587,7 @@
 							)
 						)
 					)
-					(number "1"
+					(number "4"
 						(effects
 							(font
 								(size 1 1)
@@ -6277,12 +6277,6 @@
 		(uuid "9afaf576-8a61-4c24-b41e-b37445b15a1f")
 	)
 	(junction
-		(at 271.145 49.53)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "025c10d2-19c9-477b-9e08-7b2b8132f505")
-	)
-	(junction
 		(at 232.41 22.86)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -6353,12 +6347,6 @@
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "4f953726-df20-4e18-91c9-cd2d2cb7dc18")
-	)
-	(junction
-		(at 262.89 49.53)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "544c0a67-aa64-47e8-a526-c87f7819e56c")
 	)
 	(junction
 		(at 129.54 79.375)
@@ -6493,12 +6481,6 @@
 		(uuid "b976b7c9-5ad8-4efb-91c8-535333399fda")
 	)
 	(junction
-		(at 271.145 41.91)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "bbf38bb4-128b-49f7-9a92-336b523ea9c1")
-	)
-	(junction
 		(at 262.89 22.86)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -6539,12 +6521,6 @@
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "d6d5cad5-ee87-483c-b3df-c7cc594bcf23")
-	)
-	(junction
-		(at 262.89 41.91)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "dbc0366b-b9ef-42e0-b10f-5452486502cb")
 	)
 	(junction
 		(at 88.265 146.685)
@@ -6673,7 +6649,7 @@
 		(uuid "db85827b-2cc3-4c66-b5d6-6c93beca3767")
 	)
 	(no_connect
-		(at 35.56 73.66)
+		(at 35.56 76.2)
 		(uuid "dd26c2ee-cddc-4654-8b93-5095049d69f8")
 	)
 	(no_connect
@@ -6952,16 +6928,6 @@
 	)
 	(wire
 		(pts
-			(xy 262.89 41.91) (xy 271.145 41.91)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "48476bec-e26e-4659-8c93-ab9277a5fb05")
-	)
-	(wire
-		(pts
 			(xy 262.89 22.86) (xy 271.145 22.86)
 		)
 		(stroke
@@ -7152,16 +7118,6 @@
 	)
 	(wire
 		(pts
-			(xy 262.89 49.53) (xy 271.145 49.53)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "8566bbe6-cfc1-4fb8-a72f-3e3780d4913d")
-	)
-	(wire
-		(pts
 			(xy 88.265 146.685) (xy 92.075 146.685)
 		)
 		(stroke
@@ -7239,16 +7195,6 @@
 			(type default)
 		)
 		(uuid "985276c6-f08a-440b-a878-4c971dd40191")
-	)
-	(wire
-		(pts
-			(xy 271.145 49.53) (xy 276.86 49.53)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "990cb031-4939-483e-bb2b-84886749b7da")
 	)
 	(wire
 		(pts
@@ -7609,16 +7555,6 @@
 			(type default)
 		)
 		(uuid "da38039f-89de-4477-9884-9e9a0fe6b9c8")
-	)
-	(wire
-		(pts
-			(xy 271.145 41.91) (xy 276.86 41.91)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "dc39eb90-2361-4fb6-8a0c-0be6f8c6e7b0")
 	)
 	(wire
 		(pts
@@ -8166,7 +8102,7 @@
 	)
 	(global_label "ADC"
 		(shape input)
-		(at 35.56 76.2 180)
+		(at 35.56 73.66 180)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -8175,7 +8111,7 @@
 		)
 		(uuid "5498ee0a-8bc4-4891-b5cd-ed5ac272fa1e")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 35.56 76.2 0)
+			(at 35.56 73.66 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11344,7 +11280,7 @@
 		)
 	)
 	(symbol
-		(lib_id "RevK:WS2812B-1mm")
+		(lib_id "RevK:WS2812B-1.5mm")
 		(at 262.89 26.67 0)
 		(unit 1)
 		(exclude_from_sim no)
@@ -11353,7 +11289,7 @@
 		(dnp no)
 		(uuid "3720705d-9992-4423-bc90-0ab73d92f0df")
 		(property "Reference" "D10"
-			(at 260.35 26.67 0)
+			(at 262.89 26.67 0)
 			(do_not_autoplace yes)
 			(effects
 				(font
@@ -11371,8 +11307,8 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "RevK:SMD1010"
-			(at 264.16 34.29 0)
+		(property "Footprint" "RevK:SMD1615"
+			(at 264.16 19.05 0)
 			(effects
 				(font
 					(size 1 1)
@@ -11381,8 +11317,8 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "https://datasheet.lcsc.com/lcsc/2301111010_XINGLIGHT-XL-1010RGBC-WS2812B_C5349953.pdf"
-			(at 264.16 36.195 0)
+		(property "Datasheet" "https://www.lcsc.com/datasheet/C5349954.pdf"
+			(at 264.16 17.145 0)
 			(effects
 				(font
 					(size 1 1)
@@ -11400,8 +11336,8 @@
 				(hide yes)
 			)
 		)
-		(property "MPN" "C5349953"
-			(at 264.16 38.1 0)
+		(property "MPN" "C5349954"
+			(at 264.16 15.24 0)
 			(effects
 				(font
 					(size 1 1)
@@ -11410,8 +11346,8 @@
 				(hide yes)
 			)
 		)
-		(property "MPN" "C5349953"
-			(at 264.16 38.1 0)
+		(property "MPN" "C5349954"
+			(at 264.16 15.24 0)
 			(effects
 				(font
 					(size 1 1)
@@ -11587,7 +11523,7 @@
 		)
 	)
 	(symbol
-		(lib_id "RevK:WS2812B-1mm")
+		(lib_id "RevK:WS2812B-1.5mm")
 		(at 240.03 26.67 0)
 		(unit 1)
 		(exclude_from_sim no)
@@ -11614,8 +11550,8 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "RevK:SMD1010"
-			(at 241.3 34.29 0)
+		(property "Footprint" "RevK:SMD1615"
+			(at 241.3 19.05 0)
 			(effects
 				(font
 					(size 1 1)
@@ -11624,8 +11560,8 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "https://datasheet.lcsc.com/lcsc/2301111010_XINGLIGHT-XL-1010RGBC-WS2812B_C5349953.pdf"
-			(at 241.3 36.195 0)
+		(property "Datasheet" "https://www.lcsc.com/datasheet/C5349954.pdf"
+			(at 241.3 17.145 0)
 			(effects
 				(font
 					(size 1 1)
@@ -11643,8 +11579,8 @@
 				(hide yes)
 			)
 		)
-		(property "MPN" "C5349953"
-			(at 241.3 38.1 0)
+		(property "MPN" "C5349954"
+			(at 241.3 15.24 0)
 			(effects
 				(font
 					(size 1 1)
@@ -11653,8 +11589,8 @@
 				(hide yes)
 			)
 		)
-		(property "MPN" "C5349953"
-			(at 241.3 38.1 0)
+		(property "MPN" "C5349954"
+			(at 241.3 15.24 0)
 			(effects
 				(font
 					(size 1 1)
@@ -12173,6 +12109,73 @@
 		)
 	)
 	(symbol
+		(lib_id "power:GND")
+		(at 83.185 66.04 270)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "49fc154b-84f3-47d8-ba0f-bad471f70604")
+		(property "Reference" "#PWR01"
+			(at 76.835 66.04 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "GND"
+			(at 80.0101 66.04 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(property "Footprint" ""
+			(at 83.185 66.04 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 83.185 66.04 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 83.185 66.04 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "ca06cc87-3af1-4339-9ed7-f4c927f8bd65")
+		)
+		(instances
+			(project "Recorder"
+				(path "/46c350bb-7de4-4e81-aafd-4af55e37aab0"
+					(reference "#PWR01")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "RevK:TP4054")
 		(at 139.7 132.715 0)
 		(unit 1)
@@ -12261,35 +12264,35 @@
 		)
 	)
 	(symbol
-		(lib_id "Device:C")
-		(at 271.145 45.72 0)
-		(mirror y)
+		(lib_id "Connector:TestPoint")
+		(at 83.185 66.04 270)
 		(unit 1)
 		(exclude_from_sim no)
-		(in_bom yes)
+		(in_bom no)
 		(on_board yes)
 		(dnp no)
-		(uuid "5127a9cf-d938-4993-bcf1-80d17e0af19f")
-		(property "Reference" "C13"
-			(at 269.748 40.386 0)
+		(uuid "5440f340-add7-4cec-adbd-0b945004fc18")
+		(property "Reference" "TP2"
+			(at 88.265 66.04 90)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(justify right)
+				(justify left)
 			)
 		)
-		(property "Value" "100nF"
-			(at 267.97 51.562 0)
+		(property "Value" "TestPoint"
+			(at 92.837 66.802 90)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(justify right)
+				(justify left)
+				(hide yes)
 			)
 		)
-		(property "Footprint" "RevK:C_0201"
-			(at 270.1798 49.53 0)
+		(property "Footprint" "RevK:PAD-2mm"
+			(at 83.185 71.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12298,7 +12301,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 271.145 45.72 0)
+			(at 83.185 71.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12306,8 +12309,8 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Unpolarized capacitor"
-			(at 271.145 45.72 0)
+		(property "Description" "test point"
+			(at 83.185 66.04 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12316,15 +12319,12 @@
 			)
 		)
 		(pin "1"
-			(uuid "d193840d-f051-478d-8f45-562fb9416ab3")
-		)
-		(pin "2"
-			(uuid "6d1625fb-435a-40ee-b1ed-68a8c77ece3d")
+			(uuid "065eddf6-a8be-43ec-8d5b-21041c4ba3f9")
 		)
 		(instances
-			(project "Audio"
+			(project "Recorder"
 				(path "/46c350bb-7de4-4e81-aafd-4af55e37aab0"
-					(reference "C13")
+					(reference "TP2")
 					(unit 1)
 				)
 			)
@@ -12396,7 +12396,7 @@
 		)
 	)
 	(symbol
-		(lib_id "RevK:WS2812B-1mm")
+		(lib_id "RevK:WS2812B-1.5mm")
 		(at 255.27 26.67 0)
 		(unit 1)
 		(exclude_from_sim no)
@@ -12423,8 +12423,8 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "RevK:SMD1010"
-			(at 256.54 34.29 0)
+		(property "Footprint" "RevK:SMD1615"
+			(at 256.54 19.05 0)
 			(effects
 				(font
 					(size 1 1)
@@ -12433,8 +12433,8 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "https://datasheet.lcsc.com/lcsc/2301111010_XINGLIGHT-XL-1010RGBC-WS2812B_C5349953.pdf"
-			(at 256.54 36.195 0)
+		(property "Datasheet" "https://www.lcsc.com/datasheet/C5349954.pdf"
+			(at 256.54 17.145 0)
 			(effects
 				(font
 					(size 1 1)
@@ -12452,8 +12452,8 @@
 				(hide yes)
 			)
 		)
-		(property "MPN" "C5349953"
-			(at 256.54 38.1 0)
+		(property "MPN" "C5349954"
+			(at 256.54 15.24 0)
 			(effects
 				(font
 					(size 1 1)
@@ -12462,8 +12462,8 @@
 				(hide yes)
 			)
 		)
-		(property "MPN" "C5349953"
-			(at 256.54 38.1 0)
+		(property "MPN" "C5349954"
+			(at 256.54 15.24 0)
 			(effects
 				(font
 					(size 1 1)
@@ -13092,7 +13092,7 @@
 		)
 	)
 	(symbol
-		(lib_id "RevK:WS2812B-1mm")
+		(lib_id "RevK:WS2812B-1.5mm")
 		(at 255.27 45.72 0)
 		(unit 1)
 		(exclude_from_sim no)
@@ -13119,8 +13119,8 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "RevK:SMD1010"
-			(at 256.54 53.34 0)
+		(property "Footprint" "RevK:SMD1615"
+			(at 256.54 38.1 0)
 			(effects
 				(font
 					(size 1 1)
@@ -13129,8 +13129,8 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "https://datasheet.lcsc.com/lcsc/2301111010_XINGLIGHT-XL-1010RGBC-WS2812B_C5349953.pdf"
-			(at 256.54 55.245 0)
+		(property "Datasheet" "https://www.lcsc.com/datasheet/C5349954.pdf"
+			(at 256.54 36.195 0)
 			(effects
 				(font
 					(size 1 1)
@@ -13148,8 +13148,8 @@
 				(hide yes)
 			)
 		)
-		(property "MPN" "C5349953"
-			(at 256.54 57.15 0)
+		(property "MPN" "C5349954"
+			(at 256.54 34.29 0)
 			(effects
 				(font
 					(size 1 1)
@@ -13158,8 +13158,8 @@
 				(hide yes)
 			)
 		)
-		(property "MPN" "C5349953"
-			(at 256.54 57.15 0)
+		(property "MPN" "C5349954"
+			(at 256.54 34.29 0)
 			(effects
 				(font
 					(size 1 1)
@@ -14040,7 +14040,7 @@
 		)
 	)
 	(symbol
-		(lib_id "RevK:WS2812B-1mm")
+		(lib_id "RevK:WS2812B-1.5mm")
 		(at 262.89 45.72 0)
 		(unit 1)
 		(exclude_from_sim no)
@@ -14067,8 +14067,8 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "RevK:SMD1010"
-			(at 264.16 53.34 0)
+		(property "Footprint" "RevK:SMD1615"
+			(at 264.16 38.1 0)
 			(effects
 				(font
 					(size 1 1)
@@ -14077,8 +14077,8 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "https://datasheet.lcsc.com/lcsc/2301111010_XINGLIGHT-XL-1010RGBC-WS2812B_C5349953.pdf"
-			(at 264.16 55.245 0)
+		(property "Datasheet" "https://www.lcsc.com/datasheet/C5349954.pdf"
+			(at 264.16 36.195 0)
 			(effects
 				(font
 					(size 1 1)
@@ -14096,8 +14096,8 @@
 				(hide yes)
 			)
 		)
-		(property "MPN" "C5349953"
-			(at 264.16 57.15 0)
+		(property "MPN" "C5349954"
+			(at 264.16 34.29 0)
 			(effects
 				(font
 					(size 1 1)
@@ -14106,8 +14106,8 @@
 				(hide yes)
 			)
 		)
-		(property "MPN" "C5349953"
-			(at 264.16 57.15 0)
+		(property "MPN" "C5349954"
+			(at 264.16 34.29 0)
 			(effects
 				(font
 					(size 1 1)
@@ -14695,7 +14695,7 @@
 		)
 	)
 	(symbol
-		(lib_id "RevK:WS2812B-1mm")
+		(lib_id "RevK:WS2812B-1.5mm")
 		(at 232.41 26.67 0)
 		(unit 1)
 		(exclude_from_sim no)
@@ -14722,8 +14722,8 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "RevK:SMD1010"
-			(at 233.68 34.29 0)
+		(property "Footprint" "RevK:SMD1615"
+			(at 233.68 19.05 0)
 			(effects
 				(font
 					(size 1 1)
@@ -14732,8 +14732,8 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "https://datasheet.lcsc.com/lcsc/2301111010_XINGLIGHT-XL-1010RGBC-WS2812B_C5349953.pdf"
-			(at 233.68 36.195 0)
+		(property "Datasheet" "https://www.lcsc.com/datasheet/C5349954.pdf"
+			(at 233.68 17.145 0)
 			(effects
 				(font
 					(size 1 1)
@@ -14751,8 +14751,8 @@
 				(hide yes)
 			)
 		)
-		(property "MPN" "C5349953"
-			(at 233.68 38.1 0)
+		(property "MPN" "C5349954"
+			(at 233.68 15.24 0)
 			(effects
 				(font
 					(size 1 1)
@@ -14761,8 +14761,8 @@
 				(hide yes)
 			)
 		)
-		(property "MPN" "C5349953"
-			(at 233.68 38.1 0)
+		(property "MPN" "C5349954"
+			(at 233.68 15.24 0)
 			(effects
 				(font
 					(size 1 1)
@@ -15166,76 +15166,6 @@
 			(project "LED"
 				(path "/46c350bb-7de4-4e81-aafd-4af55e37aab0"
 					(reference "#PWR018")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Device:C")
-		(at 276.86 45.72 0)
-		(mirror y)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "c20d8516-1ac2-4733-aba2-ee38c96cd173")
-		(property "Reference" "C15"
-			(at 275.59 40.132 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify right)
-			)
-		)
-		(property "Value" "100nF"
-			(at 274.32 51.562 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify right)
-			)
-		)
-		(property "Footprint" "RevK:C_0201"
-			(at 275.8948 49.53 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" "~"
-			(at 276.86 45.72 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "Unpolarized capacitor"
-			(at 276.86 45.72 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "69d92099-5c62-4c5c-906a-4ec9600ad969")
-		)
-		(pin "2"
-			(uuid "182cc6e4-6619-4798-8b47-6a3a3a3f0823")
-		)
-		(instances
-			(project "Audio"
-				(path "/46c350bb-7de4-4e81-aafd-4af55e37aab0"
-					(reference "C15")
 					(unit 1)
 				)
 			)
@@ -15671,7 +15601,7 @@
 		)
 	)
 	(symbol
-		(lib_id "RevK:WS2812B-1mm")
+		(lib_id "RevK:WS2812B-1.5mm")
 		(at 247.65 26.67 0)
 		(unit 1)
 		(exclude_from_sim no)
@@ -15698,8 +15628,8 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "RevK:SMD1010"
-			(at 248.92 34.29 0)
+		(property "Footprint" "RevK:SMD1615"
+			(at 248.92 19.05 0)
 			(effects
 				(font
 					(size 1 1)
@@ -15708,8 +15638,8 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "https://datasheet.lcsc.com/lcsc/2301111010_XINGLIGHT-XL-1010RGBC-WS2812B_C5349953.pdf"
-			(at 248.92 36.195 0)
+		(property "Datasheet" "https://www.lcsc.com/datasheet/C5349954.pdf"
+			(at 248.92 17.145 0)
 			(effects
 				(font
 					(size 1 1)
@@ -15727,8 +15657,8 @@
 				(hide yes)
 			)
 		)
-		(property "MPN" "C5349953"
-			(at 248.92 38.1 0)
+		(property "MPN" "C5349954"
+			(at 248.92 15.24 0)
 			(effects
 				(font
 					(size 1 1)
@@ -15737,8 +15667,8 @@
 				(hide yes)
 			)
 		)
-		(property "MPN" "C5349953"
-			(at 248.92 38.1 0)
+		(property "MPN" "C5349954"
+			(at 248.92 15.24 0)
 			(effects
 				(font
 					(size 1 1)
