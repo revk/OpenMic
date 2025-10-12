@@ -6,11 +6,11 @@ gpio	spk.data			// Speaker Data
 gpio	mic.data	7		// Microphone Data / SD
 gpio	mic.clock	5		// Microphone Clock / SCK
 gpio	mic.ws		6		// Microphone WS (not set for PDM)
-u32	mic.rate	44100 .unit="Hz",.live=1	// Microphone Input rate (when not SIP)
-u8	mic.gain	8	.live=1		// Microphone Multiply input (set 0 for 24 bit raw)
-bit	mic.stereo	1	.live=1		// Microphone Stereo
-bit	mic.right	0	.live=1		// Microphone use right channel
-bit	mic.beep		.live=1		// Add sync beep and red LED on start of recording
+u32	mic.rate	44100 .unit="Hz",.live	// Microphone Input rate (when not SIP)
+u8	mic.gain	8	.live		// Microphone Multiply input (set 0 for 24 bit raw)
+bit	mic.stereo	1	.live		// Microphone Stereo
+bit	mic.right	0	.live		// Microphone use right channel
+bit	mic.beep	1	.live		// Add sync beep and red LED on start of recording
 
 gpio	sd.dat2		12		// MicroSD DAT2
 gpio	sd.dat3		13 .old="sdss"	// MicroSD DAT3
@@ -22,11 +22,11 @@ gpio	sd.cd		-18		// MicroSD CD
 
 u32	sd.rectime	3600	.unit="s"	// Max record time per whole file
 u32	sd.synctime	60	.unit="s"	// Max record time per file sync
-s	sd.upload		.live=1	// Where to post, then delete, files on power off
+s	sd.upload		.live	// Where to post, then delete, files on power off
 bit	sd.usb		1		// USB mass storage access to SD card
-bit	sd.delete	1	.live=1	// Auto delete old files if space needed for new file
+bit	sd.delete	1	.live	// Auto delete old files if space needed for new file
 
-u32	auto.off	900	.unit="s",.live=1	// Auto power off if idle
+u32	auto.off	900	.unit="s",.live	// Auto power off if idle
 bit	auto.usb					// Auto off only if USB disconnected
 
 gpio	button		-3		// Button
@@ -40,25 +40,26 @@ gpio	rgb.status	4		// Status LED
 u8	rgb.leds	5		// Number of LEDs
 gpio	rgb.led		9	.old="ledrecord"	// Mic/record LED
 gpio	rgb.pwr				// LED power control
+bit	rgb.dim		1	.live		// Dim record LEDs while recording
 
-u32	morse.freq	600	.unit="Hz",.live=1		// Morse tone frequency
-u8	morse.level	50	.unit="%",.live=1		// Morse audio level 
-u8	morse.wpm	20	.unit="wpm",.live=1		// Morse basic rate
-u8	morse.fwpm	15	.unit="wpm",.live=1		// Morse Farnsworth rate
+u32	morse.freq	600	.unit="Hz",.live		// Morse tone frequency
+u8	morse.level	50	.unit="%",.live		// Morse audio level 
+u8	morse.wpm	20	.unit="wpm",.live		// Morse basic rate
+u8	morse.fwpm	15	.unit="wpm",.live		// Morse Farnsworth rate
 s	morse.start	"Hello world"				// Morse initial message on power on
 
-u8	dtmf.level	50	.unit="%",.live=1		// DTMF tone level
-u8	dtmf.tone	0.100	.unit="s",.live=1,.decimal=3	// DTMF tone time
-u8	dtmf.gap	0.100	.unit="s",.live=1,.decimal=3	// DTMF gap time
+u8	dtmf.level	50	.unit="%",.live		// DTMF tone level
+u8	dtmf.tone	0.100	.unit="s",.live,.decimal=3	// DTMF tone time
+u8	dtmf.gap	0.100	.unit="s",.live,.decimal=3	// DTMF gap time
 
-s	sip.host		.hide=1	// SIP server hostname
-s	sip.user		.hide=1	// SIP registration username
-s	sip.pass		.hide=1	// SIP registration password
-s	sip.outgoing		.hide=1	// SIP target or number for outgoing call
+s	sip.host		.hide	// SIP server hostname
+s	sip.user		.hide	// SIP registration username
+s	sip.pass		.hide	// SIP registration password
+s	sip.outgoing		.hide	// SIP target or number for outgoing call
 bit	sip.debug			// SIP debug messages to serial log
 
-bit	wifi.lock	1	.hide=1	// Lock down settings/AP mode when SD card inserted
-bit	wifi.record	1	.hide=1 // WiFi off during recording (unless started via HA)
-bit	wifi.usb		.hide=1	// WiFi off when not on USB power
+bit	wifi.lock	1	.hide	// Lock down settings/AP mode when SD card inserted
+bit	wifi.record	1	.hide // WiFi off during recording (unless started via HA)
+bit	wifi.usb		.hide	// WiFi off when not on USB power
 
-bit	ha.enable	1	.hide=1 // Enable Home Assistant
+bit	ha.enable	1	.hide // Enable Home Assistant

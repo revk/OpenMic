@@ -982,7 +982,7 @@ mic_task (void *arg)
          {                      // Simple status - old boards
             char c = 'K';
             if (mic_mode == MIC_RECORD)
-               c = (dark ? 'B' : 'K');
+               c = (dark ? 'K' : rgbdim ? 'b' : 'B');
             else if (mic_mode == MIC_SIP)
                c = (sip_mode == SIP_IC || sip_mode == SIP_OG) ? 'G' : 'R';
             if (b.charging && tick < 5)
@@ -1010,7 +1010,8 @@ mic_task (void *arg)
                   l = 0;
                for (int i = 0; i < rgbleds; i++)
                {
-                  revk_led (led_status, i, l < 256 ? l : 255, revk_rgb (b.vbus ? dark ? 'g' : 'G' : dark ? 'b' : 'B'));
+                  revk_led (led_status, i, l < 256 ? l : 255,
+                            revk_rgb (b.vbus ? rgbdim ? 'g' : 'G' : rgbdim ? 'b' : 'B'));
                   if (l < 256)
                      l = 0;
                   else
@@ -1152,7 +1153,7 @@ mic_task (void *arg)
       while (!b.die && mic_mode)
       {
          if (beep)
-            led (dark ? 'l' : 'G', --beep);
+            led (dark ? 'K' : rgbdim ? 'l' : 'G', --beep);
          size_t n = 0;
          i2s_channel_read (mic_handle, raw ? : micaudio[sdin], micchannels * rawbytes * micsamples, &n, MICMS * 2);
          if (n < micchannels * rawbytes * micsamples)
