@@ -1,0 +1,56 @@
+{
+  "url": "https://ota.revk.uk/Recorder-manifest.json",
+  "chip": "ESP32S3MCN4R2",
+  "setting":{
+	  "sd":{
+		  "dat2":12,
+		  "dat3":13,
+		  "cmd":14,
+		  "clk":15,
+		  "dat0":16,
+		  "dat1":17,
+		  "cd":-18
+	  },
+	  "mic":{
+		  "data":7,
+		  "clock":5,
+		  "ws":6,
+		  "rate":44100,
+		  "stereo":true,
+		  "right":false,
+		  "beep":true
+	  },
+	  "button":-3,
+	  "chg":-1,
+	  "vbus":8,
+	  "adc":10,
+	  "rgb":{
+		  "status":4,
+		  "leds":5,
+		  "led":9,
+		  "dim":true
+	  }
+  },
+  "flash": [
+    {
+      "filename": "OpenMic-S3-MINI-N4-R2-bootloader.bin",
+      "url":"https://ota.revk.uk/OpenMic-S3-MINI-N4-R2-bootloader.bin"
+    },
+    {
+      "filename": "OpenMic-S3-MINI-N4-R2-partition-table.bin",
+      "address": "8000",
+      "url":"https://ota.revk.uk/OpenMic-S3-MINI-N4-R2-partition-table.bin"
+    },
+    {
+      "filename": "OpenMic-S3-MINI-N4-R2-ota_data_initial.bin",
+      "address": "D000",
+      "url":"https://ota.revk.uk/OpenMic-S3-MINI-N4-R2-ota_data_initial.bin"
+    },
+    {
+      "filename": "OpenMic-S3-MINI-N4-R2.bin",
+      "address": "10000",
+      "url": "https://ota.revk.uk/OpenMic-S3-MINI-N4-R2.bin",
+      "app":true
+    }
+  ]
+}
