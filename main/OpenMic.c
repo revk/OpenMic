@@ -1010,8 +1010,7 @@ mic_task (void *arg)
                   l = 0;
                for (int i = 0; i < rgbleds; i++)
                {
-                  revk_led (led_status, i, l < 256 ? l : 255,
-                            revk_rgb (b.vbus ? rgbdim ? 'g' : 'G' : rgbdim ? 'b' : 'B'));
+                  revk_led (led_status, i, l < 256 ? l : 255, revk_rgb (b.vbus ? rgbdim ? 'g' : 'G' : rgbdim ? 'b' : 'B'));
                   if (l < 256)
                      l = 0;
                   else
@@ -1194,7 +1193,14 @@ mic_task (void *arg)
                   ESP_LOGE (TAG, "Mic L not OK");
                if (!b.micokr)
                   ESP_LOGE (TAG, "Mic R not OK");
-               printf ("\nATE: %s\n", b.micokl && b.micokr ? "PASS" : "FAIL");
+               if (b.micokl && b.micokr)
+                  revk_ate_pass ();
+               else if (b.micokl)
+                  revk_ate_fail ("Right MIC fail");
+               else if (b.micokr)
+                  revk_ate_fail ("Left MIC fail");
+               else
+                  revk_ate_fail ("Both MICs fail");
                mic_mode = MIC_IDLE;     // End test
             }
             break;
