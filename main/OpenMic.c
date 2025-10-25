@@ -1134,6 +1134,11 @@ mic_task (void *arg)
             err = i2s_channel_init_pdm_rx_mode (mic_handle, &cfg);
       }
       gpio_pulldown_en (micdata.num);
+      if (!err && micbeep)
+      {                         // Clean red LED start
+         led ('K', 0);
+         usleep (500000);
+      }
       if (!err)
          err = i2s_channel_enable (mic_handle);
       if (err)
